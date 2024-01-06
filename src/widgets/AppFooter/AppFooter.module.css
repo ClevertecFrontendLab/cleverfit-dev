@@ -1,0 +1,21 @@
+.AppFooter {
+    background: transparent;
+    padding: 0;
+    padding-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.linkButtonText {
+    font: var(--font-m);
+}
+
+@media (max-width: 834px) {
+    .AppFooter {
+        flex-direction: column-reverse;
+        justify-content: flex-start;
+        gap: 24px;
+        align-items: center;
+    }
+}

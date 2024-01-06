@@ -1,0 +1,66 @@
+.SideBar {
+    position: relative;
+    background-color: var(--sider-background-light);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+    padding-top: 30px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.imageContainer {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 34px;
+}
+
+.upperBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upperBlockCollapsed {
+    align-items: center;
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.divider {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    margin: 0;
+}
+
+.menuButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: var(--font-s);
+    color: var(--font-title-light);
+    height: 42px;
+}
+
+.exitButton {
+    gap: 25px;
+    height: 40px;
+    width: 100%;
+}
+
+.collapsedButton {
+    justify-content: center;
+}
+
+@media (max-width: 576px) {
+    .SideBar {
+        display: none;
+    }
+}

@@ -1,0 +1,19 @@
+.CollapseSwitcher {
+    position: absolute;
+    width: 187px;
+    height: 56px;
+    transform-style: preserve-3d;
+    transform: perspective(600px) rotateY(84deg);
+    background-color: var(--sider-background-light);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.switcherIcon {
+    position: absolute;
+    transform: perspective(600px) rotateY(-84deg);
+    padding-left: 15px;
+    top: 20px;
+    left: -11px;
+}

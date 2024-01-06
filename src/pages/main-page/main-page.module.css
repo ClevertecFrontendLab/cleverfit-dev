@@ -1,0 +1,32 @@
+.cardBlock {
+    max-width: 752px;
+}
+
+.descriptionList {
+    list-style-type: none;
+    margin: 0;
+}
+
+.actionCardsBlocks {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.cardButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: var(--font-s);
+    color: var(--primary-light);
+}
+
+@media (max-width: 834px) {
+    .actionCardsBlocks {
+        gap: 8px;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}

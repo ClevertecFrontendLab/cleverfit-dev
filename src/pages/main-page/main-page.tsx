@@ -1,34 +1,106 @@
-import React, { useState } from 'react';
+import { Button, Card } from 'antd';
+import { DescriptionCard } from '@shared/components/DescriptionCard';
+import {
+    DescriptionCardTextColor,
+    DescriptionCardTextSize,
+} from '@shared/components/DescriptionCard/DescriptionCard';
+import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
+import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
+import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';
+import styles from './main-page.module.css';
 
-import reactLogo from '/react.svg';
-import viteLogo from '/vite.svg';
-import tsLogo from '/ts.svg';
-import './main-page.css';
-
-export const MainPage: React.FC = () => {
-    const [count, setCount] = useState(0);
-
-    return (
-        <>
-            <div>
-                <a href='https://vitejs.dev' target='_blank'>
-                    <img src={viteLogo} className='logo' alt='Vite logo' />
-                </a>
-                <a href='https://react.dev' target='_blank'>
-                    <img src={reactLogo} className='logo react' alt='React logo' />
-                </a>
-                <a href='https://www.typescriptlang.org/' target='_blank'>
-                    <img src={tsLogo} className='logo' alt='TS logo' />
-                </a>
-            </div>
-            <h1>Vite + React + TS</h1>
-            <div className='card'>
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/pages/main-page.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
-        </>
-    );
+const cardHeadStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    font: 'var(--font-m)',
+    padding: '12px 24px',
 };
+
+const cardBodyStyle = {
+    height: '42px',
+    padding: '0px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+};
+
+export const MainPage = () => (
+    <div className={styles.cardBlock}>
+        <DescriptionCard
+            textSize={DescriptionCardTextSize.MEDIUM}
+            textColor={DescriptionCardTextColor.BLUE}
+            style={{ marginBottom: '24px' }}
+        >
+            С CleverFit ты сможешь:
+            <ul className={styles.descriptionList}>
+                <li>— планировать свои тренировки на календаре, выбирая тип и уровень нагрузки;</li>
+                <li>
+                    — отслеживать свои достижения в разделе статистики, сравнивая свои результаты с
+                    нормами и рекордами;
+                </li>
+                <li>
+                    — создавать свой профиль, где ты можешь загружать свои фото, видео и отзывы о
+                    тренировках;
+                </li>
+                <li>
+                    — выполнять расписанные тренировки для разных частей тела, следуя подробным
+                    инструкциям и советам профессиональных тренеров.
+                </li>
+            </ul>
+        </DescriptionCard>
+
+        <DescriptionCard
+            textSize={DescriptionCardTextSize.LARGE}
+            textColor={DescriptionCardTextColor.DARK}
+            style={{ marginBottom: '16px' }}
+        >
+            CleverFit — это не просто приложение, а твой личный помощник в мире фитнеса. Не
+            откладывай на завтра — начни тренироваться уже сегодня!
+        </DescriptionCard>
+
+        <div className={styles.actionCardsBlocks}>
+            <Card
+                title='Расписать тренировки'
+                bordered={false}
+                style={{ width: '100%' }}
+                headStyle={cardHeadStyle}
+                bodyStyle={cardBodyStyle}
+            >
+                {
+                    <Button type='text' className={styles.cardButton}>
+                        <img alt='android' src={trainingIcon} />
+                        <span>Тренировки</span>
+                    </Button>
+                }
+            </Card>
+            <Card
+                title='Назначить тренировки'
+                bordered={false}
+                style={{ width: '100%' }}
+                headStyle={cardHeadStyle}
+                bodyStyle={cardBodyStyle}
+            >
+                {
+                    <Button type='text' className={styles.cardButton}>
+                        <img alt='android' src={calendarIcon} />
+                        <span>Календарь</span>
+                    </Button>
+                }
+            </Card>
+            <Card
+                title='Заполнить профиль'
+                bordered={false}
+                style={{ width: '100%' }}
+                headStyle={cardHeadStyle}
+                bodyStyle={cardBodyStyle}
+            >
+                {
+                    <Button type='text' className={styles.cardButton}>
+                        <img alt='android' src={profileIcon} />
+                        <span>Профиль</span>
+                    </Button>
+                }
+            </Card>
+        </div>
+    </div>
+);

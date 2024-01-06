@@ -1,0 +1,70 @@
+.Header {
+    background-color: var(--header-blue-light);
+    padding: 16px 24px;
+    height: unset;
+    min-height: var(--app-header-min-height);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: var(--font-title-light);
+}
+
+.location {
+    font: var(--font-s);
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+.greetings {
+    font: var(--font-xl);
+}
+
+.settings {
+    font: var(--font-s);
+}
+
+.cardButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: var(--font-s);
+    color: var(--font-title-light);
+}
+
+.settingsMobileButton {
+    display: none;
+}
+
+@media (max-width: 834px) {
+    .settingsIcon {
+        display: none;
+    }
+
+    .greetings {
+        font: var(--font-xl-tablet);
+    }
+}
+
+@media (max-width: 576px) {
+    .greetings {
+        font: var(--font-l);
+    }
+
+    .cardButton {
+        display: none;
+    }
+
+    .settingsMobileButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 10px;
+        border-radius: 100px;
+        border: 1px solid var(--primary);
+        background: var(--primary);
+        box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
+    }
+}

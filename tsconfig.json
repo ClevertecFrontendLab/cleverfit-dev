@@ -25,7 +25,11 @@
             "@pages/*": ["./src/pages/*"],
             "@redux/*": ["./src/redux/*"],
             "@types/*": ["./src/types/*"],
-            "@utils/*": ["./src/utils/*"]
+            "@utils/*": ["./src/utils/*"],
+            "@config/*": ["./src/config/*"],
+            "@styles/*": ["./src/styles/*"],
+            "@widgets/*": ["./src/widgets/*"],
+            "@shared/*": ["./src/shared/*"]
         },
         "plugins": [
             {

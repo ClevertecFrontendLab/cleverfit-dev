@@ -1,0 +1,40 @@
+:root {
+    /* Шрифты */
+    --font-family-main: Inter, sans-serif;
+    --font-size-s: 14px;
+    --font-line-s: 130%;
+    --font-weight-s: 400;
+    --font-s: var(--font-weight-s) var(--font-size-s) / var(--font-line-s) var(--font-family-main);
+    --font-size-m: 16px;
+    --font-line-m: 130%;
+    --font-weight-m: 400;
+    --font-m: var(--font-weight-m) var(--font-size-m) / var(--font-line-m) var(--font-family-main);
+    --font-size-l: 20px;
+    --font-line-l: 130%;
+    --font-weight-l: 500;
+    --font-l: var(--font-weight-l) var(--font-size-l) / var(--font-line-l) var(--font-family-main);
+    --font-size-xl: 38px;
+    --font-line-xl: 130%;
+    --font-weight-xl: 700;
+    --font-xl: var(--font-weight-xl) var(--font-size-xl) / var(--font-line-xl)
+        var(--font-family-main);
+    --font-size-xl-tablet: 24px;
+    --font-line-xl-tablet: 130%;
+    --font-weight-xl-tablet: 500;
+    --font-xl-tablet: var(--font-weight-xl-tablet) var(--font-size-xl-tablet) /
+        var(--font-line-xl-tablet) var(--font-family-main);
+
+    /* Размеры */
+    --app-max-width: 1440px;
+    --app-min-height: 100vh;
+    --app-header-min-height: 168px;
+
+    /* Цвета */
+    --sider-background-light: #fff;
+    --font-title-light: #262626;
+    --font-blue-light: #003a8c;
+    --primary: #1890ff;
+    --primary-light: #2f54eb;
+    --secondary-light: #8c8c8c;
+    --header-blue-light: #e6f7ff;
+}

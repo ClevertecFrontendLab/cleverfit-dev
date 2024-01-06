@@ -19,6 +19,10 @@ export default defineConfig({
             '@redux': path.resolve(__dirname, 'src/redux'),
             '@types': path.resolve(__dirname, 'src/types'),
             '@utils': path.resolve(__dirname, 'src/utils'),
+            '@config': path.resolve(__dirname, 'src/config'),
+            '@styles': path.resolve(__dirname, 'src/styles'),
+            '@widgets': path.resolve(__dirname, 'src/widgets'),
+            '@shared': path.resolve(__dirname, 'src/shared'),
         },
     },
 });

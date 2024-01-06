@@ -1,0 +1,41 @@
+.FooterCard {
+    width: 249px;
+}
+
+.cardTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cardTitleOffer {
+    font: var(--font-m);
+    color: var(--primary-light);
+}
+
+.cardTitleHint {
+    font: var(--font-s);
+    color: var(--secondary-light);
+}
+
+.cardButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: var(--font-s);
+    color: var(--font-title-light);
+}
+
+@media (max-width: 834px) {
+    .FooterCard {
+        width: 100%;
+    }
+
+    .cardTitleOffer {
+        text-align: center;
+    }
+
+    .cardTitleHint {
+        text-align: center;
+    }
+}
