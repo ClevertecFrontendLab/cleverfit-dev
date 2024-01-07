@@ -3,37 +3,37 @@ import { Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
 import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
 import logoFull from '@shared/assets/icons/logo-full.svg';
-import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
-import { menuItemExit, menuItems } from './config/menuItems';
-import styles from './SideBar.module.css';
+import closeIcon from '@shared/assets/icons/buttons/icon-close.svg';
+import { menuItemExit, menuItems } from '@widgets/SideBar/config/menuItems';
+import styles from './MobileSideBar.module.css';
 
 const { Sider } = Layout;
 
-interface SideBarProps {
+interface MobileSideBarProps {
     collapsed: boolean;
     toggleMenu: () => void;
 }
 
-export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
+export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu }) => (
     <Sider
-        className={styles.SideBar}
+        className={styles.MobileSideBar}
         collapsible
         trigger={null}
         collapsed={collapsed}
-        collapsedWidth='64px'
-        width='208px'
+        collapsedWidth='0px'
+        width='100%'
     >
         <div
             className={classNames(styles.upperBlock, {
                 [styles.upperBlockCollapsed]: collapsed,
             })}
         >
+            <Button type='primary' className={styles.closeMobileButton} onClick={toggleMenu}>
+                <img src={closeIcon} alt='close' style={{ width: '24px', height: '24px' }} />
+            </Button>
+
             <div className={styles.imageContainer}>
-                <img
-                    alt='CleverFit'
-                    src={collapsed ? logoCollapsed : logoFull}
-                    className={styles.logo}
-                />
+                <img alt='CleverFit' src={logoFull} className={styles.logo} />
             </div>
             {menuItems.map(({ id, icon, title }) => (
                 <Button type='text' key={id} className={styles.menuButton}>
