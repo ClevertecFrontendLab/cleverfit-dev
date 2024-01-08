@@ -1,12 +1,12 @@
-.Header {
-    background-color: var(--header-blue-light);
-    padding: 16px 24px;
-    height: unset;
-    min-height: var(--app-header-min-height);
+.appHeader {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--gap-m);
+    padding: var(--gap-m) var(--gap-xl);
+    height: unset;
+    min-height: var(--app-header-min-height);
     color: var(--font-title-light);
+    background-color: var(--header-blue-light);
 }
 
 .location {
@@ -16,7 +16,7 @@
 .menu {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--gap-m);
 }
 
 .greetings {
@@ -63,9 +63,9 @@
         align-items: center;
         justify-content: center;
         padding: 4px 10px;
+        background: var(--primary);
         border-radius: 100px;
         border: 1px solid var(--primary);
-        background: var(--primary);
         box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
     }
 }

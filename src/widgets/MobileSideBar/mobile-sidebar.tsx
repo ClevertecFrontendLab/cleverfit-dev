@@ -4,23 +4,23 @@ import classNames from 'classnames';
 import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import closeIcon from '@shared/assets/icons/buttons/icon-close.svg';
-import { menuItemExit, menuItems } from '@widgets/SideBar/config/menu-items';
+import { MENU_ITEM_EXIT, MENU_ITEMS } from '@widgets/SideBar/config/menu-items';
 import styles from './mobile-sidebar.module.css';
 
 const { Sider } = Layout;
 
-interface MobileSideBarProps {
+type MobileSideBarProps = {
     collapsed: boolean;
     toggleMenu: () => void;
-}
+};
 
 export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu }) => (
     <Sider
-        className={styles.MobileSideBar}
+        className={styles.mobileSideBar}
         collapsible
         trigger={null}
         collapsed={collapsed}
-        collapsedWidth='0px'
+        collapsedWidth='0'
         width='100%'
     >
         <div
@@ -35,7 +35,7 @@ export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu })
             <div className={styles.imageContainer}>
                 <img alt='CleverFit' src={logoFull} className={styles.logo} />
             </div>
-            {menuItems.map(({ id, icon, title }) => (
+            {MENU_ITEMS.map(({ id, icon, title }) => (
                 <Button type='text' key={id} className={styles.menuButton}>
                     <img alt='icon' src={icon} />
                     {!collapsed && <span>{title}</span>}
@@ -50,8 +50,8 @@ export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu })
                     [styles.collapsedButton]: collapsed,
                 })}
             >
-                <img alt='icon' src={menuItemExit.icon} />
-                {!collapsed && <span>{menuItemExit.title}</span>}
+                <img alt='icon' src={MENU_ITEM_EXIT.icon} />
+                {!collapsed && <span>{MENU_ITEM_EXIT.title}</span>}
             </Button>
         </div>
         <CollapseSwitcher

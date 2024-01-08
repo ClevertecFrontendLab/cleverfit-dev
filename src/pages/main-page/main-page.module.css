@@ -3,32 +3,32 @@
 }
 
 .descriptionList {
-    list-style-type: none;
     margin: 0;
+    list-style-type: none;
 }
 
 .actionCardsBlocks {
+    display: flex;
+    gap: var(--gap-m);
+    justify-content: space-between;
     width: 100%;
     background-color: transparent;
-    display: flex;
-    gap: 16px;
-    justify-content: space-between;
 }
 
 .cardButton {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-xs);
     font: var(--font-s);
     color: var(--primary-light);
 }
 
 .margin24px {
-    margin-bottom: 24px;
+    margin-bottom: var(--gap-xl);
 }
 
 .margin16px {
-    margin-bottom: 16px;
+    margin-bottom: var(--gap-m);
 }
 
 .fullWidth {

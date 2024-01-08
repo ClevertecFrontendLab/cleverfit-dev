@@ -1,11 +1,11 @@
-.FooterCard {
+.footerCard {
     width: 249px;
 }
 
 .cardTitle {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-xs);
 }
 
 .cardTitleOffer {
@@ -27,7 +27,7 @@
 }
 
 @media (max-width: 834px) {
-    .FooterCard {
+    .footerCard {
         width: 100%;
     }
 

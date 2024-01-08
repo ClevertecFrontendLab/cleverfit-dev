@@ -2,14 +2,13 @@ import { ButtonHTMLAttributes, FC } from 'react';
 import classNames from 'classnames';
 import switcherExpandedIcon from '@shared/assets/icons/icon-switcher-expanded.svg';
 import switcherCollapsedIcon from '@shared/assets/icons/icon-switcher-collapsed.svg';
-
 import styles from './collapse-switcher.module.css';
 
-interface CollapseSwitcherProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    outerClass?: string;
+type CollapseSwitcherProps = {
     collapsed: boolean;
     toggleMenu: () => void;
-}
+    outerClass?: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
     outerClass,
@@ -19,7 +18,7 @@ export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
 }) => (
     <button
         data-test-id='sidebar-switcher'
-        className={classNames(styles.CollapseSwitcher, outerClass)}
+        className={classNames(styles.collapseSwitcher, outerClass)}
         onClick={toggleMenu}
         {...otherProps}
     >

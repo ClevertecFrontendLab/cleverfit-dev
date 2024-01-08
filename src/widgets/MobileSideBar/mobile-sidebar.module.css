@@ -1,28 +1,27 @@
-.MobileSideBar {
-    display: none;
-    position: relative;
-    background-color: var(--sider-background-light);
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
-    padding-top: 30px;
-    height: 100vh;
-    z-index: 10;
+.mobileSideBar {
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
+    z-index: 10;
+    display: none;
+    padding-top: 30px;
+    height: 100vh;
+    background-color: var(--sider-background-light);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .imageContainer {
     height: 64px;
+    margin-bottom: 34px;
     display: flex;
     align-items: center;
-    margin-bottom: 34px;
 }
 
 .upperBlock {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--gap-m);
 }
 
 .upperBlockCollapsed {
@@ -30,9 +29,9 @@
 }
 
 .logo {
-    display: block;
     margin-left: auto;
     margin-right: auto;
+    display: block;
 }
 
 .divider {
@@ -43,18 +42,18 @@
 }
 
 .menuButton {
+    height: 42px;
     display: flex;
     align-items: center;
     gap: 10px;
     font: var(--font-s);
     color: var(--font-title-light);
-    height: 42px;
 }
 
 .exitButton {
-    gap: 25px;
     height: 40px;
     width: 100%;
+    gap: 25px;
 }
 
 .collapsedButton {
@@ -62,17 +61,17 @@
 }
 
 .closeMobileButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 10px;
-    border-radius: 100px;
-    border: 1px solid var(--primary);
-    background: white;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
     position: absolute;
     top: 24px;
     right: 20px;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--primary);
+    border-radius: 100px;
+    background: white;
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
 }
 
 .switcherPosition {
@@ -81,7 +80,7 @@
 }
 
 @media (max-width: 576px) {
-    .MobileSideBar {
+    .mobileSideBar {
         display: block;
     }
 }

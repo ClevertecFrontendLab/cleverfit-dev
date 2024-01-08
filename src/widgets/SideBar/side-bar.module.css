@@ -1,25 +1,24 @@
-.SideBar {
-    position: relative;
-    background-color: var(--sider-background-light);
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
-    padding-top: 30px;
-    height: 100vh;
+.sideBar {
     position: fixed;
     top: 0;
     bottom: 0;
+    height: 100vh;
+    padding-top: 30px;
+    background-color: var(--sider-background-light);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .imageContainer {
-    height: 64px;
     display: flex;
     align-items: center;
     margin-bottom: 34px;
+    height: 64px;
 }
 
 .upperBlock {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--gap-m);
 }
 
 .upperBlockCollapsed {
@@ -43,9 +42,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    height: 42px;
     font: var(--font-s);
     color: var(--font-title-light);
-    height: 42px;
 }
 
 .exitButton {
@@ -64,7 +63,7 @@
 }
 
 @media (max-width: 576px) {
-    .SideBar {
+    .sideBar {
         display: none;
     }
 }

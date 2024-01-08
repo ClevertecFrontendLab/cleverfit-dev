@@ -1,23 +1,14 @@
 import { FC, ReactNode } from 'react';
 import { Card, CardProps } from 'antd';
 import classNames from 'classnames';
+import { DescriptionCardTextColor, DescriptionCardTextSize } from './types';
 import styles from './description-card.module.css';
 
-export enum DescriptionCardTextSize {
-    MEDIUM = 'medium',
-    LARGE = 'large',
-}
-
-export enum DescriptionCardTextColor {
-    BLUE = 'blue',
-    DARK = 'dark',
-}
-
-interface DescriptionCardProps extends CardProps {
+type DescriptionCardProps = {
     textSize?: DescriptionCardTextSize;
     textColor?: DescriptionCardTextColor;
     children?: ReactNode;
-}
+} & CardProps;
 
 export const DescriptionCard: FC<DescriptionCardProps> = ({
     children,

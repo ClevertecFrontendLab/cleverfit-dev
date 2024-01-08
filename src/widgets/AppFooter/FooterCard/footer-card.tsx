@@ -12,7 +12,7 @@ const cardHeadStyle = {
 
 const cardBodyStyle = {
     height: '42px',
-    padding: '0px',
+    padding: '0',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -29,7 +29,7 @@ export const FooterCard = () => (
         bordered={false}
         headStyle={cardHeadStyle}
         bodyStyle={cardBodyStyle}
-        className={styles.FooterCard}
+        className={styles.footerCard}
     >
         {
             <>

@@ -1,10 +1,10 @@
-.AppFooter {
-    background: transparent;
-    padding: 0;
-    padding-bottom: 24px;
+.appFooter {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    padding: 0;
+    padding-bottom: var(--gap-xl);
+    background: transparent;
 }
 
 .linkButtonText {
@@ -12,10 +12,10 @@
 }
 
 @media (max-width: 834px) {
-    .AppFooter {
+    .appFooter {
         flex-direction: column-reverse;
         justify-content: flex-start;
-        gap: 24px;
+        gap: var(--gap-xl);
         align-items: center;
     }
 }

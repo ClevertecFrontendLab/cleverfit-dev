@@ -10,7 +10,7 @@ type MenuItem = {
     icon: string;
 };
 
-export const menuItems: Array<MenuItem> = [
+export const MENU_ITEMS: Array<MenuItem> = [
     {
         id: 1,
         title: 'Календарь',
@@ -33,7 +33,7 @@ export const menuItems: Array<MenuItem> = [
     },
 ];
 
-export const menuItemExit: MenuItem = {
+export const MENU_ITEM_EXIT: MenuItem = {
     id: 5,
     title: 'Выход',
     icon: exitIcon,

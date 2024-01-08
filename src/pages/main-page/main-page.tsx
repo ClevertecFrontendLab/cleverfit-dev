@@ -1,9 +1,9 @@
 import { Button, Card } from 'antd';
-import { DescriptionCard } from '@shared/components/DescriptionCard';
 import {
+    DescriptionCard,
     DescriptionCardTextColor,
     DescriptionCardTextSize,
-} from '@shared/components/DescriptionCard/description-card';
+} from '@shared/components/DescriptionCard';
 import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
 import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
 import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';
@@ -18,7 +18,7 @@ const cardHeadStyle = {
 
 const cardBodyStyle = {
     height: '42px',
-    padding: '0px',
+    padding: '0',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

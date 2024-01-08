@@ -1,8 +1,8 @@
-.AppContent {
-    background: transparent;
-    padding: 24px;
+.appContent {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 24px;
+    gap: var(--gap-xl);
+    padding: var(--gap-xl);
+    background: transparent;
 }

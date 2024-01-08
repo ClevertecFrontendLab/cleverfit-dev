@@ -4,19 +4,19 @@ import classNames from 'classnames';
 import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
-import { menuItemExit, menuItems } from './config/menu-items';
+import { MENU_ITEM_EXIT, MENU_ITEMS } from './config/menu-items';
 import styles from './side-bar.module.css';
 
 const { Sider } = Layout;
 
-interface SideBarProps {
+type SideBarProps = {
     collapsed: boolean;
     toggleMenu: () => void;
-}
+};
 
 export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
     <Sider
-        className={styles.SideBar}
+        className={styles.sideBar}
         collapsible
         trigger={null}
         collapsed={collapsed}
@@ -35,7 +35,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
                     className={styles.logo}
                 />
             </div>
-            {menuItems.map(({ id, icon, title }) => (
+            {MENU_ITEMS.map(({ id, icon, title }) => (
                 <Button type='text' key={id} className={styles.menuButton}>
                     <img alt='icon' src={icon} />
                     {!collapsed && <span>{title}</span>}
@@ -50,8 +50,8 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
                     [styles.collapsedButton]: collapsed,
                 })}
             >
-                <img alt='icon' src={menuItemExit.icon} />
-                {!collapsed && <span>{menuItemExit.title}</span>}
+                <img alt='icon' src={MENU_ITEM_EXIT.icon} />
+                {!collapsed && <span>{MENU_ITEM_EXIT.title}</span>}
             </Button>
         </div>
         <CollapseSwitcher
