@@ -55,8 +55,7 @@ export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu })
             </Button>
         </div>
         <CollapseSwitcher
-            topPosition='calc(50% - 33px)'
-            rightPosition='-105px'
+            outerClass={styles.switcherPosition}
             collapsed={collapsed}
             toggleMenu={toggleMenu}
         />

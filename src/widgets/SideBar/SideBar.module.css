@@ -59,6 +59,11 @@
     justify-content: center;
 }
 
+.switcherPosition {
+    top: calc(50% - 33px);
+    right: -105px;
+}
+
 @media (max-width: 576px) {
     .SideBar {
         display: none;

@@ -75,6 +75,11 @@
     right: 20px;
 }
 
+.switcherPosition {
+    top: calc(50% - 33px);
+    right: -105px;
+}
+
 @media (max-width: 576px) {
     .MobileSideBar {
         display: block;

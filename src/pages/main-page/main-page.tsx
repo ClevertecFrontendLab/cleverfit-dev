@@ -29,7 +29,7 @@ export const MainPage = () => (
         <DescriptionCard
             textSize={DescriptionCardTextSize.MEDIUM}
             textColor={DescriptionCardTextColor.BLUE}
-            style={{ marginBottom: '24px' }}
+            className={styles.margin24px}
         >
             С CleverFit ты сможешь:
             <ul className={styles.descriptionList}>
@@ -52,7 +52,7 @@ export const MainPage = () => (
         <DescriptionCard
             textSize={DescriptionCardTextSize.LARGE}
             textColor={DescriptionCardTextColor.DARK}
-            style={{ marginBottom: '16px' }}
+            className={styles.margin16px}
         >
             CleverFit — это не просто приложение, а твой личный помощник в мире фитнеса. Не
             откладывай на завтра — начни тренироваться уже сегодня!
@@ -62,7 +62,7 @@ export const MainPage = () => (
             <Card
                 title='Расписать тренировки'
                 bordered={false}
-                style={{ width: '100%' }}
+                className={styles.fullWidth}
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >
@@ -76,7 +76,7 @@ export const MainPage = () => (
             <Card
                 title='Назначить тренировки'
                 bordered={false}
-                style={{ width: '100%' }}
+                className={styles.fullWidth}
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >
@@ -90,7 +90,7 @@ export const MainPage = () => (
             <Card
                 title='Заполнить профиль'
                 bordered={false}
-                style={{ width: '100%' }}
+                className={styles.fullWidth}
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >

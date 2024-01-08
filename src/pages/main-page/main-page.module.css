@@ -23,6 +23,18 @@
     color: var(--primary-light);
 }
 
+.margin24px {
+    margin-bottom: 24px;
+}
+
+.margin16px {
+    margin-bottom: 16px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
 @media (max-width: 834px) {
     .actionCardsBlocks {
         gap: 8px;
