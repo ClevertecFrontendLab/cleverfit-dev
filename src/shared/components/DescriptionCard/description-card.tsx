@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Card, CardProps } from 'antd';
 import classNames from 'classnames';
-import styles from './DescriptionCard.module.css';
+import styles from './description-card.module.css';
 
 export enum DescriptionCardTextSize {
     MEDIUM = 'medium',
@@ -25,13 +25,14 @@ export const DescriptionCard: FC<DescriptionCardProps> = ({
     textColor = DescriptionCardTextColor.DARK,
     ...otherProps
 }) => (
-    <Card
-        className={classNames({
-            [styles[textSize]]: true,
-            [styles[textColor]]: true,
-        })}
-        {...otherProps}
-    >
-        {children}
+    <Card {...otherProps}>
+        <div
+            className={classNames({
+                [styles[textSize]]: true,
+                [styles[textColor]]: true,
+            })}
+        >
+            {children}
+        </div>
     </Card>
 );

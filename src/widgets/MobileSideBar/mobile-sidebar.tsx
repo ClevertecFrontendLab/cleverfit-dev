@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import closeIcon from '@shared/assets/icons/buttons/icon-close.svg';
-import { menuItemExit, menuItems } from '@widgets/SideBar/config/menuItems';
-import styles from './MobileSideBar.module.css';
+import { menuItemExit, menuItems } from '@widgets/SideBar/config/menu-items';
+import styles from './mobile-sidebar.module.css';
 
 const { Sider } = Layout;
 

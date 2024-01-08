@@ -6,7 +6,7 @@ import { HashRouter } from 'react-router-dom';
 
 import 'normalize.css';
 import '@styles/index.css';
-import { App } from './app/App';
+import { App } from './app/app';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);

@@ -3,7 +3,7 @@ import { DescriptionCard } from '@shared/components/DescriptionCard';
 import {
     DescriptionCardTextColor,
     DescriptionCardTextSize,
-} from '@shared/components/DescriptionCard/DescriptionCard';
+} from '@shared/components/DescriptionCard/description-card';
 import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
 import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
 import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';

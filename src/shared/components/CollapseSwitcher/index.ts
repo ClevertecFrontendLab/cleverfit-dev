@@ -1,1 +1,1 @@
-export { CollapseSwitcher } from './CollapseSwitcher';
+export { CollapseSwitcher } from './collapse-switcher';

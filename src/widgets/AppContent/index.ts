@@ -1,1 +1,1 @@
-export { AppContent } from './AppContent';
+export { AppContent } from './app-content';

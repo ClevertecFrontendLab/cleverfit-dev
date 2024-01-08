@@ -1,7 +1,7 @@
 import { Button, Card } from 'antd';
 import androidIcon from '@shared/assets/icons/buttons/icon-android.svg';
 import appleIcon from '@shared/assets/icons/buttons/icon-apple.svg';
-import styles from './FooterCard.module.css';
+import styles from './footer-card.module.css';
 
 const cardHeadStyle = {
     display: 'flex',

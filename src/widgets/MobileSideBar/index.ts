@@ -1,1 +1,1 @@
-export { MobileSideBar } from './MobileSideBar';
+export { MobileSideBar } from './mobile-sidebar';

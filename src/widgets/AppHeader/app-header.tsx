@@ -1,7 +1,7 @@
 import { Button, Layout } from 'antd';
 import settingsIcon from '@shared/assets/icons/buttons/icon-settings.svg';
 import settingsLightIcon from '@shared/assets/icons/buttons/icon-settings-light.svg';
-import styles from './AppHeader.module.css';
+import styles from './app-header.module.css';
 
 const { Header } = Layout;
 
