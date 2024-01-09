@@ -64,7 +64,8 @@
     --gap-8xl-neg: -128px;
 
     /* Цвета */
-    --sider-background-light: #fff;
+    --neutral-1: #fff;
+    --neutral-5: #d9d9d9;
     --font-title-light: #262626;
     --font-blue-light: #003a8c;
     --primary: #1890ff;

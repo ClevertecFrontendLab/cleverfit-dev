@@ -1,6 +1,5 @@
 import { Button, Layout, Typography } from 'antd';
 import settingsIcon from '@shared/assets/icons/buttons/icon-settings.svg';
-import settingsLightIcon from '@shared/assets/icons/buttons/icon-settings-light.svg';
 import styles from './app-header.module.css';
 
 const { Header } = Layout;
@@ -19,8 +18,8 @@ export const AppHeader = () => (
                     <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
                     <span>Настройки</span>
                 </Button>
-                <Button type='primary' className={styles.settingsMobileButton}>
-                    <img src={settingsLightIcon} alt='settings' />
+                <Button type='default' className={styles.settingsMobileButton}>
+                    <img src={settingsIcon} alt='settings' />
                 </Button>
             </div>
         </div>

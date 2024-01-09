@@ -4,7 +4,7 @@
     bottom: 0;
     height: 100vh;
     padding-top: 30px;
-    background-color: var(--sider-background-light);
+    background-color: var(--neutral-1);
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 

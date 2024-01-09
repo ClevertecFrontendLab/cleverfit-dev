@@ -1,6 +1,6 @@
 .collapseSwitcher {
     position: absolute;
-    background-color: var(--sider-background-light);
+    background-color: var(--neutral-1);
     box-shadow: 5px 2px 8px -5px rgba(0, 0, 0, 0.15);
     border: none;
     outline: none;

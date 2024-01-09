@@ -67,9 +67,9 @@
         align-items: center;
         justify-content: center;
         padding: 4px 10px;
-        background: var(--primary);
+        background: var(--neutral-1);
         border-radius: 100px;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--neutral-5);
         box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
     }
 }
