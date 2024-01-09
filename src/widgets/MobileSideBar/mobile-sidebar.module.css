@@ -1,82 +1,60 @@
 .mobileSideBar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
     display: none;
-    padding-top: 30px;
-    height: 100vh;
-    background-color: var(--sider-background-light);
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
-.imageContainer {
-    height: 64px;
-    margin-bottom: 34px;
-    display: flex;
-    align-items: center;
+.switcherPosition {
+    position: fixed;
+    top: 29px;
+    left: -129px;
+    z-index: 10;
 }
 
-.upperBlock {
+.switcherPositionInDrawer {
+    position: absolute;
+    top: 29px;
+    right: -166px;
+}
+
+.buttonBlock {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-m);
+    justify-content: flex-start;
+    gap: var(--gap-xs);
+    margin-top: var(--gap-m);
 }
 
-.upperBlockCollapsed {
-    align-items: center;
-}
-
-.logo {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-
-.divider {
-    position: absolute;
-    left: 0;
-    bottom: 40px;
-    margin: 0;
-}
-
-.menuButton {
-    height: 42px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.menuButton,
+.exitButton {
     font: var(--font-s);
     color: var(--font-title-light);
 }
 
+.menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90px;
+    height: fit-content;
+    padding: 9px 0 15px;
+}
+
 .exitButton {
-    height: 40px;
-    width: 100%;
-    gap: 25px;
+    padding-top: 4px 15px;
+    height: 26px;
 }
 
-.collapsedButton {
-    justify-content: center;
-}
-
-.closeMobileButton {
+.divider {
     position: absolute;
-    top: 24px;
-    right: 20px;
-    padding: 4px 10px;
+    bottom: 40px;
+    left: 0;
+    margin: 0;
+}
+
+.exitBlock {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--primary);
-    border-radius: 100px;
-    background: white;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
-}
-
-.switcherPosition {
-    top: calc(50% - 33px);
-    right: -105px;
+    height: 40px;
 }
 
 @media (max-width: 576px) {

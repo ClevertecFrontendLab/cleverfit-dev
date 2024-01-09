@@ -50,6 +50,10 @@
 }
 
 @media (max-width: 576px) {
+    .appHeader {
+        gap: var(--gap-xl);
+    }
+
     .greetings {
         font: var(--font-l);
     }

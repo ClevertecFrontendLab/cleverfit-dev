@@ -1,63 +1,75 @@
-import { FC } from 'react';
-import { Button, Divider, Layout } from 'antd';
-import classNames from 'classnames';
+import { useState } from 'react';
+import { Button, Divider, Drawer } from 'antd';
+import { MENU_ITEMS, MENU_ITEM_EXIT } from '@widgets/SideBar/config/menu-items';
+import logoMobile from '@shared/assets/icons/logo-mobile.png';
 import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
-import logoFull from '@shared/assets/icons/logo-full.svg';
-import closeIcon from '@shared/assets/icons/buttons/icon-close.svg';
-import { MENU_ITEM_EXIT, MENU_ITEMS } from '@widgets/SideBar/config/menu-items';
 import styles from './mobile-sidebar.module.css';
 
-const { Sider } = Layout;
-
-type MobileSideBarProps = {
-    collapsed: boolean;
-    toggleMenu: () => void;
+const bodyStyle: React.CSSProperties = {
+    padding: '0',
+    paddingLeft: '8px',
+    paddingRight: '8px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
 };
 
-export const MobileSideBar: FC<MobileSideBarProps> = ({ collapsed, toggleMenu }) => (
-    <Sider
-        className={styles.mobileSideBar}
-        collapsible
-        trigger={null}
-        collapsed={collapsed}
-        collapsedWidth='0'
-        width='100%'
-    >
-        <div
-            className={classNames(styles.upperBlock, {
-                [styles.upperBlockCollapsed]: collapsed,
-            })}
-        >
-            <Button type='primary' className={styles.closeMobileButton} onClick={toggleMenu}>
-                <img src={closeIcon} alt='close' style={{ width: '24px', height: '24px' }} />
-            </Button>
+const headerStyle = {
+    border: 'none',
+    padding: '0',
+};
 
-            <div className={styles.imageContainer}>
-                <img alt='CleverFit' src={logoFull} className={styles.logo} />
-            </div>
-            {MENU_ITEMS.map(({ id, icon, title }) => (
-                <Button type='text' key={id} className={styles.menuButton}>
-                    <img alt='icon' src={icon} />
-                    {!collapsed && <span>{title}</span>}
-                </Button>
-            ))}
-        </div>
-        <div>
-            <Divider className={styles.divider} />
-            <Button
-                type='text'
-                className={classNames(styles.menuButton, styles.exitButton, {
-                    [styles.collapsedButton]: collapsed,
-                })}
+export const MobileSideBar = () => {
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <aside className={styles.mobileSideBar}>
+            <CollapseSwitcher
+                collapsed={!open}
+                toggleMenu={showDrawer}
+                outerClass={styles.switcherPosition}
+                isDesktop={false}
+            />
+            <Drawer
+                title={<img src={logoMobile} alt='CleverFit' />}
+                placement={'left'}
+                width={106}
+                onClose={onClose}
+                open={open}
+                closable={false}
+                headerStyle={headerStyle}
+                bodyStyle={bodyStyle}
             >
-                <img alt='icon' src={MENU_ITEM_EXIT.icon} />
-                {!collapsed && <span>{MENU_ITEM_EXIT.title}</span>}
-            </Button>
-        </div>
-        <CollapseSwitcher
-            outerClass={styles.switcherPosition}
-            collapsed={collapsed}
-            toggleMenu={toggleMenu}
-        />
-    </Sider>
-);
+                <div className={styles.buttonBlock}>
+                    {MENU_ITEMS.map(({ id, title }) => (
+                        <Button type='text' key={id} className={styles.menuButton}>
+                            <span>{title}</span>
+                        </Button>
+                    ))}
+                </div>
+
+                <CollapseSwitcher
+                    collapsed={!open}
+                    toggleMenu={onClose}
+                    outerClass={styles.switcherPositionInDrawer}
+                    isDesktop={false}
+                />
+
+                <Divider className={styles.divider} />
+                <div className={styles.exitBlock}>
+                    <Button type='text' className={styles.exitButton}>
+                        {MENU_ITEM_EXIT.title}
+                    </Button>
+                </div>
+            </Drawer>
+        </aside>
+    );
+};

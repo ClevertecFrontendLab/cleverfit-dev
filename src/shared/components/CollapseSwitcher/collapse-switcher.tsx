@@ -6,6 +6,7 @@ import styles from './collapse-switcher.module.css';
 
 type CollapseSwitcherProps = {
     collapsed: boolean;
+    isDesktop: boolean;
     toggleMenu: () => void;
     outerClass?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -13,19 +14,27 @@ type CollapseSwitcherProps = {
 export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
     outerClass,
     collapsed,
+    isDesktop,
     toggleMenu,
     ...otherProps
 }) => (
     <button
         data-test-id='sidebar-switcher'
-        className={classNames(styles.collapseSwitcher, outerClass)}
+        className={classNames(
+            styles.collapseSwitcher,
+            outerClass,
+            isDesktop ? styles.desktopSwitcher : styles.mobileSwitcher,
+        )}
         onClick={toggleMenu}
         {...otherProps}
     >
         <img
             src={collapsed ? switcherCollapsedIcon : switcherExpandedIcon}
             alt='Выход'
-            className={styles.switcherIcon}
+            className={classNames(
+                styles.switcherIcon,
+                isDesktop ? styles.desktopIcon : styles.mobileIcon,
+            )}
         />
     </button>
 );

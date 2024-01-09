@@ -58,6 +58,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
             outerClass={styles.switcherPosition}
             collapsed={collapsed}
             toggleMenu={toggleMenu}
+            isDesktop={true}
         />
     </Sider>
 );

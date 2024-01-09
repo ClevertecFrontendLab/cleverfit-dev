@@ -21,7 +21,7 @@ export const App = () => {
     return (
         <Layout className={styles.app} hasSider>
             <SideBar toggleMenu={toggleMenu} collapsed={collapsed} />
-            <MobileSideBar toggleMenu={toggleMenu} collapsed={collapsedMobile} />
+            <MobileSideBar />
             <Layout
                 className={classNames(styles.appContent, {
                     [styles.appContentCollapsed]: collapsed,

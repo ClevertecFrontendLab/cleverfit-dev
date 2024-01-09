@@ -59,7 +59,7 @@
 
 .switcherPosition {
     top: calc(50% - 33px);
-    right: -105px;
+    right: -104px;
 }
 
 @media (max-width: 576px) {
