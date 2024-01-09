@@ -3,7 +3,7 @@
     top: 0;
     bottom: 0;
     height: 100vh;
-    padding-top: 30px;
+    padding-top: var(--gap-3xl);
     background-color: var(--neutral-1);
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
@@ -11,7 +11,7 @@
 .imageContainer {
     display: flex;
     align-items: center;
-    margin-bottom: 34px;
+    margin-bottom: var(--gap-5xl);
     height: 64px;
 }
 
@@ -41,14 +41,14 @@
 .menuButton {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-2s);
     height: 42px;
     font: var(--font-s);
     color: var(--font-title-light);
 }
 
 .exitButton {
-    gap: 25px;
+    gap: var(--gap-2xl);
     height: 40px;
     width: 100%;
 }

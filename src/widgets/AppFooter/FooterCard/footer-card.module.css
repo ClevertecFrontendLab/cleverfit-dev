@@ -21,7 +21,7 @@
 .cardButton {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-2s);
     font: var(--font-s);
     color: var(--font-title-light);
 }

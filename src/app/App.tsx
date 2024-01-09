@@ -7,7 +7,7 @@ import { AppHeader } from '@widgets/AppHeader';
 import { AppContent } from '@widgets/AppContent';
 import { AppFooter } from '@widgets/AppFooter';
 import { MobileSideBar } from '@widgets/MobileSideBar';
-import styles from './App.module.css';
+import styles from './app.module.css';
 
 export const App = () => {
     const [collapsed, setCollapsed] = useState(true);

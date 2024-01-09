@@ -35,11 +35,11 @@
     justify-content: flex-start;
     width: 90px;
     height: fit-content;
-    padding: 9px 0 15px;
+    padding: var(--gap-3s) 0 var(--gap-2m);
 }
 
 .exitButton {
-    padding-top: 4px 15px;
+    padding-top: var(--gap-3xs) var(--gap-2m);
     height: 26px;
 }
 

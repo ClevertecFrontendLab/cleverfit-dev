@@ -8,12 +8,12 @@
 }
 
 .appContent {
-    margin-left: 208px;
+    margin-left: var(--app-expanded-sidebar);
     transition: margin-left 0.2s ease;
 }
 
 .appContentCollapsed {
-    margin-left: 64px;
+    margin-left: var(--app-collapsed-sidebar);
 }
 
 @media (max-width: 576px) {

@@ -28,23 +28,31 @@
     --app-max-width: 1440px;
     --app-min-height: 100vh;
     --app-header-min-height: 168px;
+    --app-expanded-sidebar: 208px;
+    --app-collapsed-sidebar: 64px;
 
     /* Отступы */
     --gap-4xs: 2px;
     --gap-3xs: 4px;
     --gap-2xs: 6px;
     --gap-xs: 8px;
+    --gap-3s: 9px;
+    --gap-2s: 10px;
     --gap-s: 12px;
+    --gap-2m: 15px;
     --gap-m: 16px;
     --gap-l: 20px;
     --gap-xl: 24px;
-    --gap-2xl: 32px;
-    --gap-3xl: 40px;
-    --gap-4xl: 48px;
-    --gap-5xl: 64px;
-    --gap-6xl: 72px;
-    --gap-7xl: 96px;
-    --gap-8xl: 128px;
+    --gap-2xl: 25px;
+    --gap-3xl: 30px;
+    --gap-4xl: 32px;
+    --gap-5xl: 34px;
+    --gap-6xl: 40px;
+    --gap-7xl: 48px;
+    --gap-8xl: 64px;
+    --gap-9xl: 72px;
+    --gap-10xl: 96px;
+    --gap-11xl: 128px;
 
     /* Отрицательные отступы */
     --gap-4xs-neg: -2px;
@@ -55,13 +63,16 @@
     --gap-m-neg: -16px;
     --gap-l-neg: -20px;
     --gap-xl-neg: -24px;
-    --gap-2xl-neg: -32px;
-    --gap-3xl-neg: -40px;
-    --gap-4xl-neg: -48px;
-    --gap-5xl-neg: -64px;
-    --gap-6xl-neg: -72px;
-    --gap-7xl-neg: -96px;
-    --gap-8xl-neg: -128px;
+    --gap-2xl-neg: -25px;
+    --gap-3xl-neg: -30px;
+    --gap-4xl-neg: -32px;
+    --gap-5xl-neg: -34px;
+    --gap-6xl-neg: -40px;
+    --gap-7xl-neg: -48px;
+    --gap-8xl-neg: -64px;
+    --gap-9xl-neg: -72px;
+    --gap-10xl-neg: -96px;
+    --gap-11xl-neg: -128px;
 
     /* Цвета */
     --neutral-1: #fff;
