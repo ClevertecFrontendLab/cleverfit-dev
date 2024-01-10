@@ -19,7 +19,7 @@ export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
     ...otherProps
 }) => (
     <button
-        data-test-id='sidebar-switcher'
+        data-test-id='sider-switch'
         className={classNames(
             styles.collapseSwitcher,
             outerClass,
