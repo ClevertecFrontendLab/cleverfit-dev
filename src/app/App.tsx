@@ -11,11 +11,9 @@ import styles from './app.module.css';
 
 export const App = () => {
     const [collapsed, setCollapsed] = useState(true);
-    const [collapsedMobile, setCollapsedMobile] = useState(true);
 
     const toggleMenu = () => {
-        setCollapsed(!collapsed);
-        setCollapsedMobile(!collapsedMobile);
+        setCollapsed((collapsed) => !collapsed);
     };
 
     return (

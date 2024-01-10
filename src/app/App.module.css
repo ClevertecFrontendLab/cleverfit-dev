@@ -5,6 +5,7 @@
     margin-right: auto;
     background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, rgba(255, 253, 253, 0.8) 100%),
         url(../shared/assets/images/background.png) left bottom/cover no-repeat, lightgray 50%;
+    background-attachment: fixed;
 }
 
 .appContent {

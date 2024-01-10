@@ -8,10 +8,12 @@ type CollapseSwitcherProps = {
     collapsed: boolean;
     isDesktop: boolean;
     toggleMenu: () => void;
+    dataTestId?: string;
     outerClass?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
+    dataTestId,
     outerClass,
     collapsed,
     isDesktop,
@@ -19,7 +21,7 @@ export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
     ...otherProps
 }) => (
     <button
-        data-test-id='sider-switch'
+        data-test-id={dataTestId}
         className={classNames(
             styles.collapseSwitcher,
             outerClass,

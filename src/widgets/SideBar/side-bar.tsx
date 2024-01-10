@@ -55,6 +55,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
             </Button>
         </div>
         <CollapseSwitcher
+            dataTestId='sider-switch'
             outerClass={styles.switcherPosition}
             collapsed={collapsed}
             toggleMenu={toggleMenu}

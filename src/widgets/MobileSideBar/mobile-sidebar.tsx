@@ -22,31 +22,35 @@ const headerStyle = {
 export const MobileSideBar = () => {
     const [open, setOpen] = useState(false);
 
-    const showDrawer = () => {
-        setOpen(true);
+    const toggleDrawer = () => {
+        setOpen((val) => !val);
     };
 
-    const onClose = () => {
-        setOpen(false);
-    };
+    const outerClass = open
+        ? `${styles.switcherPosition} ${styles.switcherPositionInDrawer}`
+        : styles.switcherPosition;
 
     return (
         <aside className={styles.mobileSideBar}>
             <CollapseSwitcher
+                dataTestId='sider-switch-mobile'
                 collapsed={!open}
-                toggleMenu={showDrawer}
-                outerClass={styles.switcherPosition}
+                toggleMenu={toggleDrawer}
+                outerClass={outerClass}
                 isDesktop={false}
             />
             <Drawer
                 title={<img src={logoMobile} alt='CleverFit' />}
                 placement={'left'}
                 width={106}
-                onClose={onClose}
+                onClose={toggleDrawer}
                 open={open}
                 closable={false}
                 headerStyle={headerStyle}
                 bodyStyle={bodyStyle}
+                maskStyle={{
+                    background: 'transparent',
+                }}
             >
                 <div className={styles.buttonBlock}>
                     {MENU_ITEMS.map(({ id, title }) => (
@@ -55,13 +59,6 @@ export const MobileSideBar = () => {
                         </Button>
                     ))}
                 </div>
-
-                <CollapseSwitcher
-                    collapsed={!open}
-                    toggleMenu={onClose}
-                    outerClass={styles.switcherPositionInDrawer}
-                    isDesktop={false}
-                />
 
                 <Divider className={styles.divider} />
                 <div className={styles.exitBlock}>
