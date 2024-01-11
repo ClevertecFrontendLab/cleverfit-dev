@@ -12,6 +12,7 @@
 
 .switcherPositionInDrawer {
     left: -22px;
+    transition: left 0.45s;
 }
 
 .buttonBlock {
