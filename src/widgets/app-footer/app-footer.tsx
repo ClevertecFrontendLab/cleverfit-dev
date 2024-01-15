@@ -1,5 +1,7 @@
 import { Button, Layout } from 'antd';
-import { FooterCard } from './FooterCard/footer-card';
+
+import { FooterCard } from './footer-card/footer-card';
+
 import styles from './app-footer.module.css';
 
 const { Footer } = Layout;

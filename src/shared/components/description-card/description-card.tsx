@@ -1,7 +1,9 @@
 import { FC, ReactNode } from 'react';
 import { Card, CardProps } from 'antd';
 import classNames from 'classnames';
+
 import { DescriptionCardTextColor, DescriptionCardTextSize } from './types';
+
 import styles from './description-card.module.css';
 
 type DescriptionCardProps = {

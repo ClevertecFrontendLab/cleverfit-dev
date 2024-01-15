@@ -1,6 +1,8 @@
-import { Button, Card } from 'antd';
+import React from 'react';
 import androidIcon from '@shared/assets/icons/buttons/icon-android.svg';
 import appleIcon from '@shared/assets/icons/buttons/icon-apple.svg';
+import { Button, Card } from 'antd';
+
 import styles from './footer-card.module.css';
 
 const cardHeadStyle = {
@@ -31,17 +33,15 @@ export const FooterCard = () => (
         bodyStyle={cardBodyStyle}
         className={styles.footerCard}
     >
-        {
-            <>
-                <Button type='text' className={styles.cardButton}>
-                    <img alt='android' src={androidIcon} />
-                    <span>Android OS</span>
-                </Button>
-                <Button type='text' className={styles.cardButton}>
-                    <img alt='appleIcon' src={appleIcon} />
-                    <span>Apple IOS</span>
-                </Button>
-            </>
-        }
+        <React.Fragment>
+            <Button type='text' className={styles.cardButton}>
+                <img alt='android' src={androidIcon} />
+                <span>Android OS</span>
+            </Button>
+            <Button type='text' className={styles.cardButton}>
+                <img alt='appleIcon' src={appleIcon} />
+                <span>Apple IOS</span>
+            </Button>
+        </React.Fragment>
     </Card>
 );

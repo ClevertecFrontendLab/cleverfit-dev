@@ -34,15 +34,17 @@
 
 #### 2. Установка Yarn
 
-Установка через npm (пакетный менеджер Node.js)
-`npm install -g yarn`
+Чтобы установить Yarn, вы можете запустить одну из следующих команд:
+`npm install --global yarn` - установка Yarn через npm (рекомендуется)
+`curl --compressed -o- -L https://yarnpkg.com/install.sh | bash` - для Unix-подобных систем
 
-|Проверьте версии установленных компонентов |Описание                               |
-|-------------------------------------------|---------------------------------------|
-|`node -v`                                  |`Выведет установленную версию Node.js` |
-|`npm -v`                                   |`Выведет установленную версию npm`     |
-|`nvm -v`                                   |`Выведет установленную версию nvm`     |
-|`yarn -v`                                  |`Выведет установленную версию Yarn`    |
+|Проверьте версии установленных компонентов |Описание                                                             |
+|-------------------------------------------|---------------------------------------------------------------------|
+|`node -v`                                  |`Выведет установленную версию Node.js`                               |
+|`npm -v`                                   |`Выведет установленную версию npm`                                   |
+|`nvm -v`                                   |`Выведет установленную версию nvm`                                   |
+|`yarn -v`                                  |`Выведет установленную версию Yarn`                                  |
+|`yarn set version 1.22.21`                 |`Для установки конкретной версии yarn для текущего проекта: 1.22.21` |
 
 -----
 
@@ -116,23 +118,23 @@ init: start html-coding task
 ```
 - `feat:` - это реализованная новая функциональность из технического задания (добавил поддержку зумирования, добавил footer, добавил карточку продукта). Примеры:
 ```
-feat: add basic page layout
-feat: implement search box
+feat(*): add basic page layout
+feat(*): implement search box
 ```
 - `fix:` - исправил ошибку в ранее реализованной функциональности. Примеры:
 ```
-fix: change layout for video items to fix bugs
-fix: relayout header for firefox
+fix(*): change layout for video items to fix bugs
+fix(*): relayout header for firefox
 ```
 - `refactor:` - новой функциональности не добавлял / поведения не менял. Файлы в другие места положил, удалил, добавил. Изменил форматирование кода (white-space, formatting, missing semi-colons, etc). Улучшил алгоритм, без изменения функциональности. Примеры:
 ```
-refactor: change the structure of the project
-refactor: rename vars for better readability
+refactor(*): change the structure of the project
+refactor(*): rename vars for better readability
 ```
 - `docs:` - используется при работе с документацией/readme проекта. Примеры:
 ```
-docs: update readme with additional information
-docs: update description of run() method
+docs(*): update readme with additional information
+docs(*): update description of run() method
 ```
 
 -----

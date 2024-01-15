@@ -1,12 +1,13 @@
-import { Button, Card } from 'antd';
+import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
+import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';
+import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
 import {
     DescriptionCard,
     DescriptionCardTextColor,
     DescriptionCardTextSize,
-} from '@shared/components/DescriptionCard';
-import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
-import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
-import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';
+} from '@shared/components/description-card';
+import { Button, Card } from 'antd';
+
 import styles from './main-page.module.css';
 
 const cardHeadStyle = {
@@ -66,12 +67,10 @@ export const MainPage = () => (
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >
-                {
-                    <Button type='text' className={styles.cardButton}>
-                        <img alt='android' src={trainingIcon} />
-                        <span>Тренировки</span>
-                    </Button>
-                }
+                <Button type='text' className={styles.cardButton}>
+                    <img alt='android' src={trainingIcon} />
+                    <span>Тренировки</span>
+                </Button>
             </Card>
             <Card
                 title='Назначить тренировки'
@@ -80,12 +79,10 @@ export const MainPage = () => (
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >
-                {
-                    <Button type='text' className={styles.cardButton}>
-                        <img alt='android' src={calendarIcon} />
-                        <span>Календарь</span>
-                    </Button>
-                }
+                <Button type='text' className={styles.cardButton}>
+                    <img alt='android' src={calendarIcon} />
+                    <span>Календарь</span>
+                </Button>
             </Card>
             <Card
                 title='Заполнить профиль'
@@ -94,12 +91,10 @@ export const MainPage = () => (
                 headStyle={cardHeadStyle}
                 bodyStyle={cardBodyStyle}
             >
-                {
-                    <Button type='text' className={styles.cardButton}>
-                        <img alt='android' src={profileIcon} />
-                        <span>Профиль</span>
-                    </Button>
-                }
+                <Button type='text' className={styles.cardButton}>
+                    <img alt='android' src={profileIcon} />
+                    <span>Профиль</span>
+                </Button>
             </Card>
         </div>
     </div>
