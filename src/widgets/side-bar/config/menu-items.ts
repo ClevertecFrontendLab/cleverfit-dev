@@ -1,8 +1,8 @@
 import calendarIcon from '@shared/assets/icons/icon-calendar.svg';
+import exitIcon from '@shared/assets/icons/icon-exit.svg';
 import heartIcon from '@shared/assets/icons/icon-heart.svg';
 import profileIcon from '@shared/assets/icons/icon-profile.svg';
 import topIcon from '@shared/assets/icons/icon-top.svg';
-import exitIcon from '@shared/assets/icons/icon-exit.svg';
 
 type MenuItem = {
     id: number;
@@ -10,7 +10,7 @@ type MenuItem = {
     icon: string;
 };
 
-export const MENU_ITEMS: Array<MenuItem> = [
+export const MENU_ITEMS: MenuItem[] = [
     {
         id: 1,
         title: 'Календарь',

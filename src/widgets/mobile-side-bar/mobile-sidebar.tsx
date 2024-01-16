@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Button, Divider, Drawer } from 'antd';
-import { MENU_ITEMS, MENU_ITEM_EXIT } from '@widgets/SideBar/config/menu-items';
+import React, { useState } from 'react';
 import logoMobile from '@shared/assets/icons/logo-mobile.png';
-import { CollapseSwitcher } from '@shared/components/CollapseSwitcher';
+import { CollapseSwitcher } from '@shared/components/collapse-switcher';
+import { MENU_ITEM_EXIT, MENU_ITEMS } from '@widgets/side-bar/config/menu-items';
+import { Button, Divider, Drawer } from 'antd';
+
 import styles from './mobile-sidebar.module.css';
 
 const bodyStyle: React.CSSProperties = {
@@ -41,7 +42,7 @@ export const MobileSideBar = () => {
             />
             <Drawer
                 title={<img src={logoMobile} alt='CleverFit' />}
-                placement={'left'}
+                placement='left'
                 width={106}
                 onClose={toggleDrawer}
                 open={open}

@@ -1,7 +1,8 @@
 import { ButtonHTMLAttributes, FC } from 'react';
-import classNames from 'classnames';
-import switcherExpandedIcon from '@shared/assets/icons/icon-switcher-expanded.svg';
 import switcherCollapsedIcon from '@shared/assets/icons/icon-switcher-collapsed.svg';
+import switcherExpandedIcon from '@shared/assets/icons/icon-switcher-expanded.svg';
+import classNames from 'classnames';
+
 import styles from './collapse-switcher.module.css';
 
 type CollapseSwitcherProps = {
@@ -27,6 +28,7 @@ export const CollapseSwitcher: FC<CollapseSwitcherProps> = ({
             outerClass,
             isDesktop ? styles.desktopSwitcher : styles.mobileSwitcher,
         )}
+        type='button'
         onClick={toggleMenu}
         {...otherProps}
     >

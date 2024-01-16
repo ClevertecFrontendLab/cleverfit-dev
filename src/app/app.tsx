@@ -1,23 +1,25 @@
 import { useState } from 'react';
+import { AppContent } from '@widgets/app-content';
+import { AppFooter } from '@widgets/app-footer';
+import { AppHeader } from '@widgets/app-header';
+import { MobileSideBar } from '@widgets/mobile-side-bar';
+import { SideBar } from '@widgets/side-bar';
 import { Layout } from 'antd';
 import classNames from 'classnames';
-import { AppRouter } from './providers/AppRouter';
-import { SideBar } from '@widgets/SideBar';
-import { AppHeader } from '@widgets/AppHeader';
-import { AppContent } from '@widgets/AppContent';
-import { AppFooter } from '@widgets/AppFooter';
-import { MobileSideBar } from '@widgets/MobileSideBar';
+
+import { AppRouter } from './providers/app-router';
+
 import styles from './app.module.css';
 
 export const App = () => {
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleMenu = () => {
-        setCollapsed((collapsed) => !collapsed);
+        setCollapsed((prevState) => !prevState);
     };
 
     return (
-        <Layout className={styles.app} hasSider>
+        <Layout className={styles.app} hasSider={true}>
             <SideBar toggleMenu={toggleMenu} collapsed={collapsed} />
             <MobileSideBar />
             <Layout
