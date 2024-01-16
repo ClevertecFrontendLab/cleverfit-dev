@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { TabArrayType } from '@components/profile-tabs/types/tabs';
 import { Tabs } from 'antd';
 
 import styles from './profile-tabs.module.css';
-import { TabArrayType } from '@components/profile-tabs/types/tabs';
 
 type ProfileTabsProps = {
     basePath: string;
@@ -33,7 +33,7 @@ export const ProfileTabs: FC<ProfileTabsProps> = ({ tabs, basePath, onTabClick }
 
     return (
         <Tabs
-            centered
+            centered={true}
             className={styles.tabs}
             tabBarStyle={{ marginBottom: '24px', width: '368px' }}
             onTabClick={handleTabClick}

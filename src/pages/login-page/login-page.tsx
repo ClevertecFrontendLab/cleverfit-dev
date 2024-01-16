@@ -1,25 +1,26 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, Navigate, useLocation } from 'react-router-dom';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useAuthForm } from './hooks/use-auth-form';
-
-import styles from './login-page.module.css';
-import { AuthFieldNames } from '../../common-types/credentials';
-import Google from '@public/google.svg?react';
-import { passwordValidator } from '@pages/login-page/helpers/password-validator';
+import { AuthFieldNames } from '@common-types/credentials';
+import { LocationStateType } from '@common-types/location';
 import {
     ACCESS_TOKEN_NAME,
     VALIDATION_FIELD_NOT_REQUIRED,
     VALIDATION_FIELD_REQUIRED,
 } from '@constants/general';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { VALIDATION_FIELD_EMAIL } from '@pages/login-page/constants/common';
 import { confirmPasswordValidator } from '@pages/login-page/helpers/confirm-password-validator';
+import { passwordValidator } from '@pages/login-page/helpers/password-validator';
 import { TabName } from '@pages/login-profile-page/constants/tab-name';
-import { Paths } from '../../routes/paths';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import Google from '@public/google.svg?react';
 import { accessTokenSelector, setAccessToken } from '@redux/modules/app';
-import { LocationStateType } from '../../common-types/location';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { Paths } from '@routes/paths';
+import { Button, Checkbox, Form, Input } from 'antd';
+
+import { useAuthForm } from './hooks/use-auth-form';
+
+import styles from './login-page.module.css';
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
@@ -35,9 +36,10 @@ export const LoginPage = () => {
     );
 
     useEffect(() => {
-        const token = localStorage.getItem(ACCESS_TOKEN_NAME);
-        if (token) {
-            dispatch(setAccessToken(token));
+        const isTokenAlive = localStorage.getItem(ACCESS_TOKEN_NAME);
+
+        if (isTokenAlive) {
+            dispatch(setAccessToken(isTokenAlive));
         }
     }, [dispatch]);
 
@@ -45,7 +47,7 @@ export const LoginPage = () => {
         const state = location.state as LocationStateType;
         const { from } = state ?? {};
 
-        return <Navigate to={from ? from : Paths.MAIN} state={{ from: location }} />;
+        return <Navigate to={from || Paths.MAIN} state={{ from: location }} />;
     }
 
     return (
@@ -53,7 +55,7 @@ export const LoginPage = () => {
             form={form}
             onFinish={onFinish}
             requiredMark={false}
-            scrollToFirstError
+            scrollToFirstError={true}
             style={{ width: '100%' }}
         >
             <Form.Item
@@ -80,7 +82,7 @@ export const LoginPage = () => {
                 <Form.Item
                     name={AuthFieldNames.confirm}
                     dependencies={[AuthFieldNames.password]}
-                    hasFeedback
+                    hasFeedback={true}
                     rules={[VALIDATION_FIELD_REQUIRED, confirmPasswordValidator]}
                 >
                     <Input.Password placeholder='Повторите пароль' />
@@ -91,13 +93,13 @@ export const LoginPage = () => {
                 <Form.Item
                     name={AuthFieldNames.remember}
                     valuePropName='checked'
-                    noStyle
+                    noStyle={true}
                     rules={[VALIDATION_FIELD_NOT_REQUIRED]}
                 >
                     <Checkbox className={styles.rememberMe}>Запомнить меня</Checkbox>
                 </Form.Item>
                 {!isRegistrationPage && (
-                    <Link className={styles.forgotPassword} to={'/'}>
+                    <Link className={styles.forgotPassword} to='/'>
                         Забыли пароль?
                     </Link>
                 )}

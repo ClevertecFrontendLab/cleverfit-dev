@@ -1,8 +1,9 @@
-import styles from './result.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CONTENT, KEY } from '@components/result/constants/content';
+import { Paths } from '@routes/paths';
 import { Button } from 'antd';
-import { Paths } from '../../routes/paths';
+
+import styles from './result.module.css';
 
 export const Result = () => {
     const navigate = useNavigate();

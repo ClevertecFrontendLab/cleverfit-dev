@@ -1,4 +1,4 @@
-import { CredentialsType } from '../../common-types/credentials';
+import { CredentialsType } from '@common-types/credentials';
 
 export type LoginResponseType = {
     accessToken: string;

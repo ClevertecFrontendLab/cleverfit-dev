@@ -9,4 +9,4 @@ export const VALIDATION_FIELD_EMAIL = [
         required: true,
         message: '',
     },
-] as Array<RuleObject>;
+] as RuleObject[];

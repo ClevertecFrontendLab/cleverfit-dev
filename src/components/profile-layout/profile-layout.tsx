@@ -1,11 +1,11 @@
 import { FC, PropsWithChildren } from 'react';
 import { Outlet } from 'react-router-dom';
-
-import styles from './profile-layout.module.css';
-import { CustomSpace } from '@shared/components/custom-space';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { appSelector } from '@redux/modules/app';
+import { CustomSpace } from '@shared/components/custom-space';
 import classNames from 'classnames';
+
+import styles from './profile-layout.module.css';
 
 export const ProfileLayout: FC<PropsWithChildren> = ({ children }) => {
     const { isLoading } = useAppSelector(appSelector);

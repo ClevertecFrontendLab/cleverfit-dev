@@ -1,8 +1,7 @@
+import { ReactNode } from 'react';
 import ErrorIcon from '@public/error_icon.svg?react';
 import SuccessIcon from '@public/suссess_icon.svg?react';
 import WarningIcon from '@public/warning_icon.svg?react';
-
-import { ReactNode } from 'react';
 
 export enum KEY {
     ERROR_409 = 'error-user-exist',

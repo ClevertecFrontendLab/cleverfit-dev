@@ -1,12 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MainLayout } from '@components/main-layout';
-import { Paths } from './paths';
-import { MainPage } from '@pages/main-page';
-import { NotFoundPage } from '@pages/not-found-page';
-import { LoginProfilePage } from '@pages/login-profile-page';
-import { LoginProfileTabs } from '@pages/login-profile-page/login-profile-tabs';
 import { ProfileLayout } from '@components/profile-layout';
 import { Result } from '@components/result/result';
+import { LoginProfilePage } from '@pages/login-profile-page';
+import { LoginProfileTabs } from '@pages/login-profile-page/login-profile-tabs';
+import { MainPage } from '@pages/main-page';
+import { NotFoundPage } from '@pages/not-found-page';
+
+import { Paths } from './paths';
 
 export const routes = (
     <Routes>

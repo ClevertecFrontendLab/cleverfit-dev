@@ -1,9 +1,9 @@
-import { apiSlice } from '@redux/serviсes/index';
 import { ApiEndpoints } from '@redux/constants/api';
 import { ApiGroupNames } from '@redux/constants/api-group-names';
 import { EndpointNames } from '@redux/constants/endpoint-names';
-import { LoginRequestType, LoginResponseType } from '@redux/types/login';
 import { setAppLoader } from '@redux/modules/app';
+import { apiSlice } from '@redux/serviсes/index';
+import { LoginRequestType, LoginResponseType } from '@redux/types/login';
 
 export const authExtendedApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({

@@ -1,11 +1,11 @@
-import { Form } from 'antd';
-import { CredentialsType } from '../../../common-types/credentials';
-import { useLoginMutation, useRegistrationMutation } from '@redux/serviсes/auth';
 import { useCallback, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ApiErrorResponse } from '@redux/types/api';
-import { HttpStatus } from '@constants/http-status';
 import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CredentialsType } from '@common-types/credentials';
+import { LocationStateType } from '@common-types/location';
+import { ACCESS_TOKEN_NAME } from '@constants/general';
+import { HttpStatus } from '@constants/http-status';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import {
     credentialSelector,
     errorSelector,
@@ -13,10 +13,10 @@ import {
     setAppCredential,
     setAppIsError,
 } from '@redux/modules/app';
-import { Paths } from '../../../routes/paths';
-import { ACCESS_TOKEN_NAME } from '@constants/general';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { LocationStateType } from '../../../common-types/location';
+import { useLoginMutation, useRegistrationMutation } from '@redux/serviсes/auth';
+import { ApiErrorResponse } from '@redux/types/api';
+import { Paths } from '@routes/paths';
+import { Form } from 'antd';
 
 export const useAuthForm = (isRegistrationPage: boolean) => {
     const dispatch = useDispatch();
@@ -40,6 +40,7 @@ export const useAuthForm = (isRegistrationPage: boolean) => {
     const onFinish = useCallback(
         (credentials: CredentialsType) => {
             const { email, password } = { ...credentials };
+
             if (isRegistrationPage) {
                 registration({ email, password });
             } else {
@@ -53,6 +54,7 @@ export const useAuthForm = (isRegistrationPage: boolean) => {
 
     useEffect(() => {
         const state = location.state as LocationStateType;
+
         if (
             state?.from?.pathname === `${Paths.RESULT}/${Paths.ERROR}` &&
             isError &&
