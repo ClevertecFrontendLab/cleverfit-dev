@@ -1,11 +1,12 @@
-import { Form } from 'antd';
-import { CredentialsType } from '../../../common-types/credentials';
-import { useLoginMutation, useRegistrationMutation } from '@redux/serviсes/auth';
 import { useCallback, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ApiErrorResponse } from '@redux/types/api';
-import { HttpStatus } from '@constants/http-status';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AuthFieldNames, CredentialsType } from '@common-types/credentials';
+import { ACCESS_TOKEN_NAME, EMAIL } from '@constants/general';
+import { HttpStatus } from '@constants/http-status';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { useLastPartUrl } from '@hooks/use-last-part-url';
+import { NamePages } from '@pages/login-page/hooks/constants/name-pages';
 import {
     credentialSelector,
     errorSelector,
@@ -13,18 +14,26 @@ import {
     setAppCredential,
     setAppIsError,
 } from '@redux/modules/app';
-import { Paths } from '../../../routes/paths';
-import { ACCESS_TOKEN_NAME } from '@constants/general';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { LocationStateType } from '../../../common-types/location';
+import {
+    useChangePasswordMutation,
+    useCheckEmailMutation,
+    useLoginMutation,
+    useRegistrationMutation,
+} from '@redux/serviсes/auth';
+import { ApiErrorResponse } from '@redux/types/api';
+import { Paths } from '@routes/paths';
+import { Form } from 'antd';
 
-export const useAuthForm = (isRegistrationPage: boolean) => {
+export const useAuthForm = () => {
+    const [form] = Form.useForm();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
-    const isFailedRegistration = useRef(false);
-    const credential = useAppSelector(credentialSelector);
+    const { lastPartUrl, from, location } = useLastPartUrl();
+    const isRequestPendingRef = useRef(false);
+    const credentialsFromState = useAppSelector(credentialSelector);
+    const { remember, email, password, confirmPassword } = credentialsFromState;
     const isError = useAppSelector(errorSelector);
+
     const [login, { isError: isErrorLogin, isSuccess: isSuccessLogin, data: response }] =
         useLoginMutation();
     const [
@@ -35,66 +44,134 @@ export const useAuthForm = (isRegistrationPage: boolean) => {
             error: errorRegistration,
         },
     ] = useRegistrationMutation();
-    const [form] = Form.useForm();
+
+    const [changePassword, { isError: isErrorChangePassword, isSuccess: isSuccessChangePassword }] =
+        useChangePasswordMutation();
+
+    const [checkEmail] = useCheckEmailMutation();
+
+    const isRegistrationPage = lastPartUrl && lastPartUrl === NamePages.REGISTRATION;
+    const isChangePasswordPage = lastPartUrl && lastPartUrl === NamePages.CHANGE_PASSWORD;
+    const isLoginPage = lastPartUrl && lastPartUrl === NamePages.LOGIN;
+
+    const onCheckEmail = useCallback(() => {
+        const emailField = form.getFieldValue(AuthFieldNames.email);
+
+        if (emailField) {
+            checkEmail({ email: emailField, message: '' });
+            localStorage.setItem(EMAIL, emailField);
+            navigate(Paths.CONFIRM_EMAIL, { state: { from: location } });
+        }
+    }, [checkEmail, form, location, navigate]);
 
     const onFinish = useCallback(
         (credentials: CredentialsType) => {
-            const { email, password } = { ...credentials };
+            const { email, password, confirmPassword } = { ...credentials };
+
             if (isRegistrationPage) {
                 registration({ email, password });
-            } else {
-                login({ email, password });
+                dispatch(setAppCredential(credentials));
             }
-            dispatch(setAppCredential(credentials));
+            if (isChangePasswordPage) {
+                changePassword({ password, confirmPassword });
+                dispatch(setAppCredential(credentials));
+            }
+            if (isLoginPage) {
+                login({ email, password });
+                dispatch(setAppCredential(credentials));
+            }
         },
-        [dispatch, isRegistrationPage, login, registration],
+        [
+            changePassword,
+            dispatch,
+            isChangePasswordPage,
+            isLoginPage,
+            isRegistrationPage,
+            login,
+            registration,
+        ],
     );
     const data = (errorRegistration as ApiErrorResponse)?.data;
 
+    // для повторного запроса, после ошибки первичного
     useEffect(() => {
-        const state = location.state as LocationStateType;
-        if (
-            state?.from?.pathname === `${Paths.RESULT}/${Paths.ERROR}` &&
-            isError &&
-            !isFailedRegistration.current
-        ) {
-            onFinish(credential);
-            isFailedRegistration.current = true;
-        }
-    }, [credential, isError, location.state, onFinish]);
+        const cameFromLocation =
+            from?.pathname === `${Paths.RESULT}/${Paths.ERROR}` ||
+            from?.pathname === `${Paths.RESULT}/${Paths.ERROR_CHANGE_PASSWORD}`;
 
+        if (cameFromLocation && isError && !isRequestPendingRef.current) {
+            onFinish({ email, password, confirmPassword, remember });
+            isRequestPendingRef.current = true;
+        }
+    }, [
+        confirmPassword,
+        credentialsFromState,
+        email,
+        from?.pathname,
+        isError,
+        location.state,
+        onFinish,
+        password,
+        remember,
+    ]);
+
+    // переходы в компоненту result
     useEffect(() => {
         if (isSuccessRegistration) {
             dispatch(setAppIsError(false));
-            navigate(`${Paths.RESULT}/${Paths.SUCCESS}`);
+            navigate(`${Paths.RESULT}/${Paths.SUCCESS}`, { state: { from: location } });
+            localStorage.setItem(EMAIL, email);
         }
         if (isErrorRegistration && data?.statusCode === HttpStatus.CONFLICT) {
-            navigate(`${Paths.RESULT}/${Paths.ERROR_409}`);
+            navigate(`${Paths.RESULT}/${Paths.ERROR_409}`, { state: { from: location } });
         }
         if (isErrorRegistration && data?.statusCode !== HttpStatus.CONFLICT) {
             dispatch(setAppIsError(true));
-            navigate(`${Paths.RESULT}/${Paths.ERROR}`);
+            navigate(`${Paths.RESULT}/${Paths.ERROR}`, { state: { from: location } });
         }
         if (isErrorLogin) {
-            navigate(`${Paths.RESULT}/${Paths.ERROR_LOGIN}`);
+            navigate(`${Paths.RESULT}/${Paths.ERROR_LOGIN}`, { state: { from: location } });
         }
         if (isSuccessLogin) {
-            localStorage.setItem(ACCESS_TOKEN_NAME, response?.accessToken ?? '');
+            if (remember) {
+                localStorage.setItem(ACCESS_TOKEN_NAME, response?.accessToken ?? '');
+            }
             dispatch(setAccessToken(response?.accessToken ?? ''));
         }
+        if (isErrorChangePassword) {
+            dispatch(setAppIsError(true));
+            navigate(`${Paths.RESULT}/${Paths.ERROR_CHANGE_PASSWORD}`, {
+                state: { from: location },
+            });
+        }
+        if (isSuccessChangePassword) {
+            dispatch(setAppIsError(false));
+            navigate(`${Paths.RESULT}/${Paths.SUCCESS_CHANGE_PASSWORD}`, {
+                state: { from: location },
+            });
+        }
     }, [
+        remember,
         data?.statusCode,
         dispatch,
         isErrorLogin,
         isErrorRegistration,
+        isErrorChangePassword,
         isSuccessLogin,
         isSuccessRegistration,
+        location,
         navigate,
         response?.accessToken,
+        isSuccessChangePassword,
+        email,
     ]);
 
     return {
         onFinish,
         form,
+        location,
+        from,
+        isRegistrationPage,
+        onCheckEmail,
     };
 };

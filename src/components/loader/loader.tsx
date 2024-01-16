@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { Spin } from 'antd';
-import { CustomLoader } from './custom-loader';
-
-import styles from './loader.module.css';
 import { Portal } from '@components/portal';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { appSelector } from '@redux/modules/app';
+import { Spin } from 'antd';
+
+import { CustomLoader } from './custom-loader';
+
+import styles from './loader.module.css';
 
 export const Loader = () => {
     const { isLoading } = useAppSelector(appSelector);

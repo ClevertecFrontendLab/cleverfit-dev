@@ -1,10 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { createReduxHistoryContext, RouterState } from 'redux-first-history';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-
-import { createBrowserHistory } from 'history';
-import { apiSlice } from '@redux/serviсes';
-import { CombinedState, EndpointDefinitions } from '@reduxjs/toolkit/query';
 import appReducer, { appSlice, AppState } from '@redux/modules/app';
+import { apiSlice } from '@redux/serviсes';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { CombinedState, EndpointDefinitions } from '@reduxjs/toolkit/query';
+import { createBrowserHistory } from 'history';
 
 const isProduction = false;
 

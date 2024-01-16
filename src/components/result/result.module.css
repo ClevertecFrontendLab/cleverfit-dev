@@ -14,8 +14,8 @@
 }
 
 .title {
-    color: var(--font-title-light);
     font: var(--font-xl-tablet);
+    color: var(--font-title-light);
 }
 
 .description {

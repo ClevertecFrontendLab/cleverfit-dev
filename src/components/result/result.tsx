@@ -1,25 +1,29 @@
-import styles from './result.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CONTENT, KEY } from '@components/result/constants/content';
+import { useLastPartUrl } from '@hooks/use-last-part-url';
+import { Paths } from '@routes/paths';
 import { Button } from 'antd';
-import { Paths } from '../../routes/paths';
+
+import styles from './result.module.css';
+
+const redirectionMap = {
+    [KEY.SUCCESS]: Paths.AUTH,
+    [KEY.ERROR_409]: Paths.REGISTRATION,
+    [KEY.ERROR]: Paths.REGISTRATION,
+    [KEY.ERROR_LOGIN]: Paths.LOGIN,
+    [KEY.SUCCESS_CHANGE_PASSWORD]: Paths.AUTH,
+    [KEY.ERROR_CHANGE_PASSWORD]: `${Paths.LOGIN}/${Paths.CHANGE_PASSWORD}`,
+};
 
 export const Result = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const item = location.pathname.split('/').at(-1) as KEY;
+    const { location, lastPartUrl } = useLastPartUrl();
+    const item = lastPartUrl as KEY;
     const onClickHandler = () => {
-        if (item === KEY.SUCCESS) {
-            navigate(Paths.AUTH);
-        }
-        if (item === KEY.ERROR_409) {
-            navigate(Paths.REGISTRATION);
-        }
-        if (item === KEY.ERROR) {
-            navigate(Paths.REGISTRATION, { state: { from: location } });
-        }
-        if (item === KEY.ERROR_LOGIN) {
-            navigate(Paths.LOGIN);
+        const redirectTo = redirectionMap[item];
+
+        if (redirectTo) {
+            navigate(redirectTo, { state: { from: location } });
         }
     };
 

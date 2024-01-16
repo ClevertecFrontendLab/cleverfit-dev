@@ -1,12 +1,9 @@
-.formItemInput
-    :global(.ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])) {
+.formItemInput :global(.ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])) {
     display: flex;
 }
 
-.formItemInput
-    :global(
-        .ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])
-            > *:nth-child(2)
+.formItemInput :global(
+        .ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-']) > *:nth-child(2)
     ) {
     order: 3;
 }
@@ -31,6 +28,14 @@
 
 .forgotPassword {
     font: var(--font-m);
+    color: var(--primary-light);
+    border: none
+}
+
+.forgotPassword:disabled,
+.forgotPassword:disabled:hover {
+    color: var(--primary-light);
+    background: var(--neutral-1);
 }
 
 .submitButton {
@@ -76,27 +81,27 @@
 }
 
 @media (max-width: 490px) {
-    .forgotPassword {
-        font: var(--font-s);
-    }
+.forgotPassword {
+    font: var(--font-s);
+}
 
-    .googleButtonIcon {
-        display: none;
-    }
+.googleButtonIcon {
+    display: none;
+}
 
-    .submitButton {
-        font: var(--font-s);
-    }
+.submitButton {
+    font: var(--font-s);
+}
 
-    .googleButtonContainer {
-        justify-content: center;
-        margin-left: 0;
-        gap: 0;
-    }
+.googleButtonContainer {
+    justify-content: center;
+    margin-left: 0;
+    gap: 0;
+}
 
-    .googleText {
-        font: var(--font-s);
-        display: flex;
-        align-items: center;
-    }
+.googleText {
+    font: var(--font-s);
+    display: flex;
+    align-items: center;
+}
 }

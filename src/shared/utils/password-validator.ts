@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { RuleObject } from 'antd/es/form';
 import { StoreValue } from 'rc-field-form/lib/interface';
 
@@ -9,8 +10,8 @@ export const passwordValidator = () => ({
 
         if (hasUpperCase && hasDigit && hasMinLength) {
             return Promise.resolve();
-        } else {
-            return Promise.reject();
         }
+
+        return Promise.reject();
     },
 });

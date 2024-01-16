@@ -1,15 +1,17 @@
 import { FC, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { ACCESS_TOKEN_NAME } from '@constants/general';
+import { clearStateOnLogout } from '@redux/modules/app';
+import { apiSlice } from '@redux/serviсes';
+import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
+import logoFull from '@shared/assets/icons/logo-full.svg';
+import { CollapseSwitcher } from '@shared/components/collapse-switcher';
 import { Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
-import { CollapseSwitcher } from '@shared/components/collapse-switcher';
-import logoFull from '@shared/assets/icons/logo-full.svg';
-import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
+
 import { MENU_ITEM_EXIT, MENU_ITEMS } from './config/menu-items';
+
 import styles from './side-bar.module.css';
-import { apiSlice } from '@redux/serviсes';
-import { clearStateOnLogout } from '@redux/modules/app';
-import { ACCESS_TOKEN_NAME } from '@constants/general';
-import { useDispatch } from 'react-redux';
 
 const { Sider } = Layout;
 
@@ -29,7 +31,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
     return (
         <Sider
             className={styles.sideBar}
-            collapsible
+            collapsible={true}
             trigger={null}
             collapsed={collapsed}
             collapsedWidth='64px'

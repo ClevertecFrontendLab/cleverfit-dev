@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Lottie from 'react-lottie';
 
 import loader from '../assets/loader.json';
