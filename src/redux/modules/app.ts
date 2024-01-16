@@ -1,7 +1,6 @@
+import { CredentialsType } from '@common-types/credentials';
+import { ApplicationState } from '@redux/configure-store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-import { ApplicationState } from '../configure-store';
-import { CredentialsType } from '../../common-types/credentials';
 
 export type AppState = typeof initialState;
 
@@ -12,7 +11,7 @@ export const initialState = {
     credential: {
         email: '',
         password: '',
-        confirm: '',
+        confirmPassword: '',
         remember: false,
     },
 };

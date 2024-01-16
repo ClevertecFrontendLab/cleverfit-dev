@@ -1,9 +1,18 @@
-import { apiSlice } from '@redux/serviсes/index';
 import { ApiEndpoints } from '@redux/constants/api';
 import { ApiGroupNames } from '@redux/constants/api-group-names';
 import { EndpointNames } from '@redux/constants/endpoint-names';
-import { LoginRequestType, LoginResponseType } from '@redux/types/login';
 import { setAppLoader } from '@redux/modules/app';
+import { apiSlice } from '@redux/serviсes/index';
+import {
+    ChangePasswordRequestType,
+    ChangePasswordResponseType,
+    CheckEmailRequestType,
+    CheckEmailResponseType,
+    ConfirmEmailRequestType,
+    ConfirmEmailResponseType,
+    LoginRequestType,
+    LoginResponseType,
+} from '@redux/types/auth';
 
 export const authExtendedApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -14,7 +23,7 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 apiGroupName: ApiGroupNames.AUTH,
                 name: EndpointNames.LOGIN,
                 body: {
-                    login: email,
+                    email,
                     password,
                 },
             }),
@@ -37,7 +46,7 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 apiGroupName: ApiGroupNames.AUTH,
                 name: EndpointNames.REGISTRATION,
                 body: {
-                    login: email,
+                    email,
                     password,
                 },
             }),
@@ -51,6 +60,69 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 }
             },
         }),
+
+        checkEmail: builder.mutation<CheckEmailResponseType, CheckEmailRequestType>({
+            query: (obj) => ({
+                url: ApiEndpoints.CHECK_EMAIL,
+                method: 'POST',
+                apiGroupName: ApiGroupNames.AUTH,
+                name: EndpointNames.CHECK_EMAIL,
+                body: obj,
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    dispatch(setAppLoader(true));
+                    await queryFulfilled;
+                    dispatch(setAppLoader(false));
+                } catch {
+                    dispatch(setAppLoader(false));
+                }
+            },
+        }),
+
+        confirmEmail: builder.mutation<ConfirmEmailResponseType, ConfirmEmailRequestType>({
+            query: (obj) => ({
+                url: ApiEndpoints.CONFIRM_EMAIL,
+                method: 'POST',
+                apiGroupName: ApiGroupNames.AUTH,
+                name: EndpointNames.CONFIRM_EMAIL,
+                body: obj,
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    dispatch(setAppLoader(true));
+                    await queryFulfilled;
+                    dispatch(setAppLoader(false));
+                } catch {
+                    dispatch(setAppLoader(false));
+                }
+            },
+        }),
+
+        changePassword: builder.mutation<ChangePasswordResponseType, ChangePasswordRequestType>({
+            query: (obj) => ({
+                url: ApiEndpoints.CHANGE_PASSWORD,
+                method: 'POST',
+                apiGroupName: ApiGroupNames.AUTH,
+                name: EndpointNames.CHANGE_PASSWORD,
+                body: obj,
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    dispatch(setAppLoader(true));
+                    await queryFulfilled;
+                    dispatch(setAppLoader(false));
+                } catch {
+                    dispatch(setAppLoader(false));
+                }
+            },
+        }),
     }),
 });
-export const { useLoginMutation, useRegistrationMutation } = authExtendedApiSlice;
+export const {
+    useLoginMutation,
+    useRegistrationMutation,
+    useCheckEmailMutation,
+    useConfirmEmailMutation,
+    useChangePasswordMutation,
+} = authExtendedApiSlice;

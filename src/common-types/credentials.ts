@@ -1,13 +1,13 @@
 export enum AuthFieldNames {
     password = 'password',
     email = 'email',
-    confirm = 'confirm',
+    confirmPassword = 'confirmPassword',
     remember = 'remember',
 }
 
 export type CredentialsType = {
     password: string;
     email: string;
-    confirm: string;
+    confirmPassword: string;
     remember: boolean;
 };

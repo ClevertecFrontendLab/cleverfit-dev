@@ -1,12 +1,9 @@
-.formItemInput
-    :global(.ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])) {
+.formItemInput :global(.ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])) {
     display: flex;
 }
 
-.formItemInput
-    :global(
-        .ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-'])
-            > *:nth-child(2)
+.formItemInput :global(
+        .ant-form-item-control:first-child:not([class^='ant-col-']):not([class*=' ant-col-']) > *:nth-child(2)
     ) {
     order: 3;
 }
@@ -31,6 +28,8 @@
 
 .forgotPassword {
     font: var(--font-m);
+    color: var(--primary-light);
+    border: none
 }
 
 .submitButton {

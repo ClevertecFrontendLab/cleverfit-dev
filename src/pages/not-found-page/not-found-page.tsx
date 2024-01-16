@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
-import { Paths } from '../../routes/paths';
 import { Exception } from '@components/exception';
+import { Paths } from '@routes/paths';
+import { Button } from 'antd';
 
 export const NotFoundPage = () => {
     const navigate = useNavigate();

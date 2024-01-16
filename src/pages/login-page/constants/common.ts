@@ -9,6 +9,6 @@ export const VALIDATION_FIELD_EMAIL = [
         required: true,
         message: '',
     },
-] as Array<RuleObject>;
+] as RuleObject[];
 
 export const VALIDATION_CONFIRM_PASSWORD = { required: true, message: '' };

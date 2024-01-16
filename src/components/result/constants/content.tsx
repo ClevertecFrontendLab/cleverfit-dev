@@ -1,14 +1,15 @@
+import { ReactNode } from 'react';
 import ErrorIcon from '@public/error_icon.svg?react';
 import SuccessIcon from '@public/suссess_icon.svg?react';
 import WarningIcon from '@public/warning_icon.svg?react';
-
-import { ReactNode } from 'react';
 
 export enum KEY {
     ERROR_409 = 'error-user-exist',
     ERROR = 'error',
     SUCCESS = 'success',
     ERROR_LOGIN = 'error-login',
+    ERROR_CHANGE_PASSWORD = 'error-change-password',
+    SUCCESS_CHANGE_PASSWORD = 'success-change-password',
 }
 
 const errorIcon = <ErrorIcon />;
@@ -50,5 +51,17 @@ export const CONTENT: ContentType = {
         title: 'Вход не выполнен',
         description: 'Что-то пошло не так. Попробуйте еще раз.',
         buttonTitle: 'Повторить',
+    },
+    [KEY.ERROR_CHANGE_PASSWORD]: {
+        icon: errorIcon,
+        title: 'Данные не сохранились',
+        description: 'Что-то пошло не так. Попробуйте еще раз.',
+        buttonTitle: 'Повторить',
+    },
+    [KEY.SUCCESS_CHANGE_PASSWORD]: {
+        icon: successIcon,
+        title: 'Пароль успешно изменён',
+        description: 'Теперь можно войти в аккаунт, используя свой логин и новый пароль.',
+        buttonTitle: 'Вход',
     },
 };

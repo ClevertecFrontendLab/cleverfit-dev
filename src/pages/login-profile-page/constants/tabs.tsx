@@ -1,6 +1,6 @@
 import { TabType } from '@components/profile-tabs/types/tabs';
-import { TabName } from '@pages/login-profile-page/constants/tab-name';
 import { LoginPage } from '@pages/login-page';
+import { TabName } from '@pages/login-profile-page/constants/tab-name';
 
 export const tabs: Array<TabType<TabName>> = [
     {

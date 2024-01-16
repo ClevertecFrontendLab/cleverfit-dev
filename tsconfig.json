@@ -19,17 +19,20 @@
         "baseUrl": ".",
         "paths": {
             "@public/*": ["./public/*"],
+            "@app/*": ["./src/app/*"],
             "@components/*": ["./src/components/*"],
             "@constants/*": ["./src/constants/*"],
             "@hooks/*": ["./src/hooks/*"],
             "@pages/*": ["./src/pages/*"],
             "@redux/*": ["./src/redux/*"],
-            "@types/*": ["./src/types/*"],
+            "@common-types/*": ["./src/common-types/*"],
+            "@routes/*": ["./src/routes/*"],
             "@utils/*": ["./src/utils/*"],
             "@config/*": ["./src/config/*"],
             "@styles/*": ["./src/styles/*"],
             "@widgets/*": ["./src/widgets/*"],
-            "@shared/*": ["./src/shared/*"]
+            "@shared/*": ["./src/shared/*"],
+            "@theme/*": ["./src/theme/*"]
         },
         "plugins": [
             {
@@ -42,6 +45,6 @@
             }
         ]
     },
-    "include": ["src"],
+    "include": ["src", "cypress"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
