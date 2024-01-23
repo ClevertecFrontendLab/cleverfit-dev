@@ -142,6 +142,7 @@ export const useAuthForm = () => {
                 localStorage.setItem(ACCESS_TOKEN_NAME, response?.accessToken ?? '');
             }
             dispatch(setAccessToken(response?.accessToken ?? ''));
+            navigate(Paths.AUTH);
         }
         if (isErrorChangePassword) {
             dispatch(setAppIsError(true));
