@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthFieldNames, CredentialsType } from '@common-types/credentials';
-import { VALIDATION_FIELD_NOT_REQUIRED, VALIDATION_FIELD_REQUIRED } from '@constants/general';
+import {
+    API_URL,
+    VALIDATION_FIELD_NOT_REQUIRED,
+    VALIDATION_FIELD_REQUIRED,
+} from '@constants/general';
 import { useReturnToken } from '@hooks/use-return-token';
 import {
     VALIDATION_CONFIRM_PASSWORD,
     VALIDATION_FIELD_EMAIL,
 } from '@pages/login-page/constants/common';
+import Google from '@public/google.svg?react';
+import { ApiEndpoints } from '@redux/constants/api';
 import { Paths } from '@routes/paths';
 import { confirmPasswordValidator } from '@shared/utils/confirm-password-validator';
 import { passwordValidator } from '@shared/utils/password-validator';
@@ -39,6 +45,10 @@ export const LoginPage = () => {
             [AuthFieldNames.email]: isErrorEmail,
             [AuthFieldNames.password]: isErrorPassword,
         });
+    };
+
+    const googleAuthHandler = () => {
+        window.location.href = `${API_URL}${ApiEndpoints.LOGIN_GOOGLE}`;
     };
 
     if (token) {
@@ -100,6 +110,20 @@ export const LoginPage = () => {
                     data-test-id='login-submit-button'
                 >
                     Войти
+                </Button>
+            </Form.Item>
+            <Form.Item className={styles.formItemGoogleButton}>
+                <Button
+                    type='primary'
+                    htmlType='submit'
+                    block={true}
+                    className={styles.googleButton}
+                    onClick={googleAuthHandler}
+                >
+                    <div className={styles.googleButtonContainer}>
+                        <Google className={styles.googleButtonIcon} />
+                        <span className={styles.googleText}>Авторизация через Google</span>
+                    </div>
                 </Button>
             </Form.Item>
         </Form>
