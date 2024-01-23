@@ -67,7 +67,11 @@ export const ChangePasswordPage = () => {
                     extra={extraPassword}
                     rules={[VALIDATION_FIELD_REQUIRED, passwordValidator]}
                 >
-                    <Input.Password type='password' placeholder='Пароль' />
+                    <Input.Password
+                        type='password'
+                        placeholder='Пароль'
+                        data-test-id='change-password'
+                    />
                 </Form.Item>
 
                 <Form.Item
@@ -75,7 +79,10 @@ export const ChangePasswordPage = () => {
                     dependencies={[AuthFieldNames.password]}
                     rules={[VALIDATION_CONFIRM_PASSWORD, confirmPasswordValidator]}
                 >
-                    <Input.Password placeholder='Повторите пароль' />
+                    <Input.Password
+                        placeholder='Повторите пароль'
+                        data-test-id='change-confirm-password'
+                    />
                 </Form.Item>
 
                 <Form.Item className={styles.formItemButton}>
@@ -84,6 +91,7 @@ export const ChangePasswordPage = () => {
                         htmlType='submit'
                         block={true}
                         className={styles.submitButton}
+                        data-test-id='change-submit-button'
                     >
                         Сохранить
                     </Button>

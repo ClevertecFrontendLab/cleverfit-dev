@@ -91,7 +91,6 @@ export const useAuthForm = () => {
             registration,
         ],
     );
-    const data = (errorRegistration as ApiErrorResponse)?.data;
 
     // для повторного запроса, после ошибки первичного
     useEffect(() => {
@@ -122,10 +121,16 @@ export const useAuthForm = () => {
             navigate(`${Paths.RESULT}/${Paths.SUCCESS}`, { state: { from: location } });
             localStorage.setItem(EMAIL, email);
         }
-        if (isErrorRegistration && data?.statusCode === HttpStatus.CONFLICT) {
+        if (
+            isErrorRegistration &&
+            (errorRegistration as ApiErrorResponse)?.status === HttpStatus.CONFLICT
+        ) {
             navigate(`${Paths.RESULT}/${Paths.ERROR_409}`, { state: { from: location } });
         }
-        if (isErrorRegistration && data?.statusCode !== HttpStatus.CONFLICT) {
+        if (
+            isErrorRegistration &&
+            (errorRegistration as ApiErrorResponse)?.status !== HttpStatus.CONFLICT
+        ) {
             dispatch(setAppIsError(true));
             navigate(`${Paths.RESULT}/${Paths.ERROR}`, { state: { from: location } });
         }
@@ -151,8 +156,8 @@ export const useAuthForm = () => {
             });
         }
     }, [
+        errorRegistration,
         remember,
-        data?.statusCode,
         dispatch,
         isErrorLogin,
         isErrorRegistration,

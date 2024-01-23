@@ -23,7 +23,7 @@ export const Loader = () => {
     return (
         <Portal>
             <div className={styles.background}>
-                <Spin indicator={<CustomLoader />} />
+                <Spin indicator={<CustomLoader />} data-test-id='loader' />
             </div>
         </Portal>
     );

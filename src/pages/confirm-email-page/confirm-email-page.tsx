@@ -97,7 +97,7 @@ export const ConfirmEmailPage = () => {
                 onComplete={onSendCodeHandler}
                 placeholder=''
                 validChars='0-9'
-                inputProps={{ inputMode: 'numeric' }}
+                inputProps={{ inputMode: 'numeric', 'data-test-id': 'verification-input' }}
             />
             <span className={styles.description}>Не пришло письмо? Проверьте папку Спам.</span>
         </CustomSpace>

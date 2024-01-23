@@ -34,7 +34,12 @@ export const Result = () => {
                 <span className={styles.title}>{CONTENT[item].title}</span>
                 <span className={styles.description}>{CONTENT[item].description}</span>
             </div>
-            <Button onClick={onClickHandler} type='primary' block={true}>
+            <Button
+                onClick={onClickHandler}
+                type='primary'
+                block={true}
+                data-test-id={CONTENT[item].dataTestId}
+            >
                 {CONTENT[item].buttonTitle}
             </Button>
         </div>

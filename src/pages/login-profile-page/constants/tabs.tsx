@@ -1,5 +1,5 @@
 import { TabType } from '@components/profile-tabs/types/tabs';
-import { LoginPage } from '@pages/login-page';
+import { LoginPage, RegPage } from '@pages/login-page';
 import { TabName } from '@pages/login-profile-page/constants/tab-name';
 
 export const tabs: Array<TabType<TabName>> = [
@@ -11,6 +11,6 @@ export const tabs: Array<TabType<TabName>> = [
     {
         key: TabName.registration,
         label: 'Регистрация',
-        children: <LoginPage />,
+        children: <RegPage />,
     },
 ];
