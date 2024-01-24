@@ -20,6 +20,7 @@ const errorIcon = <ErrorIcon />;
 export const ConfirmEmailPage = () => {
     const navigate = useNavigate();
     const { from, location } = useLastPartUrl();
+    const [value, setValue] = useState('');
 
     const isCameFromAuth = from?.pathname === Paths.LOGIN;
 
@@ -27,8 +28,6 @@ export const ConfirmEmailPage = () => {
     const email = localStorage.getItem(EMAIL);
     const [confirmEmail, { isError: isErrorConfirmEmail, isSuccess: isSuccessConfirmEmail }] =
         useConfirmEmailMutation();
-
-    const [value, setValue] = useState('');
 
     const onChangeHandler = (string: string) => {
         setValue(string);

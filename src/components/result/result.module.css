@@ -6,6 +6,11 @@
     align-items: center;
     gap: var(--gap-xl);
 }
+
+.emailNoExist {
+    max-width: 400px;
+}
+
 .descriptionContainer {
     display: flex;
     flex-direction: column;
