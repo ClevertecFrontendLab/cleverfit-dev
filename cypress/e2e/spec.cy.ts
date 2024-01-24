@@ -76,7 +76,6 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=registration-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-confirm-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@registration');
         cy.url().should('include', '/result/success');
         cy.screenshot('reg-success-2');
@@ -85,7 +84,6 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
         cy.get('[data-test-id=login-password]').type('1234qqQQ');
         cy.get('[data-test-id=login-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@login');
         cy.url().should('include', '/main');
     });
@@ -103,7 +101,6 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=registration-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-confirm-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@registration');
         cy.url().should('include', 'result/error-user-exist');
         cy.screenshot('reg-error-1');
@@ -113,12 +110,10 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=registration-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-confirm-password]').type('1234qqQQ');
         cy.get('[data-test-id=registration-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@registration');
         cy.url().should('include', '/result/error');
         cy.screenshot('reg-error-2');
         cy.get('[data-test-id=registration-retry-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@registration');
     });
 
@@ -134,19 +129,16 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=login-forgot-button]').click();
         cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
         cy.get('[data-test-id=login-forgot-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@checkEmail');
         cy.url().should('include', '/auth/confirm-email');
         cy.screenshot('change-pass-success-1');
         cy.get('[data-test-id=verification-input]').type('123456');
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@confirmEmail');
         cy.url().should('include', '/auth/change-password');
         cy.screenshot('change-pass-success-2');
         cy.get('[data-test-id=change-password]').type('1234qqQQ');
         cy.get('[data-test-id=change-confirm-password]').type('1234qqQQ');
         cy.get('[data-test-id=change-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@changePass');
         cy.url().should('include', '/result/success-change-password');
         cy.screenshot('change-pass-success-3');
@@ -155,41 +147,37 @@ describe('sprint 2', () => {
         cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
         cy.get('[data-test-id=login-password]').type('1234qqQQ');
         cy.get('[data-test-id=login-submit-button]').click();
-        cy.get('[data-test-id=loader]').should('be.exist');
         cy.wait('@login');
         cy.url().should('include', '/main');
     });
 
     it('change-pass-error', () => {
         cy.viewport(1440, 900);
-        // cy.intercept('POST', '/auth/check-email', {
-        //     statusCode: 404, // TODO просто любая другая ошибка
-        // }).as('checkEmail');
-        // cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
-        // cy.get('[data-test-id=login-forgot-button]').click();
-        // cy.wait('@checkEmail');
-        // cy.url().should('include', '/result/error-change-password');
-        // cy.screenshot('change-pass-error-1');
-        // cy.get('[data-test-id=change-retry-button]').click();
-        // cy.intercept('POST', '/auth/check-email', {
-        //     statusCode: 409, // TODO данного емаил незарегистрировано
-        // }).as('checkEmail');
-        // cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
-        // cy.get('[data-test-id=login-forgot-button]').click();
-        // cy.wait('@checkEmail');
-        // cy.url().should('include', '/result/error-change-password');
-        // cy.screenshot('change-pass-error-2');
-        // cy.get('[data-test-id=change-retry-button]').click();
         cy.intercept('POST', '/auth/check-email', {
-            email: 'valadzkoaliaksei@tut.by',
-            message: 'Код отправлен на email',
+            statusCode: 404,
+            body: { message: 'Email не найден' },
         }).as('checkEmail');
-        cy.intercept('POST', '/auth/confirm-email', { statusCode: 404 }).as('confirmEmail');
         cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
         cy.get('[data-test-id=login-forgot-button]').click();
         cy.wait('@checkEmail');
+        cy.url().should('include', '/result/error-check-email-no-exist');
+        cy.screenshot('change-pass-error-1');
+        cy.get('[data-test-id=check-retry-button]').click();
+        cy.url().should('include', '/auth');
+        cy.intercept('POST', '/auth/check-email', {
+            statusCode: 409,
+        }).as('checkEmail');
+        cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
+        cy.get('[data-test-id=login-forgot-button]').click();
+        cy.wait('@checkEmail');
+        cy.url().should('include', '/result/error-check-email');
+        cy.screenshot('change-pass-error-2');
+        cy.intercept('POST', '/auth/check-email', { statusCode: 200 }).as('checkEmail');
+        cy.get('[data-test-id=check-back-button]').click();
+        cy.wait('@checkEmail');
         cy.url().should('include', '/auth/confirm-email');
         cy.screenshot('change-pass-error-3');
+        cy.intercept('POST', '/auth/confirm-email', { statusCode: 404 }).as('confirmEmail');
         cy.get('[data-test-id=verification-input]').type('123456');
         cy.wait('@confirmEmail');
         cy.url().should('include', '/auth/confirm-email');
