@@ -9,6 +9,7 @@ import { LoginProfileTabs } from '@pages/login-profile-page/login-profile-tabs';
 import { MainPage } from '@pages/main-page';
 import { NotFoundPage } from '@pages/not-found-page';
 import { ResultProfilePage } from '@pages/result-profile-page';
+import { ReviewsPage } from '@pages/reviews-page';
 
 import { Paths } from './paths';
 
@@ -27,6 +28,7 @@ export const routes = (
             </Route>
             <Route element={<MainLayout />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
+                <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />
         </Route>
