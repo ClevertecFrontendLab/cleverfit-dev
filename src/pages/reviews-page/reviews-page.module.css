@@ -1,3 +1,21 @@
-.container {
-    border: 1px solid red;
+.reviewWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.buttonBlock {
+    display: flex;
+    gap: 8px;
+}
+
+.buttonOpen {
+    height: 40px;
+}
+
+@media (width <= 768px) {
+    .buttonBlock {
+        flex-direction: column;
+        gap: 16px;
+    }       
 }
