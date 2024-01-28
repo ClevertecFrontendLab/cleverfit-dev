@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ErrorModal } from '@components/error-modal';
 import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalReview } from '@components/modal-review';
 import { NoReviews } from '@components/no-reviews';
@@ -10,6 +11,7 @@ import styles from './reviews-page.module.css';
 export const ReviewsPage = () => {
     const [openNewReview, setOpenNewReview] = useState(false);
     const [openNoReview, setOpenNoReview] = useState(false);
+    const [openErrorModal, setOpenErrorModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const isReviews = true;
 
@@ -27,7 +29,7 @@ export const ReviewsPage = () => {
                         <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
                             Написать отзыв
                         </Button>
-                        <Button type='link' onClick={() => setOpenNoReview(true)}>
+                        <Button type='link' onClick={() => setOpenErrorModal(true)}>
                             <span className={styles.linkButtonText}>Развернуть все отзывы</span>
                         </Button>
                     </div>
@@ -40,6 +42,12 @@ export const ReviewsPage = () => {
                     />
 
                     <ModalNoReview open={openNoReview} setOpen={setOpenNoReview} />
+
+                    <ErrorModal
+                        open={openErrorModal}
+                        setOpen={setOpenErrorModal}
+                        setOpenNewReview={setOpenNewReview}
+                    />
                 </div>
             )}
         </div>

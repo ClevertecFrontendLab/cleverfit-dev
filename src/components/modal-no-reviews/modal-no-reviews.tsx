@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import errorModal from '@public/modal-error.png';
+import noReviewModal from '@public/modal-error.png';
 import { Button, Image, Modal } from 'antd';
 
 import styles from './modal-no-reviews.module.scss';
@@ -25,7 +25,7 @@ export const ModalNoReview = ({ open, setOpen }: ModalNoReviewProps) => {
             maskStyle={{ backdropFilter: 'blur(6px)' }}
         >
             <div className={styles.content}>
-                <Image preview={false} src={errorModal} className={styles.image} />
+                <Image preview={false} src={noReviewModal} className={styles.image} />
                 <div>
                     <h3 className={styles.title}>Что-то пошло не так</h3>
                     <div className={styles.subTitle}>Произошла ошибка, попробуйте ещё раз.</div>
