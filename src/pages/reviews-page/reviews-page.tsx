@@ -5,6 +5,7 @@ import { ModalReview } from '@components/modal-review';
 import { NoReviews } from '@components/no-reviews';
 import { ReviewCard } from '@components/review-card';
 import { Button } from 'antd';
+import classNames from 'classnames';
 
 import styles from './reviews-page.module.css';
 
@@ -14,6 +15,7 @@ export const ReviewsPage = () => {
     const [openErrorModal, setOpenErrorModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const isReviews = true;
+    const isAllReview = false;
 
     const showModal = () => {
         setOpenNewReview(true);
@@ -24,7 +26,23 @@ export const ReviewsPage = () => {
             {!isReviews && <NoReviews />}
             {isReviews && (
                 <div className={styles.reviewWrap}>
-                    <ReviewCard />
+                    <div
+                        className={classNames(styles.reviewBlock, {
+                            [styles.reviewAllBlock]: isAllReview,
+                        })}
+                    >
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                        <ReviewCard />
+                    </div>
                     <div className={styles.buttonBlock}>
                         <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
                             Написать отзыв
