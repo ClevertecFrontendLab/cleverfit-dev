@@ -3,6 +3,11 @@ import { Avatar, Card, Rate } from 'antd';
 
 import styles from './review-card.module.scss';
 
+// type ReviewCardProps = {
+//     icon: string;
+
+// }
+
 export const ReviewCard = () => (
     <Card className={styles.reviewCardWrap} bordered={false}>
         <div className={styles.reviewCard}>
