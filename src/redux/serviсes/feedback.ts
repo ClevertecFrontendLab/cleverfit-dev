@@ -34,15 +34,12 @@ export const feedbackExtendedApiSlice = apiSlice
             }),
 
             createFeedback: builder.mutation<void, CreateFeedbackRequestType>({
-                query: ({ name, logo, surName, message, rating }) => ({
+                query: ({ message, rating }) => ({
                     url: ApiEndpoints.REVIEW,
                     method: 'POST',
                     apiGroupName: ApiGroupNames.REVIEW,
                     name: EndpointNames.CREATE_FEEDBACK,
                     body: {
-                        name,
-                        logo,
-                        surName,
                         message,
                         rating,
                     },

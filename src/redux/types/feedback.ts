@@ -1,15 +1,16 @@
 export type GetFeedbackRequestType = {
-    name: string;
-    logo: string;
-    surName: string;
+    fullName: string;
+    imageSrc: string;
     message: string;
     rating: number;
+    createdAt: Date;
+};
+
+export type GetFeedbacksRequestType = {
+    data: GetFeedbackRequestType[];
 };
 
 export type CreateFeedbackRequestType = {
-    name: string;
-    logo: string;
-    surName: string;
     message: string;
     rating: number;
 };

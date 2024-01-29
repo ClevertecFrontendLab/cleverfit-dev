@@ -31,13 +31,9 @@ export const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryE
     api,
     extraOptions: { auth?: boolean },
 ) => {
-    if (!extraOptions.auth) {
-        const result = await mainBaseQuery(args, api, extraOptions);
-
-        return result;
+    if (!extraOptions || !extraOptions.auth) {
+        return mainBaseQuery(args, api, extraOptions);
     }
 
-    const result = await fetchBaseQuery({ baseUrl: API_URL });
-
-    return result;
+    return authBaseQuery(args, api, extraOptions);
 };

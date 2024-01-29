@@ -28,6 +28,8 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 },
             }),
 
+            extraOptions: { auth: true },
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));
@@ -50,6 +52,9 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                     password,
                 },
             }),
+
+            extraOptions: { auth: true },
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));
@@ -69,6 +74,9 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 name: EndpointNames.CHECK_EMAIL,
                 body: obj,
             }),
+
+            extraOptions: { auth: true },
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));
@@ -89,6 +97,9 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 name: EndpointNames.CONFIRM_EMAIL,
                 body: obj,
             }),
+
+            extraOptions: { auth: true },
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));
@@ -109,6 +120,9 @@ export const authExtendedApiSlice = apiSlice.injectEndpoints({
                 name: EndpointNames.CHANGE_PASSWORD,
                 body: obj,
             }),
+
+            extraOptions: { auth: true },
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));

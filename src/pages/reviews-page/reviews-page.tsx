@@ -4,6 +4,7 @@ import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalReview } from '@components/modal-review';
 import { NoReviews } from '@components/no-reviews';
 import { ReviewCard } from '@components/review-card';
+import { useGetFeedbacksQuery } from '@redux/serviсes/feedback';
 import { Button } from 'antd';
 import classNames from 'classnames';
 
@@ -14,12 +15,16 @@ export const ReviewsPage = () => {
     const [openNoReview, setOpenNoReview] = useState(false);
     const [openErrorModal, setOpenErrorModal] = useState(false);
     const [loading, setLoading] = useState(false);
-    const isReviews = true;
-    const isAllReview = false;
+    const isAllReview = true;
 
     const showModal = () => {
         setOpenNewReview(true);
     };
+
+    const { data } = useGetFeedbacksQuery();
+
+    console.log(data);
+    const isReviews = true;
 
     return (
         <div className={styles.reviewWrap}>
@@ -31,17 +36,14 @@ export const ReviewsPage = () => {
                             [styles.reviewAllBlock]: isAllReview,
                         })}
                     >
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
+                        <ReviewCard
+                            fullName={data?.fullName}
+                            imageSrc={data?.imageSrc}
+                            message={data?.message}
+                            rating={data?.rating}
+                            createdAt={data?.createdAt}
+                        />
+                        ),
                     </div>
                     <div className={styles.buttonBlock}>
                         <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
