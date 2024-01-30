@@ -35,9 +35,9 @@ export const appSlice = createSlice({
         },
         setAppCredentialFeedback(
             state,
-            { payload: credential }: PayloadAction<CredentialsFeedbackType>,
+            { payload: credentialFeedback }: PayloadAction<CredentialsFeedbackType>,
         ) {
-            state.credentialFeedback = credential;
+            state.credentialFeedback = credentialFeedback;
         },
         setAccessToken(state, { payload: token }: PayloadAction<string>) {
             state.accessToken = token;
