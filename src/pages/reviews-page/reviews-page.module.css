@@ -9,13 +9,11 @@
     flex-direction: column;
     gap: 20px;
     overflow-y: scroll;
-
-    /* max-height: 632px; */
     max-height: 60vh;
 }
 
 .reviewAllBlock {
-    max-height: 75vh;
+    max-height: 70vh;
 }
 
 .reviewBlock::-webkit-scrollbar {

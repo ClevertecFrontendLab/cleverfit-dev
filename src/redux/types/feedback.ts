@@ -6,10 +6,6 @@ export type GetFeedbackRequestType = {
     createdAt: Date;
 };
 
-export type GetFeedbacksRequestType = {
-    data: GetFeedbackRequestType[];
-};
-
 export type CreateFeedbackRequestType = {
     message: string;
     rating: number;

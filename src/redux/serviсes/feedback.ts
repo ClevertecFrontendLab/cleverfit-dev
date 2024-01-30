@@ -12,7 +12,7 @@ export const feedbackExtendedApiSlice = apiSlice
     })
     .injectEndpoints({
         endpoints: (builder) => ({
-            getFeedbacks: builder.query<GetFeedbackRequestType, void>({
+            getFeedbacks: builder.query<GetFeedbackRequestType[], void>({
                 query: () => ({
                     url: ApiEndpoints.REVIEW,
                     method: 'GET',
@@ -34,7 +34,7 @@ export const feedbackExtendedApiSlice = apiSlice
             }),
 
             createFeedback: builder.mutation<void, CreateFeedbackRequestType>({
-                query: ({ message, rating }) => ({
+                query: ({ rating, message }) => ({
                     url: ApiEndpoints.REVIEW,
                     method: 'POST',
                     apiGroupName: ApiGroupNames.REVIEW,

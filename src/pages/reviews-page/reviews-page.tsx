@@ -4,61 +4,94 @@ import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalReview } from '@components/modal-review';
 import { NoReviews } from '@components/no-reviews';
 import { ReviewCard } from '@components/review-card';
-import { useCreateFeedback } from '@pages/login-page/hooks/use-create-feedback';
 import { useGetFeedbacksQuery } from '@redux/serviсes/feedback';
+import { GetFeedbackRequestType } from '@redux/types/feedback';
 import { Button } from 'antd';
 import classNames from 'classnames';
+
+import { useCreateFeedback } from './hooks/use-create-feedback';
 
 import styles from './reviews-page.module.css';
 
 export const ReviewsPage = () => {
     const [openNewReview, setOpenNewReview] = useState(false);
     const [openNoReview, setOpenNoReview] = useState(false);
-
     const [loading, setLoading] = useState(false);
-    const isAllReview = true;
-
+    const [isAllReview, setIsAllReview] = useState(false);
     const { openErrorModal } = useCreateFeedback();
+    const [openErrModal, setOpenErrorModal] = useState(openErrorModal);
+    const { data } = useGetFeedbacksQuery();
+
+    const isReviews = data && data.length === 0;
+
+    const handleShowAllReviews = () => {
+        setIsAllReview(!isAllReview);
+    };
 
     const showModal = () => {
         setOpenNewReview(true);
     };
 
-    const { data } = useGetFeedbacksQuery();
-
-    const [openErrModal, setOpenErrorModal] = useState(openErrorModal);
-
-    console.log(data);
-    const isReviews = true;
-
     return (
         <div className={styles.reviewWrap}>
-            {!isReviews && <NoReviews />}
-            {isReviews && (
+            {isReviews && <NoReviews />}
+            {!isReviews && (
                 <div className={styles.reviewWrap}>
                     <div
                         className={classNames(styles.reviewBlock, {
                             [styles.reviewAllBlock]: isAllReview,
                         })}
                     >
-                        <ReviewCard
-                            fullName={data?.fullName}
-                            imageSrc={data?.imageSrc}
-                            message={data?.message}
-                            rating={data?.rating}
-                            createdAt={data?.createdAt}
-                        />
-                        ),
+                        {isAllReview
+                            ? data &&
+                              data.map(
+                                  ({
+                                      fullName,
+                                      imageSrc,
+                                      message,
+                                      rating,
+                                      createdAt,
+                                  }: GetFeedbackRequestType) => (
+                                      <ReviewCard
+                                          key={message}
+                                          fullName={fullName}
+                                          imageSrc={imageSrc}
+                                          message={message}
+                                          rating={rating}
+                                          createdAt={createdAt}
+                                      />
+                                  ),
+                              )
+                            : data &&
+                              data
+                                  .slice(0, 4)
+                                  .map(
+                                      ({
+                                          fullName,
+                                          imageSrc,
+                                          message,
+                                          rating,
+                                          createdAt,
+                                      }: GetFeedbackRequestType) => (
+                                          <ReviewCard
+                                              key={message}
+                                              fullName={fullName}
+                                              imageSrc={imageSrc}
+                                              message={message}
+                                              rating={rating}
+                                              createdAt={createdAt}
+                                          />
+                                      ),
+                                  )}
                     </div>
                     <div className={styles.buttonBlock}>
                         <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
                             Написать отзыв
                         </Button>
-                        <Button
-                            type='link'
-                            // onClick={() => setOpenErrorModal(true)}
-                        >
-                            <span className={styles.linkButtonText}>Развернуть все отзывы</span>
+                        <Button type='link' onClick={handleShowAllReviews}>
+                            <span className={styles.linkButtonText}>
+                                {isAllReview ? 'Свернуть отзывы' : 'Развернуть все отзывы'}
+                            </span>
                         </Button>
                     </div>
 
