@@ -6,6 +6,7 @@ import { ACCESS_TOKEN_NAME, EMAIL } from '@constants/general';
 import { HttpStatus } from '@constants/http-status';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { useLastPartUrl } from '@hooks/use-last-part-url';
+import { EMAIL_NO_EXIST } from '@pages/login-page/constants/common';
 import { NamePages } from '@pages/login-page/hooks/constants/name-pages';
 import {
     credentialSelector,
@@ -44,15 +45,20 @@ export const useAuthForm = () => {
             error: errorRegistration,
         },
     ] = useRegistrationMutation();
-
     const [changePassword, { isError: isErrorChangePassword, isSuccess: isSuccessChangePassword }] =
         useChangePasswordMutation();
+    const [
+        checkEmail,
+        { isError: isErrorCheckEmail, isSuccess: isSuccessCheckEmail, error: errorCheckEmail },
+    ] = useCheckEmailMutation();
 
-    const [checkEmail] = useCheckEmailMutation();
+    const isRegistrationPage = lastPartUrl === NamePages.REGISTRATION;
+    const isChangePasswordPage = lastPartUrl === NamePages.CHANGE_PASSWORD;
+    const isLoginPage = lastPartUrl === NamePages.LOGIN;
 
-    const isRegistrationPage = lastPartUrl && lastPartUrl === NamePages.REGISTRATION;
-    const isChangePasswordPage = lastPartUrl && lastPartUrl === NamePages.CHANGE_PASSWORD;
-    const isLoginPage = lastPartUrl && lastPartUrl === NamePages.LOGIN;
+    const { status, data } = (errorCheckEmail as ApiErrorResponse) || {};
+
+    const isEmailNoExist = status === HttpStatus.NOT_FOUND && data?.message === EMAIL_NO_EXIST;
 
     const onCheckEmail = useCallback(() => {
         const emailField = form.getFieldValue(AuthFieldNames.email);
@@ -60,9 +66,8 @@ export const useAuthForm = () => {
         if (emailField) {
             checkEmail({ email: emailField, message: '' });
             localStorage.setItem(EMAIL, emailField);
-            navigate(Paths.CONFIRM_EMAIL, { state: { from: location } });
         }
-    }, [checkEmail, form, location, navigate]);
+    }, [checkEmail, form]);
 
     const onFinish = useCallback(
         (credentials: CredentialsType) => {
@@ -98,17 +103,30 @@ export const useAuthForm = () => {
             from?.pathname === `${Paths.RESULT}/${Paths.ERROR}` ||
             from?.pathname === `${Paths.RESULT}/${Paths.ERROR_CHANGE_PASSWORD}`;
 
+        const cameFromLocationForCheckEmail =
+            from?.pathname === `${Paths.RESULT}/${Paths.ERROR_CHECK_EMAIL}`;
+
         if (cameFromLocation && isError && !isRequestPendingRef.current) {
             onFinish({ email, password, confirmPassword, remember });
+            isRequestPendingRef.current = true;
+        }
+
+        if (cameFromLocationForCheckEmail && isError && !isRequestPendingRef.current) {
+            const email = localStorage.getItem(EMAIL);
+
+            form.setFieldValue(AuthFieldNames.email, email);
+            onCheckEmail();
             isRequestPendingRef.current = true;
         }
     }, [
         confirmPassword,
         credentialsFromState,
         email,
+        form,
         from?.pathname,
         isError,
         location.state,
+        onCheckEmail,
         onFinish,
         password,
         remember,
@@ -116,44 +134,70 @@ export const useAuthForm = () => {
 
     // переходы в компоненту result
     useEffect(() => {
-        if (isSuccessRegistration) {
-            dispatch(setAppIsError(false));
-            navigate(`${Paths.RESULT}/${Paths.SUCCESS}`, { state: { from: location } });
-            localStorage.setItem(EMAIL, email);
-        }
-        if (
-            isErrorRegistration &&
-            (errorRegistration as ApiErrorResponse)?.status === HttpStatus.CONFLICT
-        ) {
-            navigate(`${Paths.RESULT}/${Paths.ERROR_409}`, { state: { from: location } });
-        }
-        if (
-            isErrorRegistration &&
-            (errorRegistration as ApiErrorResponse)?.status !== HttpStatus.CONFLICT
-        ) {
-            dispatch(setAppIsError(true));
-            navigate(`${Paths.RESULT}/${Paths.ERROR}`, { state: { from: location } });
-        }
-        if (isErrorLogin) {
-            navigate(`${Paths.RESULT}/${Paths.ERROR_LOGIN}`, { state: { from: location } });
-        }
-        if (isSuccessLogin) {
-            if (remember) {
-                localStorage.setItem(ACCESS_TOKEN_NAME, response?.accessToken ?? '');
-            }
-            dispatch(setAccessToken(response?.accessToken ?? ''));
-        }
-        if (isErrorChangePassword) {
-            dispatch(setAppIsError(true));
-            navigate(`${Paths.RESULT}/${Paths.ERROR_CHANGE_PASSWORD}`, {
-                state: { from: location },
-            });
-        }
-        if (isSuccessChangePassword) {
-            dispatch(setAppIsError(false));
-            navigate(`${Paths.RESULT}/${Paths.SUCCESS_CHANGE_PASSWORD}`, {
-                state: { from: location },
-            });
+        switch (true) {
+            case isSuccessRegistration:
+                dispatch(setAppIsError(false));
+                navigate(`${Paths.RESULT}/${Paths.SUCCESS}`, { state: { from: location } });
+                localStorage.setItem(EMAIL, email);
+                break;
+
+            case isErrorRegistration &&
+                (errorRegistration as ApiErrorResponse)?.status === HttpStatus.CONFLICT:
+                navigate(`${Paths.RESULT}/${Paths.ERROR_409}`, { state: { from: location } });
+                break;
+
+            case isErrorRegistration &&
+                (errorRegistration as ApiErrorResponse)?.status !== HttpStatus.CONFLICT:
+                dispatch(setAppIsError(true));
+                navigate(`${Paths.RESULT}/${Paths.ERROR}`, { state: { from: location } });
+                break;
+
+            case isErrorLogin:
+                navigate(`${Paths.RESULT}/${Paths.ERROR_LOGIN}`, { state: { from: location } });
+                break;
+
+            case isSuccessLogin:
+                if (remember) {
+                    localStorage.setItem(ACCESS_TOKEN_NAME, response?.accessToken ?? '');
+                }
+                dispatch(setAccessToken(response?.accessToken ?? ''));
+                navigate(Paths.AUTH);
+                break;
+
+            case isErrorChangePassword:
+                dispatch(setAppIsError(true));
+                navigate(`${Paths.RESULT}/${Paths.ERROR_CHANGE_PASSWORD}`, {
+                    state: { from: location },
+                });
+                break;
+
+            case isSuccessChangePassword:
+                dispatch(setAppIsError(false));
+                navigate(`${Paths.RESULT}/${Paths.SUCCESS_CHANGE_PASSWORD}`, {
+                    state: { from: location },
+                });
+                break;
+
+            case isSuccessCheckEmail:
+                dispatch(setAppIsError(false));
+                navigate(Paths.CONFIRM_EMAIL, { state: { from: location } });
+                break;
+
+            case isErrorCheckEmail && isEmailNoExist:
+                navigate(`${Paths.RESULT}/${Paths.ERROR_CHECK_EMAIL_NO_EXIST}`, {
+                    state: { from: location },
+                });
+                break;
+
+            case isErrorCheckEmail:
+                dispatch(setAppIsError(true));
+                navigate(`${Paths.RESULT}/${Paths.ERROR_CHECK_EMAIL}`, {
+                    state: { from: location },
+                });
+                break;
+
+            default:
+                break;
         }
     }, [
         errorRegistration,
@@ -169,6 +213,10 @@ export const useAuthForm = () => {
         response?.accessToken,
         isSuccessChangePassword,
         email,
+        isSuccessCheckEmail,
+        isErrorCheckEmail,
+        errorCheckEmail,
+        isEmailNoExist,
     ]);
 
     return {

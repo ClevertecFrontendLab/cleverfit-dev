@@ -31,7 +31,7 @@ export const LoginPage = () => {
         [AuthFieldNames.password]: false,
     });
 
-    const { form, onFinish, from, location, onCheckEmail } = useAuthForm();
+    const { form, onFinish, location, onCheckEmail } = useAuthForm();
 
     const token = useReturnToken();
 
@@ -52,7 +52,7 @@ export const LoginPage = () => {
     };
 
     if (token) {
-        return <Navigate to={from || Paths.MAIN} state={{ from: location }} />;
+        return <Navigate to={Paths.MAIN} state={{ from: location }} />;
     }
 
     return (

@@ -15,5 +15,7 @@ export const Paths = {
     ERROR_LOGIN: 'error-login',
     ERROR_CHANGE_PASSWORD: 'error-change-password',
     SUCCESS_CHANGE_PASSWORD: 'success-change-password',
+    ERROR_CHECK_EMAIL_NO_EXIST: 'error-check-email-no-exist',
+    ERROR_CHECK_EMAIL: 'error-check-email',
     ...SidebarPath,
 } as const;

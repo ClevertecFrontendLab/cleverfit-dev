@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import ErrorIcon from '@public/error_icon.svg?react';
+import ResultIcon from '@public/result.svg?react';
 import SuccessIcon from '@public/suссess_icon.svg?react';
 import WarningIcon from '@public/warning_icon.svg?react';
 
@@ -10,11 +11,14 @@ export enum KEY {
     ERROR_LOGIN = 'error-login',
     ERROR_CHANGE_PASSWORD = 'error-change-password',
     SUCCESS_CHANGE_PASSWORD = 'success-change-password',
+    ERROR_CHECK_EMAIL_NO_EXIST = 'error-check-email-no-exist',
+    ERROR_CHECK_EMAIL = 'error-check-email',
 }
 
 const errorIcon = <ErrorIcon />;
 const successIcon = <SuccessIcon />;
 const warningIcon = <WarningIcon />;
+const resultIcon = <ResultIcon />;
 
 export type ContentItem = {
     icon: ReactNode;
@@ -70,5 +74,19 @@ export const CONTENT: ContentType = {
         description: 'Теперь можно войти в аккаунт, используя свой логин и новый пароль.',
         buttonTitle: 'Вход',
         dataTestId: 'change-entry-button',
+    },
+    [KEY.ERROR_CHECK_EMAIL_NO_EXIST]: {
+        icon: errorIcon,
+        title: 'Такой e-mail не зарегестрирован',
+        description: 'Мы не нашли в базе вашего e-mail. Попробуйте войти с другим e-mail.',
+        buttonTitle: 'Попробовать снова',
+        dataTestId: 'check-retry-button',
+    },
+    [KEY.ERROR_CHECK_EMAIL]: {
+        icon: resultIcon,
+        title: 'Что-то пошло не так',
+        description: 'Произошла ошибка, попробуйте отправить форму ещё раз.',
+        buttonTitle: 'Назад',
+        dataTestId: 'check-back-button',
     },
 };
