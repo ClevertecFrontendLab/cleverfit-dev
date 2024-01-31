@@ -18,7 +18,9 @@ export const useCreateFeedback = () => {
         (credentials: CredentialsFeedbackType) => {
             const { rating, message } = { ...credentials };
 
-            createFeedback({ rating, message });
+            if (rating !== 0 || message !== '') {
+                createFeedback({ rating, message });
+            }
             dispatch(setAppCredentialFeedback(credentials));
         },
         [createFeedback, dispatch],
