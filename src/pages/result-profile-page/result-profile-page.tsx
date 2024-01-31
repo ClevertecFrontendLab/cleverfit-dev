@@ -3,6 +3,6 @@ import { RequireAuth } from '@components/require-auth';
 
 export const ResultProfilePage = () => (
     <RequireAuth>
-        <ProfileLayout />;
+        <ProfileLayout />
     </RequireAuth>
 );

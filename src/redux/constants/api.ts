@@ -5,4 +5,5 @@ export enum ApiEndpoints {
     CONFIRM_EMAIL = 'auth/confirm-email',
     CHANGE_PASSWORD = 'auth/change-password',
     REVIEW = 'feedback',
+    LOGIN_GOOGLE = '/auth/google',
 }
