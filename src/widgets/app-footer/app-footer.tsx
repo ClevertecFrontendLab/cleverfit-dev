@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Paths } from '@routes/paths';
 import { Button, Layout } from 'antd';
 
 import { FooterCard } from './footer-card/footer-card';
@@ -10,12 +11,16 @@ const { Footer } = Layout;
 export const AppFooter = () => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const isMainPage = pathname === '/main';
+    const isMainPage = pathname === Paths.MAIN;
+
+    const navigateToReviews = () => {
+        navigate(Paths.REVIEWS);
+    };
 
     return (
         <Footer className={styles.appFooter}>
             {isMainPage && (
-                <Button type='link' onClick={() => navigate('/reviews')}>
+                <Button type='link' onClick={navigateToReviews}>
                     <span className={styles.linkButtonText}>Смотреть отзывы</span>
                 </Button>
             )}

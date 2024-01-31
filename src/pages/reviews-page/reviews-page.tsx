@@ -5,7 +5,6 @@ import { ModalReview } from '@components/modal-review';
 import { NoReviews } from '@components/no-reviews';
 import { ReviewCard } from '@components/review-card';
 import { useGetFeedbacksQuery } from '@redux/serviсes/feedback';
-import { GetFeedbackRequestType } from '@redux/types/feedback';
 import { Button } from 'antd';
 import classNames from 'classnames';
 
@@ -41,46 +40,10 @@ export const ReviewsPage = () => {
                         })}
                     >
                         {isAllReview
-                            ? data &&
-                              data.map(
-                                  ({
-                                      fullName,
-                                      imageSrc,
-                                      message,
-                                      rating,
-                                      createdAt,
-                                  }: GetFeedbackRequestType) => (
-                                      <ReviewCard
-                                          key={message}
-                                          fullName={fullName}
-                                          imageSrc={imageSrc}
-                                          message={message}
-                                          rating={rating}
-                                          createdAt={createdAt}
-                                      />
-                                  ),
-                              )
-                            : data &&
-                              data
-                                  .slice(0, 4)
-                                  .map(
-                                      ({
-                                          fullName,
-                                          imageSrc,
-                                          message,
-                                          rating,
-                                          createdAt,
-                                      }: GetFeedbackRequestType) => (
-                                          <ReviewCard
-                                              key={message}
-                                              fullName={fullName}
-                                              imageSrc={imageSrc}
-                                              message={message}
-                                              rating={rating}
-                                              createdAt={createdAt}
-                                          />
-                                      ),
-                                  )}
+                            ? data?.map((card) => <ReviewCard key={card.message} {...card} />)
+                            : data
+                                  ?.slice(0, 4)
+                                  ?.map((card) => <ReviewCard key={card.message} {...card} />)}
                     </div>
                     <div className={styles.buttonBlock}>
                         <Button type='primary' onClick={showModal} className={styles.buttonOpen}>

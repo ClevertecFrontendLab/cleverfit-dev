@@ -12,8 +12,7 @@ type ReviewCardProps = {
 };
 
 export const ReviewCard = ({ fullName, imageSrc, message, rating, createdAt }: ReviewCardProps) => {
-    const name = fullName && fullName.split(' ')[0];
-    const surName = fullName && fullName.split(' ')[1];
+    const [name, surName] = fullName?.split(' ') ?? [];
     const date = createdAt && new Date(createdAt).toLocaleDateString();
 
     return (
