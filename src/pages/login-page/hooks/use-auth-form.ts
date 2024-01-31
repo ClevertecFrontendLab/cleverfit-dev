@@ -6,6 +6,7 @@ import { ACCESS_TOKEN_NAME, EMAIL } from '@constants/general';
 import { HttpStatus } from '@constants/http-status';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { useLastPartUrl } from '@hooks/use-last-part-url';
+import { EMAIL_NO_EXIST } from '@pages/login-page/constants/common';
 import { NamePages } from '@pages/login-page/hooks/constants/name-pages';
 import {
     credentialSelector,
@@ -54,6 +55,10 @@ export const useAuthForm = () => {
     const isRegistrationPage = lastPartUrl === NamePages.REGISTRATION;
     const isChangePasswordPage = lastPartUrl === NamePages.CHANGE_PASSWORD;
     const isLoginPage = lastPartUrl === NamePages.LOGIN;
+
+    const { status, data } = (errorCheckEmail as ApiErrorResponse) || {};
+
+    const isEmailNoExist = status === HttpStatus.NOT_FOUND && data?.message === EMAIL_NO_EXIST;
 
     const onCheckEmail = useCallback(() => {
         const emailField = form.getFieldValue(AuthFieldNames.email);
@@ -178,15 +183,13 @@ export const useAuthForm = () => {
                 navigate(Paths.CONFIRM_EMAIL, { state: { from: location } });
                 break;
 
-            case isErrorCheckEmail &&
-                (errorCheckEmail as ApiErrorResponse)?.status === HttpStatus.NOT_FOUND:
+            case isErrorCheckEmail && isEmailNoExist:
                 navigate(`${Paths.RESULT}/${Paths.ERROR_CHECK_EMAIL_NO_EXIST}`, {
                     state: { from: location },
                 });
                 break;
 
-            case isErrorCheckEmail &&
-                (errorCheckEmail as ApiErrorResponse)?.status !== HttpStatus.NOT_FOUND:
+            case isErrorCheckEmail:
                 dispatch(setAppIsError(true));
                 navigate(`${Paths.RESULT}/${Paths.ERROR_CHECK_EMAIL}`, {
                     state: { from: location },
@@ -213,6 +216,7 @@ export const useAuthForm = () => {
         isSuccessCheckEmail,
         isErrorCheckEmail,
         errorCheckEmail,
+        isEmailNoExist,
     ]);
 
     return {

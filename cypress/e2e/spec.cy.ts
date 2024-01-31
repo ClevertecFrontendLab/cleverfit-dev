@@ -155,6 +155,7 @@ describe('sprint 2', () => {
         cy.viewport(1440, 900);
         cy.intercept('POST', '/auth/check-email', {
             statusCode: 404,
+            body: { message: 'Email не найден' },
         }).as('checkEmail');
         cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
         cy.get('[data-test-id=login-forgot-button]').click();
