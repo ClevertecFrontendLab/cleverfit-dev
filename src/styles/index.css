@@ -2,6 +2,7 @@
 @import './variables/global.css';
 @import './sider-ant.css';
 @import './card-ant.css';
+@import './typography-ant.css';
 
 @font-face {
     font-family: 'Inter';
