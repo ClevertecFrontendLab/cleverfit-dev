@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import noReviewModal from '@public/modal-error.png';
 import { Button, Image, Modal } from 'antd';
 
@@ -6,10 +6,11 @@ import styles from './modal-no-reviews.module.scss';
 
 type ModalNoReviewProps = {
     open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const ModalNoReview = ({ open, setOpen }: ModalNoReviewProps) => {
+export const ModalNoReview = ({ open }: ModalNoReviewProps) => {
+    const [openModal, setOpen] = useState(open);
+
     const handleCancel = () => {
         setOpen(false);
     };
@@ -17,7 +18,7 @@ export const ModalNoReview = ({ open, setOpen }: ModalNoReviewProps) => {
     return (
         <Modal
             className={styles.modal}
-            open={open}
+            open={openModal}
             centered={true}
             onCancel={handleCancel}
             footer={null}

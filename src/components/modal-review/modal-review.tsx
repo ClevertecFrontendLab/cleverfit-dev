@@ -1,34 +1,40 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { FeedbackFieldNames } from '@common-types/credentials';
+import { ErrorModal } from '@components/error-modal';
+import { SuccessModal } from '@components/success-modal';
 import { useCreateFeedback } from '@pages/reviews-page/hooks/use-create-feedback';
 import { Button, Form, Input, Modal, Rate } from 'antd';
 
 import styles from './modal-review.module.scss';
-import { ErrorModal } from '@components/error-modal';
 
 type ModalReviewProps = {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const { TextArea } = Input;
 
-export const ModalReview = ({ open, setOpen, loading, setLoading }: ModalReviewProps) => {
+export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState('');
-    const { formNewReview, onFinish, openErrorModal, setOpenErrorModal } = useCreateFeedback();
+    const {
+        formNewReview,
+        onFinish,
+        openErrorModal,
+        setOpenErrorModal,
+        openSuccessModal,
+        setOpenSuccessModal,
+    } = useCreateFeedback();
 
     const handleOk = () => {
-        // setLoading(true);
-        // setTimeout(() => {
-        // setLoading(false);
+        setMessage('');
+        setRating(0);
         setOpen(false);
-        // }, 2000);
     };
 
     const handleCancel = () => {
+        setMessage('');
+        setRating(0);
         setOpen(false);
     };
 
@@ -70,17 +76,16 @@ export const ModalReview = ({ open, setOpen, loading, setLoading }: ModalReviewP
                     </Form.Item>
                     <Form.Item name={FeedbackFieldNames.message}>
                         <TextArea
+                            autoSize={true}
                             rows={2}
                             placeholder='Введите текст отзыва'
                             value={message}
-                            autoSize={true}
                             onChange={(e) => handleChangeMessage(e.target.value)}
                         />
                     </Form.Item>
                     <Button
                         type='primary'
                         htmlType='submit'
-                        loading={loading}
                         block={true}
                         className={styles.submitButton}
                         data-test-id='new-review-submit-button'
@@ -94,8 +99,9 @@ export const ModalReview = ({ open, setOpen, loading, setLoading }: ModalReviewP
             <ErrorModal
                 open={openErrorModal}
                 setOpen={setOpenErrorModal}
-                setOpenNewReview={setOpenNewReview}
+                setOpenNewReview={setOpen}
             />
+            <SuccessModal open={openSuccessModal} setOpen={setOpenSuccessModal} />
         </div>
     );
 };

@@ -7,10 +7,12 @@ import { Form } from 'antd';
 
 export const useCreateFeedback = () => {
     const [openErrorModal, setOpenErrorModal] = useState(false);
+    const [openSuccessModal, setOpenSuccessModal] = useState(false);
     const [formNewReview] = Form.useForm();
     const dispatch = useDispatch();
 
-    const [createFeedback, { isError: isErrorFeedback }] = useCreateFeedbackMutation();
+    const [createFeedback, { isError: isErrorFeedback, isSuccess: isSuccessFeedback }] =
+        useCreateFeedbackMutation();
 
     const onFinish = useCallback(
         (credentials: CredentialsFeedbackType) => {
@@ -23,6 +25,12 @@ export const useCreateFeedback = () => {
     );
 
     useEffect(() => {
+        if (isSuccessFeedback) {
+            setOpenSuccessModal(true);
+        }
+    }, [isSuccessFeedback]);
+
+    useEffect(() => {
         if (isErrorFeedback) {
             setOpenErrorModal(true);
         }
@@ -33,5 +41,7 @@ export const useCreateFeedback = () => {
         formNewReview,
         openErrorModal,
         setOpenErrorModal,
+        openSuccessModal,
+        setOpenSuccessModal,
     };
 };

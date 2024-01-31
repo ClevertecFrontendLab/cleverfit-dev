@@ -6,7 +6,6 @@ import styles from './no-reviews.module.scss';
 
 export const NoReviews = () => {
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const showModal = () => {
         setOpen(true);
@@ -25,7 +24,7 @@ export const NoReviews = () => {
             <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
                 Написать отзыв
             </Button>
-            <ModalReview open={open} setOpen={setOpen} loading={loading} setLoading={setLoading} />
+            <ModalReview open={open} setOpen={setOpen} />
         </div>
     );
 };

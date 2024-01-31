@@ -15,12 +15,10 @@ import styles from './reviews-page.module.css';
 
 export const ReviewsPage = () => {
     const [openNewReview, setOpenNewReview] = useState(false);
-    const [openNoReview, setOpenNoReview] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [isAllReview, setIsAllReview] = useState(false);
     const { openErrorModal } = useCreateFeedback();
     const [openErrModal, setOpenErrorModal] = useState(openErrorModal);
-    const { data } = useGetFeedbacksQuery();
+    const { data, isError } = useGetFeedbacksQuery();
 
     const isReviews = data && data.length === 0;
 
@@ -95,14 +93,9 @@ export const ReviewsPage = () => {
                         </Button>
                     </div>
 
-                    <ModalReview
-                        open={openNewReview}
-                        setOpen={setOpenNewReview}
-                        loading={loading}
-                        setLoading={setLoading}
-                    />
+                    <ModalReview open={openNewReview} setOpen={setOpenNewReview} />
 
-                    <ModalNoReview open={openNoReview} setOpen={setOpenNoReview} />
+                    <ModalNoReview open={isError} />
 
                     <ErrorModal
                         open={openErrModal}
