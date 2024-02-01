@@ -1,7 +1,6 @@
 .reviewWrap {
     display: flex;
     flex-direction: column;
-    gap: 112px;
 }
 
 .reviewBlock {
@@ -9,11 +8,6 @@
     flex-direction: column;
     gap: 20px;
     overflow-y: scroll;
-    max-height: 60vh;
-}
-
-.reviewAllBlock {
-    max-height: 70vh;
 }
 
 .reviewBlock::-webkit-scrollbar {
@@ -23,6 +17,7 @@
 .buttonBlock {
     display: flex;
     gap: 8px;
+    margin-top: 112px;
 }
 
 .buttonOpen {
