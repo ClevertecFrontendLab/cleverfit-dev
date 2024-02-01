@@ -21,7 +21,12 @@ export const NoReviews = () => {
                     правильный выбор.
                 </div>
             </Card>
-            <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
+            <Button
+                type='primary'
+                onClick={showModal}
+                className={styles.buttonOpen}
+                data-test-id='write-review'
+            >
                 Написать отзыв
             </Button>
             <ModalReview open={open} setOpen={setOpen} />

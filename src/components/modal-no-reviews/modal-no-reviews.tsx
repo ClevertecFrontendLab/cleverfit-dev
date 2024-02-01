@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import noReviewModal from '@public/modal-error.png';
+import { Paths } from '@routes/paths';
 import { Button, Image, Modal } from 'antd';
 
 import styles from './modal-no-reviews.module.scss';
@@ -9,11 +11,17 @@ type ModalNoReviewProps = {
 };
 
 export const ModalNoReview = ({ open }: ModalNoReviewProps) => {
+    const navigate = useNavigate();
     const [openModal, setOpen] = useState(open);
 
     const handleCancel = () => {
+        navigate(Paths.MAIN);
         setOpen(false);
     };
+
+    useEffect(() => {
+        if (open) setOpen(open);
+    }, [open]);
 
     return (
         <Modal

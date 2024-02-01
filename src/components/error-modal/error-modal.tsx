@@ -37,7 +37,12 @@ export const ErrorModal = ({ open, setOpen, setOpenNewReview }: ErrorModalProps)
                     <div className={styles.subTitle}>Произошла ошибка, попробуйте ещё раз.</div>
                 </div>
                 <div className={styles.buttonBlock}>
-                    <Button type='primary' onClick={handleNewReview} className={styles.button}>
+                    <Button
+                        type='primary'
+                        onClick={handleNewReview}
+                        className={styles.button}
+                        data-test-id='write-review-not-saved-modal'
+                    >
                         Написать отзыв
                     </Button>
                     <Button type='default' onClick={handleCancel} className={styles.button}>

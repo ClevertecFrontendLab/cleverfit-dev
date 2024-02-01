@@ -20,7 +20,7 @@ export const AppFooter = () => {
     return (
         <Footer className={styles.appFooter}>
             {isMainPage && (
-                <Button type='link' onClick={navigateToReviews}>
+                <Button type='link' onClick={navigateToReviews} data-test-id='see-reviews'>
                     <span className={styles.linkButtonText}>Смотреть отзывы</span>
                 </Button>
             )}

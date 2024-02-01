@@ -46,10 +46,19 @@ export const ReviewsPage = () => {
                                   ?.map((card) => <ReviewCard key={card.message} {...card} />)}
                     </div>
                     <div className={styles.buttonBlock}>
-                        <Button type='primary' onClick={showModal} className={styles.buttonOpen}>
+                        <Button
+                            type='primary'
+                            onClick={showModal}
+                            className={styles.buttonOpen}
+                            data-test-id='write-review'
+                        >
                             Написать отзыв
                         </Button>
-                        <Button type='link' onClick={handleShowAllReviews}>
+                        <Button
+                            type='link'
+                            onClick={handleShowAllReviews}
+                            data-test-id='all-reviews-button'
+                        >
                             <span className={styles.linkButtonText}>
                                 {isAllReview ? 'Свернуть отзывы' : 'Развернуть все отзывы'}
                             </span>
