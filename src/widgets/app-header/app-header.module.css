@@ -9,6 +9,10 @@
     background-color: var(--header-blue-light);
 }
 
+.menuNoMain {
+    min-height: var(--app-review-page);
+}
+
 .location {
     font: var(--font-s);
 }
@@ -17,10 +21,6 @@
     display: flex;
     justify-content: space-between;
     gap: var(--gap-m);
-}
-
-.greetings {
-    font: var(--font-xl);
 }
 
 .settings {
@@ -43,19 +43,11 @@
     .settingsIcon {
         display: none;
     }
-
-    .greetings {
-        font: var(--font-xl-tablet);
-    }
 }
 
 @media (max-width: 576px) {
     .appHeader {
         gap: var(--gap-xl);
-    }
-
-    .greetings {
-        font: var(--font-l);
     }
 
     .cardButton {

@@ -7,6 +7,7 @@ export const Paths = {
     RECOVERY: '/recovery',
     RESULT: '/result',
     REGISTRATION: '/auth/registration',
+    REVIEWS: '/feedbacks',
     CONFIRM_EMAIL: 'confirm-email',
     CHANGE_PASSWORD: 'change-password',
     ERROR_409: 'error-user-exist',
