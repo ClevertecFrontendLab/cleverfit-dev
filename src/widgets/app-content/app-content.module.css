@@ -1,0 +1,8 @@
+.appContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--gap-xl);
+    padding: var(--gap-xl);
+    background: transparent;
+}
