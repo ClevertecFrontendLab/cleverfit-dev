@@ -5,6 +5,7 @@
     padding: 0;
     padding-bottom: var(--gap-xl);
     background: transparent;
+    margin-right: var(--gap-xl);
 }
 
 .linkButtonText {
@@ -13,6 +14,7 @@
 
 @media (max-width: 834px) {
     .appFooter {
+        margin-left: var(--gap-xl);
         flex-direction: column-reverse;
         justify-content: flex-start;
         gap: var(--gap-xl);

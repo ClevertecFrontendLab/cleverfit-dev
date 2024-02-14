@@ -1,4 +1,8 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { ACCESS_TOKEN_NAME } from '@constants/general';
+import { clearStateOnLogout } from '@redux/modules/app';
+import { apiSlice } from '@redux/serviсes';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
@@ -16,52 +20,62 @@ type SideBarProps = {
     toggleMenu: () => void;
 };
 
-export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => (
-    <Sider
-        className={styles.sideBar}
-        collapsible={true}
-        trigger={null}
-        collapsed={collapsed}
-        collapsedWidth='64px'
-        width='208px'
-    >
-        <div
-            className={classNames(styles.upperBlock, {
-                [styles.upperBlockCollapsed]: collapsed,
-            })}
+export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
+    const dispatch = useDispatch();
+    const logout = useCallback(() => {
+        localStorage.removeItem(ACCESS_TOKEN_NAME);
+        dispatch(clearStateOnLogout());
+        dispatch(apiSlice.util.resetApiState());
+    }, [dispatch]);
+
+    return (
+        <Sider
+            className={styles.sideBar}
+            collapsible={true}
+            trigger={null}
+            collapsed={collapsed}
+            collapsedWidth='64px'
+            width='208px'
         >
-            <div className={styles.imageContainer}>
-                <img
-                    alt='CleverFit'
-                    src={collapsed ? logoCollapsed : logoFull}
-                    className={styles.logo}
-                />
-            </div>
-            {MENU_ITEMS.map(({ id, icon, title }) => (
-                <Button type='text' key={id} className={styles.menuButton}>
-                    <img alt='icon' src={icon} />
-                    {!collapsed && <span>{title}</span>}
-                </Button>
-            ))}
-        </div>
-        <div>
-            <Divider className={styles.divider} />
-            <Button
-                type='text'
-                className={classNames(styles.menuButton, styles.exitButton, {
-                    [styles.collapsedButton]: collapsed,
+            <div
+                className={classNames(styles.upperBlock, {
+                    [styles.upperBlockCollapsed]: collapsed,
                 })}
             >
-                <img alt='icon' src={MENU_ITEM_EXIT.icon} />
-                {!collapsed && <span>{MENU_ITEM_EXIT.title}</span>}
-            </Button>
-        </div>
-        <CollapseSwitcher
-            dataTestId='sider-switch'
-            outerClass={styles.switcherPosition}
-            collapsed={collapsed}
-            toggleMenu={toggleMenu}
-            isDesktop={true}
-        />
-    </Sider>
-);
+                <div className={styles.imageContainer}>
+                    <img
+                        alt='CleverFit'
+                        src={collapsed ? logoCollapsed : logoFull}
+                        className={styles.logo}
+                    />
+                </div>
+                {MENU_ITEMS.map(({ id, icon, title }) => (
+                    <Button type='text' key={id} className={styles.menuButton}>
+                        <img alt='icon' src={icon} />
+                        {!collapsed && <span>{title}</span>}
+                    </Button>
+                ))}
+            </div>
+            <div>
+                <Divider className={styles.divider} />
+                <Button
+                    type='text'
+                    className={classNames(styles.menuButton, styles.exitButton, {
+                        [styles.collapsedButton]: collapsed,
+                    })}
+                    onClick={logout}
+                >
+                    <img alt='icon' src={MENU_ITEM_EXIT.icon} />
+                    {!collapsed && <span>{MENU_ITEM_EXIT.title}</span>}
+                </Button>
+            </div>
+            <CollapseSwitcher
+                dataTestId='sider-switch'
+                outerClass={styles.switcherPosition}
+                collapsed={collapsed}
+                toggleMenu={toggleMenu}
+                isDesktop={true}
+            />
+        </Sider>
+    );
+};

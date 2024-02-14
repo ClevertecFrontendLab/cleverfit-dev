@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logoMobile from '@shared/assets/icons/logo-mobile.png';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
 import { MENU_ITEM_EXIT, MENU_ITEMS } from '@widgets/side-bar/config/menu-items';
