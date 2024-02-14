@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logoMobile from '@shared/assets/icons/logo-mobile.png';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
 import { MENU_ITEM_EXIT, MENU_ITEMS } from '@widgets/side-bar/config/menu-items';
@@ -21,7 +22,12 @@ const headerStyle = {
 };
 
 export const MobileSideBar = () => {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+
+    const onNavigate = (rout: string) => {
+        navigate(rout);
+    };
 
     const toggleDrawer = () => {
         setOpen((val) => !val);
@@ -54,8 +60,13 @@ export const MobileSideBar = () => {
                 }}
             >
                 <div className={styles.buttonBlock}>
-                    {MENU_ITEMS.map(({ id, title }) => (
-                        <Button type='text' key={id} className={styles.menuButton}>
+                    {MENU_ITEMS.map(({ id, title, route }) => (
+                        <Button
+                            type='text'
+                            key={id}
+                            className={styles.menuButton}
+                            onClick={() => onNavigate(route)}
+                        >
                             <span>{title}</span>
                         </Button>
                     ))}

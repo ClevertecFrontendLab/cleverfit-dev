@@ -1,40 +1,34 @@
-import calendarIcon from '@shared/assets/icons/icon-calendar.svg';
+import { Paths } from '@routes/paths.ts';
 import exitIcon from '@shared/assets/icons/icon-exit.svg';
-import heartIcon from '@shared/assets/icons/icon-heart.svg';
-import profileIcon from '@shared/assets/icons/icon-profile.svg';
 import topIcon from '@shared/assets/icons/icon-top.svg';
+
+import { CardMenu } from '../../../constans/menu.ts';
 
 type MenuItem = {
     id: number;
     title: string;
     icon: string;
+    route: string;
 };
 
+
+const [item1, item2, ...other] = CardMenu;
+
 export const MENU_ITEMS: MenuItem[] = [
-    {
-        id: 1,
-        title: 'Календарь',
-        icon: calendarIcon,
-    },
-    {
-        id: 2,
-        title: 'Тренировки',
-        icon: heartIcon,
-    },
+    item2,
+    item1,
     {
         id: 3,
         title: 'Достижения',
         icon: topIcon,
+        route: Paths.ACHIEVEMENTS
     },
-    {
-        id: 4,
-        title: 'Профиль',
-        icon: profileIcon,
-    },
+    ...other,
 ];
 
 export const MENU_ITEM_EXIT: MenuItem = {
     id: 5,
     title: 'Выход',
     icon: exitIcon,
+    route: ''
 };

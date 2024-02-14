@@ -6,7 +6,7 @@
     position: fixed;
     top: 29px;
     left: -129px;
-    z-index: 1010;
+    z-index: 1000;
     transition: left 0.3s;
 }
 

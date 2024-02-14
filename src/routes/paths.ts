@@ -1,5 +1,11 @@
+export enum RoutNamePage  {
+    MAIN = 'main',
+    CALENDAR = 'calendar',
+    TRAINING = 'training',
+}
+
 export enum SidebarPath {
-    MAIN = '/main',
+    MAIN = `/${RoutNamePage.MAIN}`
 }
 export const Paths = {
     AUTH: '/',
@@ -18,5 +24,9 @@ export const Paths = {
     SUCCESS_CHANGE_PASSWORD: 'success-change-password',
     ERROR_CHECK_EMAIL_NO_EXIST: 'error-check-email-no-exist',
     ERROR_CHECK_EMAIL: 'error-check-email',
+    PROFILE: 'profile',
+    ACHIEVEMENTS: 'achievements',
+    ...RoutNamePage,
     ...SidebarPath,
 } as const;
+

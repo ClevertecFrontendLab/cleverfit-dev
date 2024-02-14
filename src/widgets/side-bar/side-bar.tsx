@@ -1,5 +1,6 @@
 import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
 import { clearStateOnLogout } from '@redux/modules/app';
 import { apiSlice } from '@redux/serviсes';
@@ -21,12 +22,18 @@ type SideBarProps = {
 };
 
 export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
+
     const logout = useCallback(() => {
         localStorage.removeItem(ACCESS_TOKEN_NAME);
         dispatch(clearStateOnLogout());
         dispatch(apiSlice.util.resetApiState());
     }, [dispatch]);
+
+    const onNavigate = (rout: string) => {
+        navigate(rout)
+    }
 
     return (
         <Sider
@@ -49,8 +56,8 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         className={styles.logo}
                     />
                 </div>
-                {MENU_ITEMS.map(({ id, icon, title }) => (
-                    <Button type='text' key={id} className={styles.menuButton}>
+                {MENU_ITEMS.map(({ id, icon, title, route }) => (
+                    <Button type='text' key={id} className={styles.menuButton} onClick={() => onNavigate(route)}>
                         <img alt='icon' src={icon} />
                         {!collapsed && <span>{title}</span>}
                     </Button>
