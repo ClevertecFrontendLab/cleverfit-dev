@@ -6,4 +6,6 @@ export enum ApiEndpoints {
     CHANGE_PASSWORD = 'auth/change-password',
     REVIEW = 'feedback',
     LOGIN_GOOGLE = '/auth/google',
+    TRAINING = 'training',
+    TRAINING_LIST = 'catalogs/training-list',
 }

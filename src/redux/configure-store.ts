@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { createReduxHistoryContext, RouterState } from 'redux-first-history';
 import appReducer, { appSlice, AppState } from '@redux/modules/app';
+import trainingReducer, { InitialStateTraining, trainingSlice } from '@redux/modules/training.ts';
 import { apiSlice } from '@redux/serviсes';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { CombinedState, EndpointDefinitions } from '@reduxjs/toolkit/query';
@@ -15,12 +16,14 @@ const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHisto
 
 export type ApplicationState = Readonly<{
     [appSlice.name]: AppState;
+    [trainingSlice.name]: InitialStateTraining;
     api: CombinedState<EndpointDefinitions, never, 'api'>;
     router: RouterState;
 }>;
 
 const rootReducer = combineReducers({
     [appSlice.name]: appReducer,
+    [trainingSlice.name]: trainingReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     router: routerReducer,
 });
