@@ -1,9 +1,13 @@
 import { useNavigate } from 'react-router-dom';
+import { ModalNoReview } from '@components/modal-no-reviews';
+import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
+import { Paths } from '@routes/paths.ts';
 import {
     DescriptionCard,
     DescriptionCardTextColor,
     DescriptionCardTextSize,
 } from '@shared/components/description-card';
+import { navigateAfterRequest } from '@utils/navigate-after-request.ts';
 import { Button, Card } from 'antd';
 
 import { CardMenu } from '../../constans/menu.ts';
@@ -28,8 +32,15 @@ const cardBodyStyle = {
 export const MainPage = () => {
     const navigate = useNavigate();
 
-    const onNavigate = (route: string) => {
-        navigate(route);
+    const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
+
+    const onNavigate = async (route: string) => {
+        await navigateAfterRequest(
+            navigate,
+            getUserTraining,
+            [`${Paths.AUTH}${Paths.CALENDAR}`],
+            route,
+        );
     };
 
     return (
@@ -90,6 +101,7 @@ export const MainPage = () => {
                     </Card>
                 ))}
             </div>
+            <ModalNoReview open={isError} />
         </div>
     );
 };
