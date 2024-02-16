@@ -44,10 +44,10 @@ export const CardTraining: FC<CardTrainingProps> = ({
         if (isTraining) {
             setBody(
                 <div className={styles.cardBody}>
-                    {trainings?.map(({ name, date, isImplementation }, index) => (
+                    {trainings?.map(({ name, date, isImplementation, id }) => (
                         <BadgeChanged
                             disabled={isImplementation}
-                            key={index}
+                            key={id}
                             isStatus={true}
                             isEdit={true}
                             text={name}

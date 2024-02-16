@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { BadgeChanged } from '@components/badge-changed/badge-changed.tsx';
 import { UserTraining } from '@redux/types/training.ts';
+import { FORMAT_Y_M_D, formatDate } from '@utils/format-date.ts';
 import { Moment } from 'moment';
 
 type BadgeBlocksProps = {
     listData: UserTraining[];
+    date: Moment;
     onStop?: (event: any, date: Moment | string) => void;
     onChangeCell?: (date: Moment | string) => void;
-    date: Moment;
     onChangeBadge?: (data: Moment) => void;
 };
 
@@ -26,13 +27,12 @@ export const BadgeBlocks: FC<BadgeBlocksProps> = ({
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus,jsx-a11y/no-static-element-interactions
         <div
             style={{ width: '100%', height: '100%', overflow: 'hidden' }}
-            onDoubleClick={() => onChangeCellHandle(date.format('YYYY-MM-DD'))}
-            onClick={(event) => onStopEvent(event, date.format('YYYY-MM-DD'))}
+            onDoubleClick={() => onChangeCellHandle(formatDate(date, FORMAT_Y_M_D))}
+            onClick={(event) => onStopEvent(event, formatDate(date, FORMAT_Y_M_D))}
         >
             <ul className='events'>
-                {listData.map(({ name, isImplementation }, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <li key={name + index} style={{ lineHeight: 1.2 }}>
+                {listData.map(({ name, isImplementation, id }) => (
+                    <li key={id} style={{ lineHeight: 1.2 }}>
                         <BadgeChanged
                             disabled={isImplementation}
                             onChange={onChangeBadge}

@@ -4,6 +4,8 @@ import noReviewModal from '@public/modal-error.png';
 import { Paths } from '@routes/paths';
 import { Button, Image, Modal } from 'antd';
 
+import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
+
 import styles from './modal-no-reviews.module.scss';
 
 type ModalNoReviewProps = {
@@ -25,6 +27,7 @@ export const ModalNoReview = ({ open }: ModalNoReviewProps) => {
 
     return (
         <Modal
+            data-test-id={DATA_TEST_ID.modalNoReview}
             className={styles.modal}
             open={openModal}
             centered={true}
@@ -39,7 +42,12 @@ export const ModalNoReview = ({ open }: ModalNoReviewProps) => {
                     <h3 className={styles.title}>Что-то пошло не так</h3>
                     <div className={styles.subTitle}>Произошла ошибка, попробуйте ещё раз.</div>
                 </div>
-                <Button type='primary' onClick={handleCancel} className={styles.button}>
+                <Button
+                    data-test-id={DATA_TEST_ID.modalNoReviewButton}
+                    type='primary'
+                    onClick={handleCancel}
+                    className={styles.button}
+                >
                     Назад
                 </Button>
             </div>

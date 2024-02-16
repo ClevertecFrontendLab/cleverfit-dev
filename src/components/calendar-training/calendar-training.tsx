@@ -23,6 +23,7 @@ import { FORMAT_Y_M_D, formatDate } from '@utils/format-date.ts';
 import Calendar from 'antd/lib/calendar';
 import moment, { Moment } from 'moment';
 
+import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
 import { LocalData } from '../../constans/calendar-options.ts';
 import { CardModalBody } from '../../constans/card-modal.ts';
 
@@ -141,6 +142,7 @@ export const CalendarTraining = () => {
     return (
         <div id={CALENDAR_ID}>
             <Calendar
+                data-test-id={DATA_TEST_ID.calendar}
                 fullscreen={isDesktopVersion}
                 className={styles.cell}
                 locale={LocalData}

@@ -69,7 +69,7 @@ export const MainPage = () => {
             </DescriptionCard>
 
             <div className={styles.actionCardsBlocks}>
-                {CardMenu.map(({ route, name, cardTitle, icon, id }) => (
+                {CardMenu.map(({ route, name, cardTitle, icon, id, dataTestId }) => (
                     <Card
                         title={cardTitle}
                         bordered={false}
@@ -79,6 +79,7 @@ export const MainPage = () => {
                         key={id}
                     >
                         <Button
+                            data-test-id={dataTestId}
                             type='text'
                             className={styles.cardButton}
                             onClick={() => onNavigate(route)}

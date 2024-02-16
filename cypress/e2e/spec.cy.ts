@@ -1,5 +1,42 @@
 /// <reference types="cypress" />
 
+import { DATA_TEST_ID } from '../mocks/data-test-id';
+
+const userTraining = [
+    {
+        _id: '1',
+        name: 'Ноги',
+        date: '2024-01-01T00:00:00.000Z',
+        isImplementation: false,
+        userId: '65b809899adc9e39e3660ae0',
+        exercises: [
+            {
+                _id: '1',
+                name: 'Упражнение',
+                replays: 1,
+                weight: 0,
+                approaches: 3,
+            },
+        ],
+    },
+    {
+        _id: '2',
+        name: 'Руки',
+        date: '2024-01-01T00:00:00.000Z',
+        isImplementation: false,
+        userId: '65b809899adc9e39e3660ae0',
+        exercises: [
+            {
+                _id: '2',
+                name: 'Упражнение',
+                replays: 1,
+                weight: 0,
+                approaches: 3,
+            },
+        ],
+    },
+];
+
 describe('Sprint 3', () => {
     describe('Feedbacks', () => {
         const resolutions = [
@@ -7,14 +44,6 @@ describe('Sprint 3', () => {
             { width: 833, height: 900 },
             { width: 1440, height: 900 },
         ];
-
-        let data;
-
-        before(() => {
-            cy.fixture('feedbacks').then((feedbacksData) => {
-                data = feedbacksData;
-            });
-        });
 
         function takeScreenshots(screenshotName: string) {
             cy.wait(1000);
@@ -29,19 +58,6 @@ describe('Sprint 3', () => {
             }
         }
 
-        function checkRating(rating: number) {
-            for (let i = 0; i < 5; i++) {
-                const shouldHaveClass = i <= rating && rating !== 0;
-
-                cy.get('.ant-modal ul li')
-                    .eq(i)
-                    .should(
-                        shouldHaveClass ? 'have.class' : 'not.have.class',
-                        'ant-rate-star-full',
-                    );
-            }
-        }
-
         beforeEach(() => {
             cy.visit('/');
             cy.intercept('POST', 'auth/login', { accessToken: 'SUPERUSER' }).as('login');
@@ -51,127 +67,116 @@ describe('Sprint 3', () => {
             cy.get('[data-test-id=login-password]').type('1234qqQQ');
             cy.get('[data-test-id=login-submit-button]').click();
             cy.url().should('include', '/main');
+            cy.clock(new Date('2024-01-01'));
         });
 
         it('First review', () => {
-            cy.intercept('GET', 'feedback', { body: data.emptyFeedbacks }).as('getFeedbacks');
-            cy.intercept('POST', 'feedback', {
-                body: { message: 'test321', rating: 3, createdAt: '2024-02-01T06:57:32.243Z' },
-                statusCode: 200,
-            }).as('postFeedback');
+            cy.intercept('GET', 'training', {
+                body: { message: 'some error' },
+                statusCode: 500,
+            }).as('getUserTraining');
 
-            cy.get('[data-test-id="see-reviews"]').click();
-            cy.wait('@getFeedbacks').should(({ request }) => {
+            cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
+
+            cy.wait('@getUserTraining').should(({ request }) => {
                 expect(request.headers, 'request headers').to.include({
                     authorization: 'Bearer SUPERUSER',
                 });
             });
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('empty-review-list');
-
-            cy.get('[data-test-id="write-review"]').click();
-            takeScreenshots('review-modal');
-            cy.get('.ant-modal ul li').eq(4).click();
-            checkRating(4);
-            cy.get('.ant-modal ul li').eq(4).click();
-            checkRating(0);
-            cy.get('.ant-modal ul li').eq(2).click();
-            checkRating(2);
-            cy.get('.ant-modal textarea').type('test321');
-            cy.intercept('GET', 'feedback', {
-                body: [{ message: 'test321', rating: 3, createdAt: '2024-02-01T06:57:32.243Z' }],
-            }).as('getFeedbacks');
-            cy.get('[data-test-id="new-review-submit-button"]').click();
-            cy.wait('@postFeedback');
-            cy.wait('@getFeedbacks');
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('one-review');
+            cy.url().should('include', '/calendar');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).should('be.exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains('Что-то пошло не так');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains(
+                'Произошла ошибка, попробуйте ещё раз.',
+            );
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReviewButton}]`).contains('Назад').click();
+            cy.url().should('include', '/main');
         });
 
-        it('More than 4 reviews', () => {
-            cy.intercept('GET', 'feedback', { body: data.feedbacksList }).as('getFeedbacks');
-            cy.intercept('POST', 'feedback', {
-                body: { rating: 2, createdAt: '2024-02-01T06:57:32.243Z' },
+        it('First review', () => {
+            cy.intercept('GET', 'catalogs/training-list', {
+                body: { message: 'some error' },
+                statusCode: 500,
+            }).as('getTrainingList');
+
+            cy.intercept('GET', 'training', {
+                body: userTraining,
                 statusCode: 200,
-            }).as('postFeedback');
+            }).as('getUserTraining');
 
-            cy.get('[data-test-id="see-reviews"]').click();
-            cy.wait('@getFeedbacks');
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('more-than-4-reviews');
-
-            cy.get('[data-test-id="all-reviews-button"]').click();
-            takeScreenshots('expand-review-list');
-            cy.get('[data-test-id="write-review"]').click();
-            cy.get('.ant-modal ul li').eq(1).click();
-            cy.intercept('GET', 'feedback', {
-                body: data.updateFeedbacksList,
-            }).as('getFeedbacks');
-            cy.get('[data-test-id="new-review-submit-button"]').click();
-            cy.wait('@postFeedback');
-            cy.wait('@getFeedbacks');
-            cy.contains('Отлично').click();
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('updated-review-list');
+            cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
+            cy.wait('@getUserTraining').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.wait('@getTrainingList').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.url().should('include', '/calendar');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingTitle}]`).contains(
+                'При открытии данных произошла ошибка',
+            );
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingSubTitle}]`).contains(
+                'Попробуйте ещё раз.',
+            );
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`)
+                .contains('Обновить')
+                .click();
+            cy.wait('@getTrainingList').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`).click();
+            cy.wait('@getTrainingList').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`).click();
+            cy.wait('@getTrainingList').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButtonClose}]`).click();
+            cy.get('[title=2024-01-01]').should('not.include.text', 'Ноги');
         });
 
-        it('Feedback GET error', () => {
-            cy.intercept('GET', 'feedback', { statusCode: 500 }).as('getFeedbacks');
+        it('First review', () => {
+            cy.intercept('GET', 'catalogs/training-list', {
+                body: [
+                    { name: 'Ноги' },
+                    { name: 'Кардио' },
+                    { name: 'Силовая' },
+                    { name: 'Спина' },
+                    { name: 'Грудь' },
+                ],
+                statusCode: 200,
+            }).as('getTrainingList');
 
-            cy.get('[data-test-id="see-reviews"]').click();
-            cy.wait('@getFeedbacks');
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('get-feedback-error');
+            cy.intercept('GET', 'training', {
+                body: userTraining,
+                statusCode: 200,
+            }).as('getUserTraining');
 
-            cy.contains('Назад').click();
-            cy.url().should('include', '/main');
+            cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
+            cy.wait('@getUserTraining').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.wait('@getTrainingList').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.url().should('include', '/calendar');
+            cy.get('[title=2024-01-01]').contains('Ноги');
+            cy.get('[title=2024-01-01]').click();
         });
-
-        it('Feedback POST error', () => {
-            cy.intercept('GET', 'feedback', { body: data.feedbacksList }).as('getFeedbacks');
-            cy.intercept('POST', 'feedback', { statusCode: 500 }).as('postFeedback');
-
-            cy.get('[data-test-id="see-reviews"]').click();
-            cy.wait('@getFeedbacks');
-            cy.url().should('include', '/feedbacks');
-
-            cy.get('[data-test-id="write-review"]').click();
-            takeScreenshots('review-modal');
-            cy.get('.ant-modal ul li').eq(2).click();
-            cy.get('.ant-modal textarea').type('test321');
-            cy.get('[data-test-id="new-review-submit-button"]').click();
-            cy.wait('@postFeedback');
-            cy.url().should('include', '/feedbacks');
-            takeScreenshots('reviews-not-saved-modal');
-
-            cy.contains('Закрыть').click();
-            cy.url().should('include', '/feedbacks');
-
-            cy.get('[data-test-id="write-review"]').click();
-            cy.get('[data-test-id="new-review-submit-button"]').click();
-            cy.wait('@postFeedback');
-            cy.url().should('include', '/feedbacks');
-            cy.get('[data-test-id="write-review-not-saved-modal"]').click();
-        });
-
-        it('Redirect login if no token', () => {
-            cy.url().should('include', '/main');
-            cy.reload();
-            cy.url().should('include', '/auth');
-            cy.visit('/main');
-            cy.url().should('include', '/auth');
-            cy.visit('/feedbacks');
-            cy.url().should('include', '/auth');
-        });
-    });
-
-    describe('Google auth', () => {
-        // TODO: реализовать тест google-auth
-        // it('Auth with google', () => {
-        //     cy.visit('/');
-        //     cy.viewport(1440, 900);
-        //     cy.visit('/auth');
-        //     cy.get('[data-test-id="google-submit-button"]').click();
-        // });
     });
 });
