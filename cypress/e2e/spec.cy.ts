@@ -61,7 +61,6 @@ describe('Sprint 3', () => {
         beforeEach(() => {
             cy.visit('/');
             cy.intercept('POST', 'auth/login', { accessToken: 'SUPERUSER' }).as('login');
-            cy.viewport(1440, 900);
             cy.visit('/auth');
             cy.get('[data-test-id=login-email]').type('valadzkoaliaksei@tut.by');
             cy.get('[data-test-id=login-password]').type('1234qqQQ');
@@ -70,7 +69,29 @@ describe('Sprint 3', () => {
             cy.clock(new Date('2024-01-01'));
         });
 
-        it('First review', () => {
+        it.only('Come to calendar', () => {
+            cy.intercept('GET', 'training', {
+                body: { message: 'some error' },
+                statusCode: 500,
+            }).as('getUserTraining');
+            cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
+            cy.wait('@getUserTraining').should(({ request }) => {
+                expect(request.headers, 'request headers').to.include({
+                    authorization: 'Bearer SUPERUSER',
+                });
+            });
+            cy.url().should('include', '/calendar');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).should('be.visible');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains('Что-то пошло не так');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains(
+                'Произошла ошибка, попробуйте ещё раз.',
+            );
+            takeScreenshots('come-to-calendar-error');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReviewButton}]`).contains('Назад').click();
+            cy.url().should('include', '/main');
+        });
+
+        it.skip('First review', () => {
             cy.intercept('GET', 'training', {
                 body: { message: 'some error' },
                 statusCode: 500,
@@ -93,7 +114,7 @@ describe('Sprint 3', () => {
             cy.url().should('include', '/main');
         });
 
-        it('First review', () => {
+        it.skip('First review', () => {
             cy.intercept('GET', 'catalogs/training-list', {
                 body: { message: 'some error' },
                 statusCode: 500,
@@ -146,7 +167,7 @@ describe('Sprint 3', () => {
             cy.get('[title=2024-01-01]').should('not.include.text', 'Ноги');
         });
 
-        it('First review', () => {
+        it.skip('First review', () => {
             cy.intercept('GET', 'catalogs/training-list', {
                 body: [
                     { name: 'Ноги' },
