@@ -113,10 +113,19 @@ export const CardModal: FC<CardModalWrapper> = ({
         dispatch(setExercisesNotEmpty(exercises.filter(({ name }) => Boolean(name))));
     };
 
-    const onSelectedTraining = (value: string) => {
+    const onSelectedTraining = (value: string, date: string | Moment) => {
+        const valueFormatDate = formatDate(date, FORMAT_Y_M_D);
+
         dispatch(
-            setTrainingData({ date: formatDate(value, FORMAT_Y_M_D), name: value, exercises: [] }),
+            setTrainingData({
+                date: valueFormatDate,
+                name: value,
+                exercises:
+                    userTraining[valueFormatDate]?.filter(({ name }) => name === value)?.[0]
+                        ?.exercises || [],
+            }),
         );
+
         setSelectTraining(value);
     };
 
@@ -177,6 +186,12 @@ export const CardModal: FC<CardModalWrapper> = ({
         createTraining(body);
     };
 
+    console.log('typeEdit', typeEdit);
+    console.log('!exercises.length', !exercises.length);
+    console.log(
+        '!exercises.length && typeEdit === ChangeType.ADD_NEW',
+        !exercises.length && typeEdit === ChangeType.ADD_NEW,
+    );
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
         [CardModalBody.TRAINING]: (
             <CardTraining
@@ -199,7 +214,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 exercises={exercises}
                 onAddButton={onOpenMenu}
                 onSaveButton={onSaveTraining}
-                disabledSave={!name || !exercises.length}
+                disabledSave={!exercises.length && typeEdit === ChangeType.ADD_NEW}
                 date={date}
                 onNextOpen={onNextState}
                 openFlag={CardModalBody.TRAINING}

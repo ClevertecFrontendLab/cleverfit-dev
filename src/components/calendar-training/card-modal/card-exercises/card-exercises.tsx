@@ -28,7 +28,7 @@ type CardExercisesProps = {
     onAddButton: (date: Moment) => void;
     onSaveButton: () => void;
     onNextOpen: (data: TrainingDataCall) => void;
-    onSelectedTraining: (value: string) => void;
+    onSelectedTraining: (value: string, data: string | Moment) => void;
 };
 
 export const CardExercises: FC<CardExercisesProps> = ({
@@ -47,11 +47,17 @@ export const CardExercises: FC<CardExercisesProps> = ({
     textButtonCancel,
 }) => {
     const [body, setBody] = useState(<EmptyElement />);
-    const selectedTrainings = trainings.map(({ name }) => name);
+    const selectedTrainings = isOldDate(date)
+        ? trainings.filter(({ isImplementation }) => !isImplementation).map(({ name }) => name)
+        : trainings.map(({ name }) => name);
     const isDisabled = !defaultsTrainings.includes(selectedTraining);
 
     const onNextOpenHandel = () => {
         onNextOpen({ openFlag, date });
+    };
+
+    const onSelectedTrainingHandel = (value: string) => {
+        onSelectedTraining(value, date);
     };
 
     useEffect(() => {
@@ -93,7 +99,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
                         loading={isLoading}
                         className={styles.buttonAction}
                         onClick={onSaveButton}
-                        disabled={disabledSave || !isExercisesNotEmpty(exercises)}
+                        disabled={disabledSave}
                     >
                         {textButtonCancel}
                     </Button>
@@ -109,9 +115,9 @@ export const CardExercises: FC<CardExercisesProps> = ({
                         onClick={onNextOpenHandel}
                     />
                     <SelectDouble
-                        disabled={isOldDate(date)}
+                        isDouble={!isOldDate(date)}
                         defaultItem={selectedTraining}
-                        onSelectItem={onSelectedTraining}
+                        onSelectItem={onSelectedTrainingHandel}
                         selectedItems={selectedTrainings}
                         defaultsItems={defaultsTrainings}
                     />
