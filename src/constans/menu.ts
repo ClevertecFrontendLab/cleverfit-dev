@@ -7,7 +7,7 @@ import { DATA_TEST_ID } from '../../cypress/mocks/data-test-id.ts';
 
 export const CardMenu = [
     {
-        route: `/${Paths.TRAINING}`,
+        route: `${Paths.AUTH}${Paths.TRAINING}`,
         name: 'Тренировки',
         icon: profileIcon,
         title: 'Тренировки',

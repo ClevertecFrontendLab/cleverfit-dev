@@ -113,10 +113,19 @@ export const CardModal: FC<CardModalWrapper> = ({
         dispatch(setExercisesNotEmpty(exercises.filter(({ name }) => Boolean(name))));
     };
 
-    const onSelectedTraining = (value: string) => {
+    const onSelectedTraining = (value: string, date: string | Moment) => {
+        const valueFormatDate = formatDate(date, FORMAT_Y_M_D);
+
         dispatch(
-            setTrainingData({ date: formatDate(value, FORMAT_Y_M_D), name: value, exercises: [] }),
+            setTrainingData({
+                date: valueFormatDate,
+                name: value,
+                exercises:
+                    userTraining[valueFormatDate]?.filter(({ name }) => name === value)?.[0]
+                        ?.exercises || [],
+            }),
         );
+
         setSelectTraining(value);
     };
 

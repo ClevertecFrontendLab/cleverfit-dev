@@ -4,10 +4,10 @@ import { Select } from 'antd';
 import styles from './select-double.module.css';
 
 type DropdownDoubleProps = {
+    isDouble: boolean;
     defaultsItems: string[];
     selectedItems: string[];
     defaultItem: string;
-    disabled: boolean;
     onSelectItem: (name: string) => void;
 };
 
@@ -16,11 +16,13 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     selectedItems,
     onSelectItem,
     defaultItem,
-    disabled,
+    isDouble = true,
 }) => {
-    const items = defaultsItems
-        .filter((element) => !selectedItems.includes(element))
-        .map((element) => ({ label: element, value: element }));
+    const items = isDouble
+        ? defaultsItems
+              .filter((element) => !selectedItems.includes(element))
+              .map((element) => ({ label: element, value: element }))
+        : selectedItems.map((element) => ({ label: element, value: element }));
 
     const onChange = (value: string) => {
         onSelectItem(value);
@@ -28,7 +30,6 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
 
     return (
         <Select
-            disabled={disabled}
             defaultValue={defaultItem || 'Выбор типа тренировки'}
             className={styles.dropdownDouble}
             onChange={onChange}
