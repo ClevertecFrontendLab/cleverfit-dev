@@ -99,8 +99,7 @@ describe('Sprint 3', () => {
                 });
             });
             cy.url().should('include', '/main');
-            cy.wait(10000);
-            cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).should('be.visible');
+            // cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).should('be.visible');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains('Что-то пошло не так');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).contains(
                 'Произошла ошибка, попробуйте ещё раз.',

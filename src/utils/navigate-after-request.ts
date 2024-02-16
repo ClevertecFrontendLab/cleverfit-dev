@@ -4,9 +4,13 @@ export const navigateAfterRequest = async (
     routes: string[],
     route: string,
 ) => {
-    if (routes.includes(route)) {
-        await request().unwrap();
-    }
+    try {
+        if (routes.includes(route)) {
+            await request()?.unwrap();
+        }
 
-    navigate(route);
+        navigate(route);
+    } catch (e) {
+        console.log(e);
+    }
 };
