@@ -11,6 +11,7 @@ import { Button, Card } from 'antd';
 import ButtonGroup from 'antd/es/button/button-group';
 import { Moment } from 'moment';
 
+import { DATA_TEST_ID } from '../../../../../cypress/mocks/data-test-id';
 import { CardModalBody } from '../../../../constans/card-modal.ts';
 
 import styles from './card-exercises.module.css';
@@ -76,10 +77,12 @@ export const CardExercises: FC<CardExercisesProps> = ({
 
     return (
         <Card
+            data-test-id={DATA_TEST_ID.modalCreateExercise}
             className={styles.cardModal}
             actions={[
                 <ButtonGroup className={styles.buttonGroup}>
                     <Button
+                        data-test-id={DATA_TEST_ID.modalCreateExerciseButton}
                         size='middle'
                         type='ghost'
                         onClick={() => onAddButton(date)}

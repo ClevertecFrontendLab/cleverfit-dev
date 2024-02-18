@@ -10,6 +10,7 @@ import { Button, Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { Moment } from 'moment';
 
+import { DATA_TEST_ID } from '../../../../../cypress/mocks/data-test-id';
 import { CardModalBody } from '../../../../constans/card-modal.ts';
 import { TrainingDataCall } from '../types/card-modal.ts';
 
@@ -62,9 +63,11 @@ export const CardTraining: FC<CardTrainingProps> = ({
 
     return (
         <Card
+            data-test-id={DATA_TEST_ID.modalCreateTraining}
             className={styles.cardModal}
             actions={[
                 <Button
+                    data-test-id={DATA_TEST_ID.modalCreateTrainingButton}
                     disabled={disabledButton}
                     className={styles.actionButton}
                     size='large'

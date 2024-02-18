@@ -9,4 +9,9 @@ export const DATA_TEST_ID = {
     menuButtonTraining: 'menu-button-training',
     menuButtonCalendar: 'menu-button-calendar',
     menuButtonProfile: 'menu-button-profile',
+    modalCreateTraining: 'modal-create-training',
+    modalCreateTrainingButton: 'modal-create-training-button',
+    modalCreateExercise: 'modal-create-exercise',
+    modalCreateExerciseButton: 'modal-create-exercise-button',
+    modalCreateExerciseSelect: 'modal-create-exercise-select',
 };
