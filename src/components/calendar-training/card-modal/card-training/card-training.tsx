@@ -45,8 +45,9 @@ export const CardTraining: FC<CardTrainingProps> = ({
         if (isTraining) {
             setBody(
                 <div className={styles.cardBody}>
-                    {trainings?.map(({ name, date, isImplementation, id }) => (
+                    {trainings?.map(({ name, date, isImplementation, id }, index) => (
                         <BadgeChanged
+                            index={index}
                             disabled={isImplementation}
                             key={id}
                             isStatus={true}
@@ -67,7 +68,6 @@ export const CardTraining: FC<CardTrainingProps> = ({
             className={styles.cardModal}
             actions={[
                 <Button
-                    data-test-id={DATA_TEST_ID.modalCreateTrainingButton}
                     disabled={disabledButton}
                     className={styles.actionButton}
                     size='large'
@@ -86,6 +86,7 @@ export const CardTraining: FC<CardTrainingProps> = ({
                         description={!isTraining && 'Нет активных тренировок'}
                     />
                     <Button
+                        data-test-id={DATA_TEST_ID.modalCreateTrainingButtonClose}
                         className={styles.button}
                         type='text'
                         size='small'

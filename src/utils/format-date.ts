@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment';
 
-const FORMAT_D_M_Y_POINT = 'DD.MM.YYYY';
+export const FORMAT_D_M_Y_POINT = 'DD.MM.YYYY';
 
 export const FORMAT_Y_M_D = 'YYYY-MM-DD';
 

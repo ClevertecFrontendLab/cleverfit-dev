@@ -121,7 +121,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 date: valueFormatDate,
                 name: value,
                 exercises:
-                    userTraining[valueFormatDate].filter(({ name }) => name === value)?.[0]
+                    userTraining[valueFormatDate]?.filter(({ name }) => name === value)?.[0]
                         ?.exercises || [],
             }),
         );
@@ -178,11 +178,13 @@ export const CardModal: FC<CardModalWrapper> = ({
             date: `${dataCreated}T00:00:00.000Z`,
         };
 
+        console.log(JSON.stringify(body), 'body');
         if (typeEdit !== ChangeType.ADD_NEW && id) {
             updateTraining(body);
 
             return;
         }
+
         createTraining(body);
     };
 
@@ -292,8 +294,8 @@ export const CardModal: FC<CardModalWrapper> = ({
                 onClickButton={onClickButtonError}
                 type='error'
                 isCloseIcon={false}
-                title='При сохранении данных произошла ошибка '
-                subtitle='Попробуйте ещё раз.'
+                title='При сохранении данных произошла ошибка'
+                subtitle='Придётся попробовать ещё раз'
                 open={openModalError}
             />
         </div>

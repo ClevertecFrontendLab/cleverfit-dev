@@ -65,8 +65,9 @@ export const CardExercises: FC<CardExercisesProps> = ({
         if (exercises && exercises.length && isExercisesNotEmpty(exercises)) {
             setBody(
                 <div className={styles.cardBody}>
-                    {exercises?.map(({ name }) => (
+                    {exercises?.map(({ name }, index) => (
                         <BadgeChanged
+                            index={index}
                             isStatus={false}
                             isEdit={true}
                             text={name}
@@ -88,7 +89,6 @@ export const CardExercises: FC<CardExercisesProps> = ({
             actions={[
                 <ButtonGroup className={styles.buttonGroup}>
                     <Button
-                        data-test-id={DATA_TEST_ID.modalCreateExerciseButton}
                         size='middle'
                         type='ghost'
                         onClick={() => onAddButton(date)}
@@ -112,6 +112,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
             <div className={styles.cardWrapper}>
                 <div className={styles.titleWrapper}>
                     <Button
+                        data-test-id={DATA_TEST_ID.modalExerciseTrainingButtonClose}
                         type='text'
                         size='small'
                         icon={<ArrowLeftOutlined />}

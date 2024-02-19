@@ -43,7 +43,6 @@ export const CalendarTraining = () => {
     const [getList, { isError: isErrorRequest }] = useLazyGetTrainingListQuery();
 
     useGetUserTrainingQuery();
-
     useEffect(() => {
         if (!defaultTrainings?.length) {
             getList();
@@ -142,7 +141,6 @@ export const CalendarTraining = () => {
     return (
         <div id={CALENDAR_ID}>
             <Calendar
-                data-test-id={DATA_TEST_ID.calendar}
                 fullscreen={isDesktopVersion}
                 className={styles.cell}
                 locale={LocalData}

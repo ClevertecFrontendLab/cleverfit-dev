@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC } from 'react';
 import { Checkbox, Input, InputNumber } from 'antd';
 
+import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
 import { Nullable } from '../../types/nullable.ts';
 
 import styles from './exercises-form.module.css';
@@ -55,13 +56,18 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
     return (
         <React.Fragment>
             <Input
+                data-test-id={`${DATA_TEST_ID.modalDrawerRightInputExercise}${index}`}
                 value={name}
                 className={styles.input}
                 onChange={onChangeNameHandle}
-                placeholder='Упражнени'
+                placeholder='Упражнениe'
                 addonAfter={
                     isCheck && (
-                        <Checkbox checked={isChecked} onChange={() => onCheckedElement(index)} />
+                        <Checkbox
+                            data-test-id={`${DATA_TEST_ID.modalDrawerRightCheckboxExercise}${index}`}
+                            checked={isChecked}
+                            onChange={() => onCheckedElement(index)}
+                        />
                     )
                 }
             />
@@ -74,6 +80,7 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
             </div>
             <div className={styles.wrapperBlock}>
                 <InputNumber
+                    data-test-id={`${DATA_TEST_ID.modalDrawerRightInputApproach}${index}`}
                     value={replays}
                     className={styles.inputNumber}
                     addonBefore='+'
@@ -82,12 +89,14 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
                 />
                 <div className={styles.wrapperItem}>
                     <InputNumber
+                        data-test-id={`${DATA_TEST_ID.modalDrawerRightInputWeight}${index}`}
                         value={weight}
                         className={styles.simpleInput}
                         min={0}
                         onChange={onChangeWeightHandle}
                     />
                     <InputNumber
+                        data-test-id={`${DATA_TEST_ID.modalDrawerRightInputQuantity}${index}`}
                         value={approaches}
                         className={styles.simpleInput}
                         min={0}
