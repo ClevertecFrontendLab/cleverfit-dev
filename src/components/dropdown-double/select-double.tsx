@@ -6,10 +6,10 @@ import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
 import styles from './select-double.module.css';
 
 type DropdownDoubleProps = {
+    isDouble: boolean;
     defaultsItems: string[];
     selectedItems: string[];
     defaultItem: string;
-    disabled: boolean;
     onSelectItem: (name: string) => void;
 };
 
@@ -18,13 +18,13 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     selectedItems,
     onSelectItem,
     defaultItem,
-    disabled,
+    isDouble = true,
 }) => {
-    console.log(defaultsItems, 'defaultsItems');
-    const adwad = ['Ноги', 'Руки', 'Силовая', 'Спина', 'Грудь'];
-    const items = adwad
-        .filter((element) => !selectedItems.includes(element))
-        .map((element) => ({ label: element, value: element }));
+    const items = isDouble
+        ? defaultsItems
+              .filter((element) => !selectedItems.includes(element))
+              .map((element) => ({ label: element, value: element }))
+        : selectedItems.map((element) => ({ label: element, value: element }));
 
     const onChange = (value: string) => {
         onSelectItem(value);
@@ -33,7 +33,6 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     return (
         <Select
             data-test-id={DATA_TEST_ID.modalCreateExerciseSelect}
-            disabled={disabled}
             defaultValue={defaultItem || 'Выбор типа тренировки'}
             className={styles.dropdownDouble}
             onChange={onChange}

@@ -8,3 +8,8 @@
     }
 }
 
+
+
+:global(.ant-select-dropdown-hidden) {
+    display: block;
+}

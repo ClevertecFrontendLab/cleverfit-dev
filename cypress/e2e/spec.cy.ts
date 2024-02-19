@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
-
 import { Simulate } from 'react-dom/test-utils';
 
 import { DATA_TEST_ID } from '../mocks/data-test-id';
+
 import waiting = Simulate.waiting;
 
 const userTraining = [
@@ -64,13 +64,15 @@ describe('Sprint 3', () => {
         function selectDropdown(testId: string, optionText: string) {
             // open select
             cy.get(testId).click();
+            // document.getElementById(testId);
 
             return cy
                 .get('.ant-select-dropdown')
                 .find('.ant-select-item-option')
-                .each((el) => {
-                    if (el.text() === optionText) {
-                        cy.wrap(el).click();
+                .each((el, index) => {
+                    if (index === 0) {
+                        console.log(el, 'el');
+                        cy.wrap(el).click({ force: true }).invoke('text', 'Силовая');
                     }
                 });
         }
@@ -86,7 +88,7 @@ describe('Sprint 3', () => {
             cy.clock(new Date('2024-01-04'));
         });
 
-        it.skip('Come to calendar', () => {
+        it.only('Come to calendar', () => {
             cy.intercept('GET', 'training', {
                 statusCode: 404,
             }).as('getUserTraining');
@@ -184,16 +186,16 @@ describe('Sprint 3', () => {
             cy.get('[title=2024-01-01]').should('not.include.text', 'Ноги');
         });
 
-        it.only('create new training', () => {
+        it.skip('create new training', () => {
             cy.intercept('GET', 'catalogs/training-list', {
-                // body: ['Ноги', 'Руки', 'Силовая', 'Спина', 'Грудь'],
-                body: [
-                    { label: 'Ноги', value: 'Ноги' },
-                    { label: 'Руки', value: 'Руки' },
-                    { label: 'Силовая', value: 'Силовая' },
-                    { label: 'Спина', value: 'Спина' },
-                    { label: 'Грудь', value: 'Грудь' },
-                ],
+                body: ['Ноги', 'Руки', 'Силовая', 'Спина', 'Грудь'],
+                // body: [
+                //     { label: 'Ноги', value: 'Ноги' },
+                //     { label: 'Руки', value: 'Руки' },
+                //     { label: 'Силовая', value: 'Силовая' },
+                //     { label: 'Спина', value: 'Спина' },
+                //     { label: 'Грудь', value: 'Грудь' },
+                // ],
                 // body: [
                 //     {
                 //         name: 'Ноги',
@@ -252,10 +254,17 @@ describe('Sprint 3', () => {
                 .should('be.exist')
                 .find(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseButton}]`)
                 .should('be.disabled');
-            cy.wait(3000);
+
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`)
                 .find(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseSelect}]`)
+                .find('.ant-select-arrow')
                 .click({ force: true });
+            // .invoke('text', 'dwawada');
+
+            // cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseSelect}]`).within(() => {
+            //     without(() => {});
+            // });
+
             // selectDropdown(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseSelect}]`, 'Силовая');
             // cy.get('.rc-virtual-list-holder').contains('Силовая');
         });

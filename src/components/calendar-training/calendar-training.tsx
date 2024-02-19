@@ -10,7 +10,7 @@ import {
     trainingsSelector,
     userTraining,
 } from '@redux/modules/training.ts';
-import { useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
+import { useGetUserTrainingQuery, useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
 import { useWindowSize } from '@uidotdev/usehooks';
 import {
     attachPortal,
@@ -41,6 +41,8 @@ export const CalendarTraining = () => {
     const dispatch = useAppDispatch();
 
     const [getList, { isError: isErrorRequest }] = useLazyGetTrainingListQuery();
+
+    useGetUserTrainingQuery();
 
     useEffect(() => {
         if (!defaultTrainings?.length) {
