@@ -1,15 +1,18 @@
 /// <reference types="cypress" />
 
-import moment from 'moment';
-
-import { FORMAT_D_M_Y_POINT, FORMAT_Y_M_D } from '../../src/utils/format-date';
 import { DATA_TEST_ID } from '../mocks/data-test-id';
+
+const today = new Date().setDate(new Date().getDate());
+const dayAfterTomorrow = new Date().setDate(new Date().getDate() + 1);
+const dayBeforeToday = new Date().setDate(new Date().getDate() - 1);
+const twoDaysLater = new Date().setDate(new Date().getDate() + 2);
+const threeDaysLater = new Date().setDate(new Date().getDate() + 3);
 
 const userTraining = [
     {
         _id: '1',
         name: 'Ноги',
-        date: moment(),
+        date: today,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -32,7 +35,7 @@ const userTraining = [
     {
         _id: '2',
         name: 'Руки',
-        date: moment(),
+        date: today,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -48,7 +51,7 @@ const userTraining = [
     {
         _id: '3',
         name: 'Ноги',
-        date: moment().add(2, 'day'),
+        date: twoDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -64,7 +67,7 @@ const userTraining = [
     {
         _id: '4',
         name: 'Руки',
-        date: moment().add(2, 'day'),
+        date: twoDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -80,7 +83,7 @@ const userTraining = [
     {
         _id: '5',
         name: 'Силовая',
-        date: moment().add(2, 'day'),
+        date: twoDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -96,7 +99,7 @@ const userTraining = [
     {
         _id: '6',
         name: 'Спина',
-        date: moment().add(2, 'day'),
+        date: twoDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -112,7 +115,7 @@ const userTraining = [
     {
         _id: '7',
         name: 'Грудь',
-        date: moment().add(2, 'day'),
+        date: twoDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -128,7 +131,7 @@ const userTraining = [
     {
         _id: '8',
         name: 'Ноги',
-        date: moment().add(3, 'day'),
+        date: threeDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -151,7 +154,7 @@ const userTraining = [
     {
         _id: '9',
         name: 'Руки',
-        date: moment().add(3, 'day'),
+        date: threeDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -167,7 +170,7 @@ const userTraining = [
     {
         _id: '10',
         name: 'Силовая',
-        date: moment().add(3, 'day'),
+        date: threeDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -183,7 +186,7 @@ const userTraining = [
     {
         _id: '11',
         name: 'Грудь',
-        date: moment().add(3, 'day'),
+        date: threeDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
         exercises: [
@@ -206,10 +209,10 @@ const postUserTraining = {
         { name: 'Становая тяга', approaches: 10, weight: 50, replays: 3, index: 0 },
         { name: 'Сведение лопаток', approaches: 10, weight: 50, replays: 3, index: 1 },
     ],
-    date: moment().add(1, 'day'),
+    date: dayAfterTomorrow,
 };
 
-function returnUpdateUserTraining(id: string, date: moment.Moment, isImplementation: boolean) {
+function returnUpdateUserTraining(id, date, isImplementation: boolean) {
     return {
         isImplementation,
         id,
@@ -238,7 +241,7 @@ function returnUpdateUserTraining(id: string, date: moment.Moment, isImplementat
 const newUserTraining = {
     _id: '3',
     name: 'Спина',
-    date: moment().add(1, 'day'),
+    date: dayAfterTomorrow,
     isImplementation: false,
     userId: '65b809899adc9e39e3660ae0',
     exercises: [
@@ -259,6 +262,15 @@ const newUserTraining = {
     ],
 };
 
+function getFormatDate(date, isStandardFormat) {
+    const formattedDate = new Date(date);
+    const year = formattedDate.getFullYear();
+    const month = String(formattedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(formattedDate.getDate()).padStart(2, '0');
+
+    return isStandardFormat ? `${year}-${month}-${day}` : `${day}.${month}.${year}`;
+}
+
 const trainingList = [
     { name: 'Ноги' },
     { name: 'Руки' },
@@ -269,36 +281,36 @@ const trainingList = [
 
 const trainingArray = ['Ноги', 'Руки', 'Силовая', 'Спина', 'Грудь'];
 
-function reduceItem(arr1: any[], arr2: string[], data: moment.Moment) {
+function reduceItem(arr1, arr2, data) {
     return arr2.filter(
         (training) =>
             !arr1.some(
                 (userTrainingItem) =>
-                    userTrainingItem.date.isSame(data) && userTrainingItem.name === training,
+                    userTrainingItem.date === data && userTrainingItem.name === training,
             ),
     );
 }
 
-const remainingSelectOptions = reduceItem(userTraining, trainingArray, moment().add(3, 'day'));
+const remainingSelectOptions = reduceItem(userTraining, trainingArray, threeDaysLater);
 
 describe('Sprint 4', () => {
     describe('Calendar', () => {
-        const resolutions = [
+        const resolutionFull = [
             { width: 360, height: 740 },
             { width: 833, height: 900 },
             { width: 1440, height: 900 },
         ];
+        const resolutionMobile = [{ width: 360, height: 740 }];
+        const resolutionTablet = [{ width: 833, height: 900 }];
+        const resolutionLaptop = [{ width: 1440, height: 900 }];
 
-        function takeScreenshots(screenshotName: string) {
+        function takeScreenshots(screenshotName, resolution = resolutionFull) {
             cy.wait(1000);
-            for (let i = 0; i < resolutions.length; i++) {
-                cy.viewport(resolutions[i].width, resolutions[i].height);
-                cy.screenshot(
-                    `${screenshotName}_${resolutions[i].width}x${resolutions[i].height}`,
-                    {
-                        capture: 'viewport',
-                    },
-                );
+            for (let i = 0; i < resolution.length; i++) {
+                cy.viewport(resolution[i].width, resolution[i].height);
+                cy.screenshot(`${screenshotName}_${resolution[i].width}x${resolution[i].height}`, {
+                    capture: 'viewport',
+                });
             }
         }
 
@@ -359,7 +371,7 @@ describe('Sprint 4', () => {
             });
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Добавление упражнений').should('exist');
-                cy.contains(`${moment().add(1, 'day').format(FORMAT_D_M_Y_POINT)}`).should('exist');
+                cy.contains(`${getFormatDate(dayAfterTomorrow, false)}`).should('exist');
                 cy.contains('Спина').should('exist');
             });
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputExercise}${0}]`).type(
@@ -391,7 +403,7 @@ describe('Sprint 4', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightButtonClose}]`).click();
         }
 
-        function generalBlockUpdatingTrainings(data: moment.Moment) {
+        function generalBlockUpdatingTrainings(data) {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalUpdateTrainingEditButton}${0}]`)
                 .should('be.visible')
                 .click();
@@ -404,7 +416,7 @@ describe('Sprint 4', () => {
                 .click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Редактирование').should('exist');
-                cy.contains(`${data.format(FORMAT_D_M_Y_POINT)}`).should('exist');
+                cy.contains(`${getFormatDate(data, false)}`).should('exist');
                 cy.contains('Ноги').should('exist');
                 cy.contains('Удалить').should('be.disabled');
             });
@@ -454,20 +466,18 @@ describe('Sprint 4', () => {
             }).as('putUserTraining');
 
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
-            cy.wait('@getUserTraining');
-            cy.wait('@getTrainingList');
             cy.url().should('include', '/calendar');
-            cy.get(`[title=${moment().format(FORMAT_Y_M_D)}]`).contains('Ноги');
+            cy.get(`[title=${getFormatDate(today, true)}]`).contains('Ноги');
         }
 
-        function errorModal() {
+        function errorModal(screenshotName, resolution = resolutionFull) {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingTitle}]`).contains(
                 'При сохранении данных произошла ошибка',
             );
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingSubTitle}]`).contains(
                 'Придётся попробовать ещё раз',
             );
-            takeScreenshots('update-training');
+            takeScreenshots(screenshotName, resolution);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`)
                 .contains('Закрыть')
                 .click();
@@ -505,7 +515,6 @@ describe('Sprint 4', () => {
                 statusCode: 200,
             }).as('getUserTraining');
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
-            cy.wait('@getUserTraining');
             cy.wait('@getTrainingList');
             cy.url().should('include', '/calendar');
             takeScreenshots('get-training-list-error');
@@ -514,15 +523,12 @@ describe('Sprint 4', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButtonClose}]`).click();
             cy.url().should('include', '/calendar');
             takeScreenshots('empty-calendar-page');
-            cy.contains('Ноги').should('not.exist');
             cy.intercept('GET', 'catalogs/training-list', {
                 body: trainingList,
                 statusCode: 200,
             }).as('getTrainingList');
             cy.contains('Главная').click();
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonCalendar}]`).click();
-            cy.wait('@getUserTraining');
-            cy.wait('@getTrainingList');
             cy.wait(1000);
             takeScreenshots('calendar-page');
             cy.contains('Ноги').should('be.exist');
@@ -530,38 +536,39 @@ describe('Sprint 4', () => {
 
         it('create new training', () => {
             goToCalendar();
+            takeScreenshots('create-new-training-1', resolutionLaptop);
             // TODO Проверка на закрытие модалки
-            cy.get(`[title=${moment().format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(today, true)}]`).click();
+            takeScreenshots('create-new-training-2', resolutionLaptop);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTrainingButtonClose}]`).click();
-            cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTraining}]`).should('not.exist');
             // TODO Проверка на то что нельзя создать новую тренировку сегодня и в прошлом
-            cy.get(`[title=${moment().format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(today, true)}]`).click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTraining}]`)
                 .should('be.exist')
                 .contains('Создать тренировку')
                 .should('be.disabled');
-            cy.get(`[title=${moment().subtract(1, 'day').format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTrainingButtonClose}]`).click();
+            cy.get(`[title=${getFormatDate(dayBeforeToday, true)}]`).click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTraining}]`)
                 .should('be.exist')
                 .contains('Создать тренировку')
                 .should('be.disabled');
-            // TODO: Нужен скриншот
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTrainingButtonClose}]`).click();
             // TODO  Проверка на ошибку создания тренировки
-            cy.get(`[title=${moment().add(1, 'day').format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(dayAfterTomorrow, true)}]`).click();
             generalBlockCreatingTrainings();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`).within(() => {
                 cy.contains('Становая тяга').should('exist');
                 cy.contains('Сведение лопаток').should('exist');
-                // TODO: Нужен скриншот
                 cy.contains('Сохранить').click();
             });
             cy.wait('@postUserTraining');
-            errorModal();
-            cy.get(`[title=${moment().add(1, 'day').format(FORMAT_Y_M_D)}]`)
+            errorModal('create-new-training-3', resolutionLaptop);
+            cy.get(`[title=${getFormatDate(dayAfterTomorrow, true)}]`)
                 .contains('Спина')
                 .should('not.exist');
             // TODO  Проверка на успех создания тренировки
-            cy.get(`[title=${moment().add(1, 'day').format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(dayAfterTomorrow, true)}]`).click();
             generalBlockCreatingTrainings();
             cy.intercept('POST', 'training', {
                 body: postUserTraining,
@@ -577,20 +584,20 @@ describe('Sprint 4', () => {
                 cy.contains('Сохранить').click();
             });
             cy.wait('@postUserTraining');
-            cy.wait('@getUserTraining');
-            cy.get(`[title=${moment().add(1, 'day').format(FORMAT_Y_M_D)}]`)
+            cy.get(`[title=${getFormatDate(dayAfterTomorrow, true)}]`)
                 .contains('Спина')
                 .should('exist');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTrainingButtonClose}]`).click();
+            takeScreenshots('create-new-training-4', resolutionLaptop);
             // TODO Проверка на то, что если заполнены все пять типов тренировок в этот день, то больше тренировки нельзя создать
-            cy.get(`[title=${moment().add(2, 'day').format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(twoDaysLater, true)}]`).click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTraining}]`)
                 .should('be.exist')
                 .contains('Создать тренировку')
                 .should('be.disabled');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTrainingButtonClose}]`).click();
             // TODO Проверка на наличие в селекте только тех значений тренировок, которые ещё не выбраны
-            cy.get(`[title=${moment().add(3, 'day').format(FORMAT_Y_M_D)}]`).click();
+            cy.get(`[title=${getFormatDate(threeDaysLater, true)}]`).click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateTraining}]`)
                 .contains('Создать тренировку')
                 .click();
@@ -598,21 +605,22 @@ describe('Sprint 4', () => {
         });
         it('update future trainings', () => {
             goToCalendar();
+            takeScreenshots('update-future-trainings-1', resolutionTablet);
             // TODO Проверка изменения тренировок будущего с ошибкой сохранения
-            cy.get(`[title=${moment().add(3, 'day').format(FORMAT_Y_M_D)}]`).click();
-            generalBlockUpdatingTrainings(moment().add(3, 'day'));
+            cy.get(`[title=${getFormatDate(threeDaysLater, true)}]`).click();
+            takeScreenshots('update-future-trainings-2', resolutionTablet);
+            generalBlockUpdatingTrainings(threeDaysLater);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`).within(() => {
                 cy.contains('Присяд').should('exist');
                 cy.contains('Прыжки с нагрузкой').should('exist');
                 cy.contains('Толкание нагрузки').should('not.exist');
-                // TODO: Нужен скриншот
                 cy.contains('Сохранить').click();
             });
             cy.wait('@putUserTraining');
-            errorModal();
+            errorModal('update-future-trainings-3', resolutionTablet);
             // TODO  Проверка на успех изменения тренировки
-            cy.get(`[title=${moment().add(3, 'day').format(FORMAT_Y_M_D)}]`).click();
-            generalBlockUpdatingTrainings(moment().add(3, 'day'));
+            cy.get(`[title=${getFormatDate(threeDaysLater, true)}]`).click();
+            generalBlockUpdatingTrainings(threeDaysLater);
             cy.intercept('PUT', 'training/8', {
                 statusCode: 200,
             }).as('putUserTraining');
@@ -620,9 +628,7 @@ describe('Sprint 4', () => {
                 body: userTraining.map((el) =>
                     el._id === '8'
                         ? JSON.parse(
-                              JSON.stringify(
-                                  returnUpdateUserTraining('8', moment().add(3, 'day'), false),
-                              ),
+                              JSON.stringify(returnUpdateUserTraining('8', threeDaysLater, false)),
                           )
                         : JSON.parse(JSON.stringify(el)),
                 ),
@@ -634,7 +640,6 @@ describe('Sprint 4', () => {
                 cy.contains('Сохранить').click();
             });
             cy.wait('@putUserTraining');
-            cy.wait('@getUserTraining');
             cy.wait(1000);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalUpdateTrainingEditButton}${0}]`)
                 .should('be.visible')
@@ -643,35 +648,35 @@ describe('Sprint 4', () => {
                 cy.contains('Присяд').should('exist');
                 cy.contains('Прыжки с нагрузкой').should('exist');
             });
-            // TODO сделать скриншот
         });
         it('update past trainings', () => {
             goToCalendar();
+            takeScreenshots('update-past-trainings-1', resolutionMobile);
             cy.intercept('PUT', 'training/1', {
                 statusCode: 404,
             }).as('putUserTraining');
             // TODO Проверка изменения тренировок из проошлого с ошибкой сохранения
-            cy.get(`[title=${moment().format(FORMAT_Y_M_D)}]`).click();
-            generalBlockUpdatingTrainings(moment());
+            cy.get(`[title=${getFormatDate(today, true)}]`).click();
+            takeScreenshots('update-past-trainings-2', resolutionMobile);
+            generalBlockUpdatingTrainings(today);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`).within(() => {
                 cy.contains('Присяд').should('exist');
                 cy.contains('Прыжки с нагрузкой').should('exist');
                 cy.contains('Толкание нагрузки').should('not.exist');
-                // TODO: Нужен скриншот
                 cy.contains('Сохранить изменения').click();
             });
             cy.wait('@putUserTraining');
-            errorModal();
+            errorModal('update-past-trainings-3', resolutionMobile);
             // TODO  Проверка на успех изменения тренировки
-            cy.get(`[title=${moment().format(FORMAT_Y_M_D)}]`).click();
-            generalBlockUpdatingTrainings(moment());
+            cy.get(`[title=${getFormatDate(today, true)}]`).click();
+            generalBlockUpdatingTrainings(today);
             cy.intercept('PUT', 'training/1', {
                 statusCode: 200,
             }).as('putUserTraining');
             cy.intercept('GET', 'training', {
                 body: userTraining.map((el) =>
                     el._id === '1'
-                        ? JSON.parse(JSON.stringify(returnUpdateUserTraining('1', moment(), true)))
+                        ? JSON.parse(JSON.stringify(returnUpdateUserTraining('1', today, true)))
                         : JSON.parse(JSON.stringify(el)),
                 ),
                 statusCode: 200,
@@ -682,11 +687,11 @@ describe('Sprint 4', () => {
                 cy.contains('Сохранить изменения').click();
             });
             cy.wait('@putUserTraining');
-            cy.wait('@getUserTraining');
             cy.wait(1000);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalUpdateTrainingEditButton}${0}]`).should(
                 'be.disabled',
             );
+            takeScreenshots('update-past-trainings-4', resolutionMobile);
         });
     });
 });

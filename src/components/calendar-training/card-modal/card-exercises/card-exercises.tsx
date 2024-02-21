@@ -102,7 +102,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
                         loading={isLoading}
                         className={styles.buttonAction}
                         onClick={onSaveButton}
-                        disabled={disabledSave || !isExercisesNotEmpty(exercises)}
+                        disabled={disabledSave}
                     >
                         {textButtonCancel}
                     </Button>

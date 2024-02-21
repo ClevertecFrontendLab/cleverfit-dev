@@ -31,7 +31,6 @@ const cardBodyStyle = {
 
 export const MainPage = () => {
     const navigate = useNavigate();
-
     const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
 
     const onNavigate = async (route: string) => {

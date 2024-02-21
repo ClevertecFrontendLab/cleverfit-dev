@@ -188,6 +188,12 @@ export const CardModal: FC<CardModalWrapper> = ({
         createTraining(body);
     };
 
+    console.log('typeEdit', typeEdit);
+    console.log('!exercises.length', !exercises.length);
+    console.log(
+        '!exercises.length && typeEdit === ChangeType.ADD_NEW',
+        !exercises.length && typeEdit === ChangeType.ADD_NEW,
+    );
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
         [CardModalBody.TRAINING]: (
             <CardTraining
@@ -210,7 +216,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 exercises={exercises}
                 onAddButton={onOpenMenu}
                 onSaveButton={onSaveTraining}
-                disabledSave={!name || !exercises.length}
+                disabledSave={!exercises.length && typeEdit === ChangeType.ADD_NEW}
                 date={date}
                 onNextOpen={onNextState}
                 openFlag={CardModalBody.TRAINING}
