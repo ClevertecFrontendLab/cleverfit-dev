@@ -12,19 +12,19 @@ export const AppHeader = () => {
     const { pathname } = useLocation();
     const isMainPage = pathname === Paths.MAIN;
     const isReviewPage = pathname === Paths.REVIEWS;
+    const isProfilePage = pathname === `/${Paths.PROFILE}`;
 
     return (
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
-            <Breadcrumb>
-                <Breadcrumb.Item>
-                    <Link to={Paths.MAIN}>Главная</Link>
-                </Breadcrumb.Item>
-                {isReviewPage && (
-                    <Breadcrumb.Item>
-                        <Link to={Paths.REVIEWS}>Отзывы пользователей</Link>
-                    </Breadcrumb.Item>
-                )}
-            </Breadcrumb>
+            {!isProfilePage && (
+                <AppHeader.Breadcrumb>
+                    {isReviewPage && (
+                        <Breadcrumb.Item>
+                            <Link to={Paths.REVIEWS}>Отзывы пользователей</Link>
+                        </Breadcrumb.Item>
+                    )}
+                </AppHeader.Breadcrumb>
+            )}
             {isMainPage && (
                 <div className={styles.menu}>
                     <Typography.Title className={styles.greetings} level={1}>
@@ -32,17 +32,36 @@ export const AppHeader = () => {
                         <br />
                         которое поможет тебе добиться своей мечты!
                     </Typography.Title>
-                    <div className={styles.settings}>
-                        <Button type='text' className={styles.cardButton}>
-                            <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
-                            <span>Настройки</span>
-                        </Button>
-                        <Button type='default' className={styles.settingsMobileButton}>
-                            <img src={settingsIcon} alt='settings' />
-                        </Button>
-                    </div>
+                    <AppHeader.Settings />
+                </div>
+            )}
+            {isProfilePage && (
+                <div className={styles.menu}>
+                    <Typography.Title level={4}>Профиль</Typography.Title>
+                    <AppHeader.Settings />
                 </div>
             )}
         </Header>
     );
 };
+
+AppHeader.Breadcrumb = ({ children }: { children?: JSX.Element | boolean }) => (
+    <Breadcrumb>
+        <Breadcrumb.Item>
+            <Link to={Paths.MAIN}>Главная</Link>
+        </Breadcrumb.Item>
+        {children}
+    </Breadcrumb>
+);
+
+AppHeader.Settings = () => (
+    <div className={styles.settings}>
+        <Button type='text' className={styles.cardButton}>
+            <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
+            <span>Настройки</span>
+        </Button>
+        <Button type='default' className={styles.settingsMobileButton}>
+            <img src={settingsIcon} alt='settings' />
+        </Button>
+    </div>
+);

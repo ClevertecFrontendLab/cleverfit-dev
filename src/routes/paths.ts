@@ -1,11 +1,11 @@
-export enum RoutNamePage  {
+export enum RoutNamePage {
     MAIN = 'main',
     CALENDAR = 'calendar',
     TRAINING = 'training',
 }
 
 export enum SidebarPath {
-    MAIN = `/${RoutNamePage.MAIN}`
+    MAIN = `/${RoutNamePage.MAIN}`,
 }
 export const Paths = {
     AUTH: '/',
@@ -29,4 +29,3 @@ export const Paths = {
     ...RoutNamePage,
     ...SidebarPath,
 } as const;
-
