@@ -109,6 +109,7 @@ export const trainingApiSlice = apiSlice
                         date: body.date,
                         isImplementation: body.isImplementation,
                         exercises: body.exercises,
+                        parameters: body.parameters
                     },
                 }),
                 async onQueryStarted(_, { dispatch, queryFulfilled }) {

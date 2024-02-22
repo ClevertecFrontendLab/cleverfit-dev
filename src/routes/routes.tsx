@@ -11,6 +11,7 @@ import { MainPage } from '@pages/main-page';
 import { NotFoundPage } from '@pages/not-found-page';
 import { ResultProfilePage } from '@pages/result-profile-page';
 import { ReviewsPage } from '@pages/reviews-page';
+import { TrainingPage } from '@pages/training-page';
 
 import { Paths } from './paths';
 
@@ -32,6 +33,7 @@ export const routes = (
             </Route>
             <Route element={<MainLayout isSimpleFooter={true}  isImage={false}/>}>
                 <Route path={Paths.CALENDAR} element={<CalendarPage />} />
+                <Route path={Paths.TRAINING} element={<TrainingPage />} />
                 <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />

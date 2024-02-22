@@ -33,6 +33,12 @@ export const initialState: InitialStateTraining = {
         date: '',
         id: '',
         isImplementation: false,
+        parameters: {
+            repeat: false,
+            period: null,
+            jointTraining: false,
+            participants: [],
+        },
         exercises: [],
     },
     cardModalState: CardModalBody.TRAINING,
@@ -63,7 +69,6 @@ export const trainingSlice = createSlice({
                 if (isOldDate(userTrainingData.date)) {
                     state.typeEdit = ChangeType.EDIT_OLD;
                 }
-
                 if (
                     state.userTraining[userTrainingData.date as string]?.find(
                         ({ name }) => name === userTrainingData.name,

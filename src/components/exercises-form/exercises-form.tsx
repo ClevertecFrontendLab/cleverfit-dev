@@ -58,7 +58,7 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
                 value={name}
                 className={styles.input}
                 onChange={onChangeNameHandle}
-                placeholder='Упражнени'
+                placeholder='Упражнения'
                 addonAfter={
                     isCheck && (
                         <Checkbox checked={isChecked} onChange={() => onCheckedElement(index)} />

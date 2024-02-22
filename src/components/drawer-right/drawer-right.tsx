@@ -16,9 +16,10 @@ export const DrawerRight: FC<DrawerLeftProps> = ({ open, children, onClose, titl
     <Drawer
         title={title}
         destroyOnClose={true}
-        placement='right'
+        placement={window.innerWidth < 480 ? 'bottom' : 'right'}
+        height={window.innerWidth < 480 ? '90vh' : '100vh'}
         closable={true}
-        zIndex={1100}
+        zIndex={1050}
         closeIcon={iconClose}
         open={open}
         className={styles.drawer}

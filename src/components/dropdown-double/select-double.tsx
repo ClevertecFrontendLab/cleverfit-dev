@@ -5,10 +5,11 @@ import styles from './select-double.module.css';
 
 type DropdownDoubleProps = {
     defaultsItems: string[];
-    selectedItems: string[];
+    selectedItems?: string[];
     defaultItem: string;
     disabled: boolean;
     onSelectItem: (name: string) => void;
+    size?: string;
 };
 
 export const SelectDouble: FC<DropdownDoubleProps> = ({
@@ -17,10 +18,17 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     onSelectItem,
     defaultItem,
     disabled,
+    size
 }) => {
-    const items = defaultsItems
-        .filter((element) => !selectedItems.includes(element))
-        .map((element) => ({ label: element, value: element }));
+    let items = [];
+
+    if (selectedItems) {
+        items = defaultsItems
+            .filter((element) => !selectedItems.includes(element))
+            .map((element) => ({ label: element, value: element }));
+    } else {
+        items = defaultsItems.map((element) => ({ label: element, value: element }));
+    }
 
     const onChange = (value: string) => {
         onSelectItem(value);
@@ -33,6 +41,7 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
             className={styles.dropdownDouble}
             onChange={onChange}
             options={items}
+            size={size}
         />
     );
 };

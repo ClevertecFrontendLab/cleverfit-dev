@@ -5,12 +5,14 @@ import { BadgeChanged } from '@components/badge-changed/badge-changed.tsx';
 import { DrawerRight } from '@components/drawer-right';
 import { ExercisesForm } from '@components/exercises-form/exercises-form.tsx';
 import { ModalNotification } from '@components/modal-notification';
+import { Frequency } from '@components/training/my-workouts/elems/frequency/frequency.tsx';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { leftMenuSelector, setStateLeftMenu } from '@redux/modules/app.ts';
 import {
     addDefaultTraining,
     addExercises,
     deleteExercises,
+    resetStateCreating,
     resetTraining,
     setExercisesData,
     setExercisesNotEmpty,
@@ -22,7 +24,8 @@ import { useCreateTrainingMutation, useUpdateTrainingMutation } from '@redux/ser
 import { UserTraining } from '@redux/types/training.ts';
 import { findUserTraining } from '@utils/find-user-training.ts';
 import { FORMAT_Y_M_D, formatDate, isOldDate } from '@utils/format-date.ts';
-import { Button, Typography } from 'antd';
+import { Alert, Button, Typography } from 'antd';
+import classNames from 'classnames';
 import moment, { Moment } from 'moment';
 
 import { CardModalBody, ChangeType } from '../../../constans/card-modal.ts';
@@ -35,11 +38,13 @@ import styles from './card-modal.module.css';
 import Nullable = Cypress.Nullable;
 
 type CardModalWrapper = {
-    offsetTop: number;
-    trainings: UserTraining[];
-    date: Moment;
+    offsetTop?: number;
+    trainings?: UserTraining[];
+    date?: Moment;
     onClose: () => void;
-    isLeft: boolean;
+    isLeft?: boolean;
+    screen?: string;
+    selectedTraining?: UserTraining;
 };
 
 const titleDrawer: Record<ChangeType, string> = {
@@ -60,24 +65,31 @@ export const CardModal: FC<CardModalWrapper> = ({
     trainings = [],
     date,
     offsetTop,
+    screen,
+    selectedTraining,
 }) => {
-    const [selectTraining, setSelectTraining] = useState('');
+    const [selectTraining, setSelectTraining] = useState(selectedTraining?.name ?? '');
     const [indexes, setIndexes] = useState<number[]>([]);
     const [openModalError, setOpenModalError] = useState(false);
+
     const dispatch = useAppDispatch();
     const openMenu = useAppSelector(leftMenuSelector);
     const {
         defaultTrainings,
         cardModalState,
         typeEdit,
-        createdTraining: { exercises, date: dataCreated, name, id },
+        createdTraining: { exercises, date: dataCreated, name, id, parameters },
         userTraining,
     } = useAppSelector(trainingsSelector);
 
-    const [createTraining, { isLoading: isLoadingCreate, isError: isErrorCreate }] =
-        useCreateTrainingMutation();
-    const [updateTraining, { isLoading: isLoadingUpdate, isError: isErrorUpdate }] =
-        useUpdateTrainingMutation();
+    const [
+        createTraining,
+        { isLoading: isLoadingCreate, isError: isErrorCreate, isSuccess: isCreateSuccess },
+    ] = useCreateTrainingMutation();
+    const [
+        updateTraining,
+        { isLoading: isLoadingUpdate, isError: isErrorUpdate, isSuccess: isUpdateSuccess },
+    ] = useUpdateTrainingMutation();
 
     useEffect(() => {
         if (isErrorCreate || isErrorUpdate) {
@@ -111,6 +123,7 @@ export const CardModal: FC<CardModalWrapper> = ({
     const onCloseDrawer = () => {
         dispatch(setStateLeftMenu());
         dispatch(setExercisesNotEmpty(exercises.filter(({ name }) => Boolean(name))));
+        dispatch(resetStateCreating());
     };
 
     const onSelectedTraining = (value: string) => {
@@ -167,14 +180,17 @@ export const CardModal: FC<CardModalWrapper> = ({
             name,
             exercises,
             date: `${dataCreated}T00:00:00.000Z`,
+            parameters,
         };
 
         if (typeEdit !== ChangeType.ADD_NEW && id) {
             updateTraining(body);
+            dispatch(setStateLeftMenu());
 
             return;
         }
         createTraining(body);
+        dispatch(setStateLeftMenu());
     };
 
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
@@ -183,7 +199,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 disabledButton={defaultTrainings.length === trainings.length || isOldDate(date)}
                 isTraining={Boolean(trainings.length)}
                 trainings={trainings}
-                date={date}
+                date={date as Moment}
                 onNextOpen={onNextState}
                 openFlag={CardModalBody.EXERCISES}
                 onClose={onClose}
@@ -196,11 +212,11 @@ export const CardModal: FC<CardModalWrapper> = ({
                 defaultsTrainings={defaultTrainings}
                 selectedTraining={selectTraining}
                 trainings={trainings}
-                exercises={exercises}
+                exercises={selectedTraining?.exercises ?? exercises}
                 onAddButton={onOpenMenu}
                 onSaveButton={onSaveTraining}
                 disabledSave={!name || !exercises.length}
-                date={date}
+                date={date as Moment}
                 onNextOpen={onNextState}
                 openFlag={CardModalBody.TRAINING}
                 onSelectedTraining={onSelectedTraining}
@@ -213,8 +229,12 @@ export const CardModal: FC<CardModalWrapper> = ({
         : `${isLeft ? styles.cardModalLeft : styles.cardModalRight}`;
 
     return (
-        <div style={{ top: offsetTop }} className={`${styles.cardModalWrapper} ${classWrapper}`}>
-            {ComponentToRender[cardModalState || CardModalBody.TRAINING]}
+        <div
+            style={{ top: offsetTop }}
+            className={classNames(styles.cardModalWrapper, classWrapper)}
+        >
+            {!screen && ComponentToRender[cardModalState || CardModalBody.TRAINING]}
+
             <DrawerRight
                 open={openMenu}
                 onClose={onCloseDrawer}
@@ -222,17 +242,21 @@ export const CardModal: FC<CardModalWrapper> = ({
                 iconClose={iconDrawer[typeEdit]}
             >
                 <div>
-                    <div className={styles.titleDate}>
-                        <BadgeChanged
-                            isStatus={true}
-                            isEdit={false}
-                            text={name}
-                            date={moment(dataCreated)}
-                        />
-                        <Typography.Text type='secondary'>
-                            {formatDate(dataCreated)}
-                        </Typography.Text>
-                    </div>
+                    {screen === 'training' ? (
+                        <Frequency />
+                    ) : (
+                        <div className={styles.titleDate}>
+                            <BadgeChanged
+                                isStatus={true}
+                                isEdit={false}
+                                text={name}
+                                date={moment(dataCreated)}
+                            />
+                            <Typography.Text type='secondary'>
+                                {formatDate(dataCreated)}
+                            </Typography.Text>
+                        </div>
+                    )}
 
                     {exercises.map(({ weight, approaches, name, replays }, index) => (
                         <ExercisesForm
@@ -275,6 +299,19 @@ export const CardModal: FC<CardModalWrapper> = ({
                             </Button>
                         )}
                     </div>
+                    {screen === 'training' && (
+                        <div className={styles.saveButton}>
+                            <Button
+                                disabled={isLoadingCreate}
+                                type='primary'
+                                size='large'
+                                onClick={onSaveTraining}
+                                block={true}
+                            >
+                                Сохранить
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </DrawerRight>
 
@@ -287,6 +324,20 @@ export const CardModal: FC<CardModalWrapper> = ({
                 subtitle='Попробуйте ещё раз.'
                 open={openModalError}
             />
+
+            {screen && (isCreateSuccess || isUpdateSuccess) && (
+                <Alert
+                    message={
+                        isCreateSuccess
+                            ? 'Новая тренировка успешно добавлена'
+                            : 'Тренировка успешно обновлена'
+                    }
+                    type='success'
+                    showIcon={true}
+                    closable={true}
+                    className={styles.alert}
+                />
+            )}
         </div>
     );
 };
