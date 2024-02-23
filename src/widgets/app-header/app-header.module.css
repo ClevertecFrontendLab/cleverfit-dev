@@ -38,6 +38,16 @@
     display: none;
 }
 
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile > h4 {
+  margin-bottom: 0;
+}
+
 @media (max-width: 834px) {
     .settingsIcon {
         display: none;

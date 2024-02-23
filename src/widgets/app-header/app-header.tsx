@@ -36,7 +36,7 @@ export const AppHeader = () => {
                 </div>
             )}
             {isProfilePage && (
-                <div className={styles.menu}>
+                <div className={styles.profile}>
                     <Typography.Title level={4}>Профиль</Typography.Title>
                     <AppHeader.Settings />
                 </div>
