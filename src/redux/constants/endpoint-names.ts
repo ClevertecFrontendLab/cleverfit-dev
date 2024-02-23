@@ -10,4 +10,6 @@ export enum EndpointNames {
     GET_USER_TRAINING = 'get-user-training',
     CREATE_TRAINING = 'create-training',
     UPDATE_TRAINING = 'update-training',
+    GET_USER = 'get-user',
+    UPDATE_USER = 'update-user',
 }

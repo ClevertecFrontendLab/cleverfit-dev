@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { CalendarTwoTone, PlusOutlined } from '@ant-design/icons';
-import { AuthFieldNames, CredentialsType } from '@common-types/credentials';
+import { AuthFieldNames, CredentialsType, ProfileFieldNames } from '@common-types/credentials';
 import { VALIDATION_FIELD_REQUIRED } from '@constants/general';
 import {
     VALIDATION_CONFIRM_PASSWORD,
@@ -9,7 +9,7 @@ import {
 import { useAuthForm } from '@pages/login-page/hooks/use-auth-form';
 import { confirmPasswordValidator } from '@shared/utils/confirm-password-validator';
 import { passwordValidator } from '@shared/utils/password-validator';
-import { Button, DatePicker, Form, Input, Upload } from 'antd';
+import { Button, DatePicker, Form, FormInstance, Input, Upload } from 'antd';
 import { FormProps } from 'antd/es/form';
 import classNames from 'classnames';
 
@@ -18,6 +18,8 @@ import styles from './validation-form.module.css';
 type ValidationFormProps = {
     children?: ReactNode;
     className?: string;
+    onCheckEmail?: () => void;
+    form: FormInstance;
 } & FormProps;
 
 type AuthForm = Partial<ReturnType<typeof useAuthForm>>;
@@ -32,13 +34,19 @@ const ValidationFormContext = createContext(
     },
 );
 
-export const ValidationForm = ({ children, className, size }: ValidationFormProps) => {
+export const ValidationForm = ({
+    children,
+    className,
+    size,
+    initialValues,
+    form,
+    onFinish,
+    onCheckEmail,
+}: ValidationFormProps) => {
     const [errorValidate, setErrorValidate] = useState<ErrorValidate>({
         [AuthFieldNames.email]: false,
         [AuthFieldNames.password]: false,
     });
-
-    const { form, onFinish, onCheckEmail } = useAuthForm();
 
     const onFieldsChange = () => {
         const errors = form.getFieldsError([AuthFieldNames.email, AuthFieldNames.password]);
@@ -66,6 +74,7 @@ export const ValidationForm = ({ children, className, size }: ValidationFormProp
         <ValidationFormContext.Provider value={memoizedContextValue}>
             <Form
                 className={className}
+                initialValues={initialValues}
                 form={form}
                 onFinish={onFinish}
                 requiredMark={false}
@@ -80,13 +89,13 @@ export const ValidationForm = ({ children, className, size }: ValidationFormProp
 };
 
 export const ValidationFormName = ({ dataTestId }: DataTestIdProp) => (
-    <Form.Item>
+    <Form.Item name={ProfileFieldNames.name}>
         <Input type='text' placeholder='Имя' data-test-id={dataTestId} />
     </Form.Item>
 );
 
 export const ValidationFormSurname = ({ dataTestId }: DataTestIdProp) => (
-    <Form.Item>
+    <Form.Item name={ProfileFieldNames.surname}>
         <Input type='text' placeholder='Фамилия' data-test-id={dataTestId} />
     </Form.Item>
 );
@@ -95,7 +104,7 @@ export const ValidationFormBirthday = ({ dataTestId }: DataTestIdProp) => {
     const iconColor = 'rgba(0, 0, 0, 0.25)';
 
     return (
-        <Form.Item>
+        <Form.Item name={ProfileFieldNames.birthday}>
             <DatePicker
                 className={styles.datepicker}
                 placeholder='Дата рождения'
@@ -107,11 +116,11 @@ export const ValidationFormBirthday = ({ dataTestId }: DataTestIdProp) => {
 };
 
 export const ValidationFormAvatar = ({ dataTestId }: DataTestIdProp) => (
-    <Form.Item>
-        <Upload action='/upload.do' listType='picture-card' data-test-id={dataTestId}>
-            <button style={{ border: 0, background: 'none' }} type='button'>
+    <Form.Item name={ProfileFieldNames.avatar}>
+        <Upload listType='picture-card' data-test-id={dataTestId} showUploadList={false}>
+            <button className={styles.avatarBtn} type='button'>
                 <PlusOutlined />
-                <div>Загрузить фото профиля</div>
+                <div className={styles.avatarBtnText}>Загрузить фото профиля</div>
             </button>
         </Upload>
     </Form.Item>

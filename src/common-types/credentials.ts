@@ -5,6 +5,13 @@ export enum AuthFieldNames {
     remember = 'remember',
 }
 
+export enum ProfileFieldNames {
+    name = 'firstName',
+    surname = 'lastName',
+    birthday = 'birthday',
+    avatar = 'imgSrc',
+}
+
 export enum FeedbackFieldNames {
     message = 'message',
     rating = 'rating',

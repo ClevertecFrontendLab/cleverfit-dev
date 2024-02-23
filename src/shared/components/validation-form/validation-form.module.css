@@ -84,6 +84,22 @@
   width: 100%;
 } 
 
+div:global(.ant-upload.ant-upload-select-picture-card) {
+  margin: 0;
+}
+
+.avatarBtn {
+  height: 100%;
+  padding: 0 17px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.avatarBtnText {
+  color: var(--secondary-light);
+}
+
 @media (max-width: 490px) {
   .forgotPassword {
     font: var(--font-s);
