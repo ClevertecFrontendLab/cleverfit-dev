@@ -1,5 +1,24 @@
 /// <reference types="cypress" />
 
+const feedbacks = {
+    emptyFeedbacks: [],
+    feedbacksList: [
+        { message: 'test1', rating: 1, createdAt: '2024-01-31T06:57:32.243Z' },
+        { message: 'test2', rating: 5, createdAt: '2024-01-30T06:57:32.243Z' },
+        { message: 'test3', rating: 2, createdAt: '2024-01-28T06:57:32.243Z' },
+        { message: 'test4', rating: 3, createdAt: '2024-01-29T06:57:32.243Z' },
+        { message: 'test5', rating: 4, createdAt: '2024-01-27T06:57:32.243Z' },
+    ],
+    updateFeedbacksList: [
+        { message: 'test1', rating: 1, createdAt: '2024-01-31T06:57:32.243Z' },
+        { message: 'test2', rating: 5, createdAt: '2024-01-30T06:57:32.243Z' },
+        { message: 'test3', rating: 2, createdAt: '2024-01-28T06:57:32.243Z' },
+        { message: 'test4', rating: 3, createdAt: '2024-01-29T06:57:32.243Z' },
+        { message: 'test5', rating: 4, createdAt: '2024-01-27T06:57:32.243Z' },
+        { rating: 2, createdAt: '2024-02-01T06:57:32.243Z' },
+    ],
+};
+
 describe('Sprint 3', () => {
     describe('Feedbacks', () => {
         const resolutions = [
@@ -7,25 +26,17 @@ describe('Sprint 3', () => {
             { width: 833, height: 900 },
             { width: 1440, height: 900 },
         ];
+        const resolutionMobile = [{ width: 360, height: 740 }];
+        const resolutionTablet = [{ width: 833, height: 900 }];
+        const resolutionLaptop = [{ width: 1440, height: 900 }];
 
-        let data;
-
-        before(() => {
-            cy.fixture('feedbacks').then((feedbacksData) => {
-                data = feedbacksData;
-            });
-        });
-
-        function takeScreenshots(screenshotName: string) {
+        function takeScreenshots(screenshotName: string, resolutionsView = resolutions) {
             cy.wait(1000);
-            for (let i = 0; i < resolutions.length; i++) {
-                cy.viewport(resolutions[i].width, resolutions[i].height);
-                cy.screenshot(
-                    `${screenshotName}_${resolutions[i].width}x${resolutions[i].height}`,
-                    {
-                        capture: 'viewport',
-                    },
-                );
+            for (let i = 0; i < resolutionsView.length; i++) {
+                cy.viewport(resolutionsView[i].width, resolutionsView[i].height);
+                cy.screenshot(`${screenshotName}`, {
+                    capture: 'viewport',
+                });
             }
         }
 
@@ -54,7 +65,7 @@ describe('Sprint 3', () => {
         });
 
         it('First review', () => {
-            cy.intercept('GET', 'feedback', { body: data.emptyFeedbacks }).as('getFeedbacks');
+            cy.intercept('GET', 'feedback', { body: feedbacks.emptyFeedbacks }).as('getFeedbacks');
             cy.intercept('POST', 'feedback', {
                 body: { message: 'test321', rating: 3, createdAt: '2024-02-01T06:57:32.243Z' },
                 statusCode: 200,
@@ -67,10 +78,10 @@ describe('Sprint 3', () => {
                 });
             });
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('empty-review-list');
+            takeScreenshots('empty-review-list', resolutionLaptop);
 
             cy.get('[data-test-id="write-review"]').click();
-            takeScreenshots('review-modal');
+            takeScreenshots('review-modal', resolutionLaptop);
             cy.get('.ant-modal ul li').eq(4).click();
             checkRating(4);
             cy.get('.ant-modal ul li').eq(4).click();
@@ -85,11 +96,11 @@ describe('Sprint 3', () => {
             cy.wait('@postFeedback');
             cy.wait('@getFeedbacks');
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('one-review');
+            takeScreenshots('one-review', resolutionLaptop);
         });
 
         it('More than 4 reviews', () => {
-            cy.intercept('GET', 'feedback', { body: data.feedbacksList }).as('getFeedbacks');
+            cy.intercept('GET', 'feedback', { body: feedbacks.feedbacksList }).as('getFeedbacks');
             cy.intercept('POST', 'feedback', {
                 body: { rating: 2, createdAt: '2024-02-01T06:57:32.243Z' },
                 statusCode: 200,
@@ -98,21 +109,21 @@ describe('Sprint 3', () => {
             cy.get('[data-test-id="see-reviews"]').click();
             cy.wait('@getFeedbacks');
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('more-than-4-reviews');
+            takeScreenshots('more-than-4-reviews', resolutionTablet);
 
             cy.get('[data-test-id="all-reviews-button"]').click();
-            takeScreenshots('expand-review-list');
+            takeScreenshots('expand-review-list', resolutionTablet);
             cy.get('[data-test-id="write-review"]').click();
             cy.get('.ant-modal ul li').eq(1).click();
             cy.intercept('GET', 'feedback', {
-                body: data.updateFeedbacksList,
+                body: feedbacks.updateFeedbacksList,
             }).as('getFeedbacks');
             cy.get('[data-test-id="new-review-submit-button"]').click();
             cy.wait('@postFeedback');
             cy.wait('@getFeedbacks');
             cy.contains('Отлично').click();
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('updated-review-list');
+            takeScreenshots('updated-review-list', resolutionTablet);
         });
 
         it('Feedback GET error', () => {
@@ -121,14 +132,14 @@ describe('Sprint 3', () => {
             cy.get('[data-test-id="see-reviews"]').click();
             cy.wait('@getFeedbacks');
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('get-feedback-error');
+            takeScreenshots('get-feedback-error', resolutionMobile);
 
             cy.contains('Назад').click();
             cy.url().should('include', '/main');
         });
 
         it('Feedback POST error', () => {
-            cy.intercept('GET', 'feedback', { body: data.feedbacksList }).as('getFeedbacks');
+            cy.intercept('GET', 'feedback', { body: feedbacks.feedbacksList }).as('getFeedbacks');
             cy.intercept('POST', 'feedback', { statusCode: 500 }).as('postFeedback');
 
             cy.get('[data-test-id="see-reviews"]').click();
@@ -136,13 +147,12 @@ describe('Sprint 3', () => {
             cy.url().should('include', '/feedbacks');
 
             cy.get('[data-test-id="write-review"]').click();
-            takeScreenshots('review-modal');
             cy.get('.ant-modal ul li').eq(2).click();
             cy.get('.ant-modal textarea').type('test321');
             cy.get('[data-test-id="new-review-submit-button"]').click();
             cy.wait('@postFeedback');
             cy.url().should('include', '/feedbacks');
-            takeScreenshots('reviews-not-saved-modal');
+            takeScreenshots('reviews-not-saved-modal', resolutionMobile);
 
             cy.contains('Закрыть').click();
             cy.url().should('include', '/feedbacks');
@@ -165,13 +175,13 @@ describe('Sprint 3', () => {
         });
     });
 
-    describe('Google auth', () => {
-        // TODO: реализовать тест google-auth
-        // it('Auth with google', () => {
-        //     cy.visit('/');
-        //     cy.viewport(1440, 900);
-        //     cy.visit('/auth');
-        //     cy.get('[data-test-id="google-submit-button"]').click();
-        // });
-    });
+    // describe('Google auth', () => {
+    // TODO: реализовать тест google-auth
+    // it('Auth with google', () => {
+    //     cy.visit('/');
+    //     cy.viewport(1440, 900);
+    //     cy.visit('/auth');
+    //     cy.get('[data-test-id="google-submit-button"]').click();
+    // });
+    // });
 });
