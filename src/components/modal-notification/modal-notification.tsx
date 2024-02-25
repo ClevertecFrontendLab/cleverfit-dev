@@ -2,7 +2,7 @@ import { FC, memo, useEffect, useState } from 'react';
 import { CloseCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, Modal, notification, Typography } from 'antd';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import styles from './modal-notification.module.css';
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Select } from 'antd';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import styles from './select-double.module.css';
 

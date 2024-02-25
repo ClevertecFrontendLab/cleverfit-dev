@@ -51,7 +51,6 @@
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "@vitejs/plugin-react": "^4.2.1",
-    "@wisersolutions/cypress-antd": "1.0.3",
     "@zougt/vite-plugin-theme-preprocessor": "^1.4.8",
     "arui-presets-lint": "^6.1.0",
     "cypress": "^12.7.0",

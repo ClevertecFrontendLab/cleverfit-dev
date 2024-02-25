@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Drawer } from 'antd';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import styles from './drawer-right.module.css';
 
