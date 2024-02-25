@@ -10,4 +10,5 @@ export enum ApiEndpoints {
     TRAINING_LIST = 'catalogs/training-list',
     CURRENT_USER = 'user/me',
     USER = 'user',
+    IMAGE = 'upload-image',
 }

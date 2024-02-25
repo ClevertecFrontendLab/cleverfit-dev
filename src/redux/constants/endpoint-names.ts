@@ -12,4 +12,5 @@ export enum EndpointNames {
     UPDATE_TRAINING = 'update-training',
     GET_USER = 'get-user',
     UPDATE_USER = 'update-user',
+    UPLOAD_UMAGE = 'upload-image',
 }

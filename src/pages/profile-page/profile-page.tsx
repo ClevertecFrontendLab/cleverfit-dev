@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { ProfileFieldNames } from '@common-types/credentials';
 import { RequireAuth } from '@components/require-auth';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { profileCredentialSelector } from '@redux/modules/profile';
-import { useLazyGetUserQuery } from '@redux/serviсes/profile';
+import { ProfileCredential, profileCredentialSelector } from '@redux/modules/profile';
+import { useLazyGetUserQuery, useUpdateUserMutation } from '@redux/serviсes/profile';
 import {
     ValidateFormSubmit,
     ValidationForm,
@@ -15,6 +16,7 @@ import {
     ValidationFormSurname,
 } from '@shared/components/validation-form/validation-form';
 import { Form, Typography } from 'antd';
+import moment from 'moment';
 
 import styles from './profile-page.module.css';
 
@@ -22,6 +24,12 @@ export const ProfilePage = () => {
     const credential = useAppSelector(profileCredentialSelector);
     const [form] = Form.useForm();
     const [getUser, { isUninitialized, isSuccess }] = useLazyGetUserQuery();
+    const [updateUser] = useUpdateUserMutation();
+
+    const initialValues = {
+        ...credential,
+        [ProfileFieldNames.birthday]: moment(credential.birthday),
+    };
 
     useEffect(() => {
         if (isUninitialized) {
@@ -30,6 +38,13 @@ export const ProfilePage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const onFinish = useCallback(
+        (credentials: ProfileCredential) => {
+            updateUser({ ...credentials, imgSrc: '' });
+        },
+        [updateUser],
+    );
+
     return (
         <RequireAuth>
             <div className={styles.back}>
@@ -37,8 +52,9 @@ export const ProfilePage = () => {
                     <ValidationForm
                         className={styles.form}
                         size='large'
-                        initialValues={credential}
+                        initialValues={initialValues}
                         form={form}
+                        onFinish={onFinish}
                     >
                         <fieldset>
                             <legend>

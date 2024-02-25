@@ -27,7 +27,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             },
         }),
 
-        updateUser: builder.mutation<void, ProfileCredential>({
+        updateUser: builder.mutation<ProfileCredential, ProfileCredential>({
             query: (body) => ({
                 url: ApiEndpoints.USER,
                 method: 'PUT',
@@ -43,14 +43,38 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     dispatch(setAppLoader(true));
-                    await queryFulfilled;
-                    // dispatch(setStateCardModal(CardModalBody.TRAINING));
+                    const { data } = await queryFulfilled;
+
+                    dispatch(setProfileCredential(data));
+                    dispatch(setAppLoader(false));
                 } catch {
                     dispatch(resetStateCreating());
                     dispatch(setAppLoader(false));
                 }
             },
         }),
+
+        createAvatar: builder.mutation<{ url: string }, FormData>({
+            query: (data) => ({
+                url: ApiEndpoints.IMAGE,
+                method: 'POST',
+                name: EndpointNames.UPLOAD_UMAGE,
+                body: data,
+            }),
+
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                } catch {
+                    dispatch(resetStateCreating());
+                }
+            },
+        }),
     }),
 });
-export const { useLazyGetUserQuery, useGetUserQuery, useUpdateUserMutation } = profileApiSlice;
+export const {
+    useLazyGetUserQuery,
+    useGetUserQuery,
+    useUpdateUserMutation,
+    useCreateAvatarMutation,
+} = profileApiSlice;
