@@ -1,7 +1,7 @@
 import { ApiEndpoints } from '@redux/constants/api';
 import { EndpointNames } from '@redux/constants/endpoint-names';
-import { setAppLoader } from '@redux/modules/app';
-import { ProfileCredential, setProfileCredential } from '@redux/modules/profile.ts';
+import { setAppAlert, setAppLoader } from '@redux/modules/app';
+import { ProfileCredential, setIsLoaded, setProfileCredential } from '@redux/modules/profile.ts';
 import { resetStateCreating } from '@redux/modules/training';
 import { apiSlice } from '@redux/serviсes/index';
 
@@ -21,6 +21,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
 
                     dispatch(setAppLoader(false));
                     dispatch(setProfileCredential(data));
+                    dispatch(setIsLoaded());
                 } catch {
                     dispatch(setAppLoader(false));
                 }
@@ -32,13 +33,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                 url: ApiEndpoints.USER,
                 method: 'PUT',
                 name: EndpointNames.UPDATE_USER,
-                body: {
-                    firstName: body.firstName,
-                    lastName: body.lastName,
-                    birthday: body.birthday,
-                    imgSrc: body.imgSrc,
-                    email: body.email,
-                },
+                body,
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
@@ -47,34 +42,18 @@ export const profileApiSlice = apiSlice.injectEndpoints({
 
                     dispatch(setProfileCredential(data));
                     dispatch(setAppLoader(false));
+                    dispatch(
+                        setAppAlert({
+                            message: 'Данные профиля успешно обновлены',
+                            type: 'success',
+                        }),
+                    );
                 } catch {
                     dispatch(resetStateCreating());
                     dispatch(setAppLoader(false));
                 }
             },
         }),
-
-        createAvatar: builder.mutation<{ url: string }, FormData>({
-            query: (data) => ({
-                url: ApiEndpoints.IMAGE,
-                method: 'POST',
-                name: EndpointNames.UPLOAD_UMAGE,
-                body: data,
-            }),
-
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                try {
-                    await queryFulfilled;
-                } catch {
-                    dispatch(resetStateCreating());
-                }
-            },
-        }),
     }),
 });
-export const {
-    useLazyGetUserQuery,
-    useGetUserQuery,
-    useUpdateUserMutation,
-    useCreateAvatarMutation,
-} = profileApiSlice;
+export const { useLazyGetUserQuery, useGetUserQuery, useUpdateUserMutation } = profileApiSlice;

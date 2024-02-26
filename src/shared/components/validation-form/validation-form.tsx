@@ -1,19 +1,22 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { CalendarTwoTone, PlusOutlined } from '@ant-design/icons';
 import { AuthFieldNames, CredentialsType, ProfileFieldNames } from '@common-types/credentials';
+import { ModalNotification } from '@components/modal-notification';
 import { API_URL, VALIDATION_FIELD_REQUIRED } from '@constants/general';
+import { ModalNotificationTheme } from '@constants/modal-notification-theme';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import {
     VALIDATION_CONFIRM_PASSWORD,
     VALIDATION_FIELD_EMAIL,
 } from '@pages/login-page/constants/common';
 import { useAuthForm } from '@pages/login-page/hooks/use-auth-form';
+import { ApiEndpoints } from '@redux/constants/api';
 import { accessTokenSelector } from '@redux/modules/app';
-import { useCreateAvatarMutation } from '@redux/serviсes/profile';
 import { confirmPasswordValidator } from '@shared/utils/confirm-password-validator';
 import { passwordValidator } from '@shared/utils/password-validator';
-import { Button, DatePicker, Form, FormInstance, Input, Progress, Upload, UploadFile } from 'antd';
+import { Button, DatePicker, Form, FormInstance, Input, Upload, UploadFile } from 'antd';
 import { FormProps } from 'antd/es/form';
+import { UploadFileStatus } from 'antd/lib/upload/interface';
 import classNames from 'classnames';
 
 import styles from './validation-form.module.css';
@@ -21,7 +24,6 @@ import styles from './validation-form.module.css';
 type ValidationFormProps = {
     children?: ReactNode;
     className?: string;
-    onCheckEmail?: () => void;
     form: FormInstance;
 } & FormProps;
 
@@ -32,6 +34,7 @@ type DataTestIdProp = { dataTestId?: string };
 const ValidationFormContext = createContext(
     {} as AuthForm & {
         errorValidate: ErrorValidate;
+        isTouched: boolean;
     },
 );
 
@@ -42,18 +45,21 @@ export const ValidationForm = ({
     initialValues,
     form,
     onFinish,
-    onCheckEmail,
 }: ValidationFormProps) => {
     const [errorValidate, setErrorValidate] = useState<ErrorValidate>({
         [AuthFieldNames.email]: false,
         [AuthFieldNames.password]: false,
     });
 
+    const [isTouched, setIsTouched] = useState(false);
+
     const onFieldsChange = () => {
         const errors = form.getFieldsError([AuthFieldNames.email, AuthFieldNames.password]);
 
         const isErrorEmail = errors[0].errors.length > 0;
         const isErrorPassword = errors[1].errors.length > 0;
+
+        setIsTouched(true);
 
         setErrorValidate({
             [AuthFieldNames.email]: isErrorEmail,
@@ -65,15 +71,16 @@ export const ValidationForm = ({
         () => ({
             form,
             onFinish,
-            onCheckEmail,
             errorValidate,
+            isTouched,
         }),
-        [form, onFinish, onCheckEmail, errorValidate],
+        [form, onFinish, errorValidate, isTouched],
     );
 
     return (
         <ValidationFormContext.Provider value={memoizedContextValue}>
             <Form
+                name='validateOnly'
                 className={className}
                 initialValues={initialValues}
                 form={form}
@@ -116,68 +123,75 @@ export const ValidationFormBirthday = ({ dataTestId }: DataTestIdProp) => {
     );
 };
 
+const BIG_FILE_MESSAGE = 'Файл слишком большой';
+
 export const ValidationFormAvatar = ({ dataTestId }: DataTestIdProp) => {
     const { form } = useContext(ValidationFormContext);
-    const accessToken = useAppSelector(accessTokenSelector);
+    const token = useAppSelector(accessTokenSelector);
 
     const url = form?.getFieldValue(ProfileFieldNames.avatar);
     const initialFile = {
         uid: '1',
         name: 'image.png',
-        url: 'https://marathon-api.clevertec.ru/media/avatar/65d79d52ff8f5241f9a32406.png',
+        url: `https://training-api.clevertec.ru${url}`,
     };
 
-    const [fileList, setFileList] = useState<UploadFile[]>([initialFile]);
-    const [createAvatar, { isLoading, startedTimeStamp, fulfilledTimeStamp }] =
-        useCreateAvatarMutation();
+    const [fileList, setFileList] = useState<UploadFile[]>(url ? [initialFile] : []);
+    const [isBigFile, setIsBigFile] = useState(false);
 
     const showPreview = !!fileList[0];
 
-    const handleChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) =>
+    const handleChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
         setFileList(newFileList);
 
-    const handleUpload = async ({ onError, file, onProgress }: UploadRequestOption<any>) => {
-        const formData = new FormData();
+        const newFile = newFileList[0];
 
-        formData.append('file', file);
+        if (newFile) {
+            if (newFile.status === 'error') {
+                const errorFile = {
+                    ...initialFile,
+                    url: '',
+                    status: 'error' as UploadFileStatus,
+                };
 
-        onProgress({ percent: 'auto' }, file);
+                setFileList([errorFile]);
+            }
 
-        // /media/avatar/65d79d52ff8f5241f9a32406.png
-
-        // const { data } = await createAvatar(formData).catch(() => onError());
-
-        // console.log(startedTimeStamp)2
-
-        const { data } = {
-            data: {
-                uid: '1',
-                name: 'avatar',
-                url: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/01/goku-and-shonen-manga.jpg',
-            },
-        };
-
-        setFileList(() => [{ ...initialFile, url: `${data.url}` }]);
-
-        onProgress({ percent: 50 }, file);
+            if (newFile.response?.message === BIG_FILE_MESSAGE) {
+                setIsBigFile(true);
+            }
+        }
     };
 
+    const onCloseModal = useCallback(() => setIsBigFile(false), []);
+
     return (
-        <Form.Item name={ProfileFieldNames.avatar}>
-            <Upload
-                headers={{ authorization: `Bearer ${accessToken}` }}
-                maxCount={1}
-                listType='picture-card'
-                data-test-id={dataTestId}
-                fileList={fileList}
-                accept='image/*'
-                customRequest={handleUpload}
-                onChange={handleChange}
-                progress={{ strokeWidth: 4, showInfo: false, size: 'default' }}
-            >
-                {!showPreview && <ValidationFormAvatar.UploadBtn />}
-            </Upload>
-        </Form.Item>
+        <React.Fragment>
+            <ModalNotification
+                textButton='Закрыть'
+                onClickButton={onCloseModal}
+                type='error'
+                title={BIG_FILE_MESSAGE}
+                subtitle='Выберите файл размером менее 5 МБ.'
+                open={isBigFile}
+                theme={ModalNotificationTheme.ONE_COLOR}
+            />
+            <Form.Item name={ProfileFieldNames.avatar}>
+                <Upload
+                    maxCount={1}
+                    action={`${API_URL}/${ApiEndpoints.IMAGE}`}
+                    headers={{ authorization: `Bearer ${token}` }}
+                    listType='picture-card'
+                    data-test-id={dataTestId}
+                    fileList={fileList}
+                    accept='image/*'
+                    onChange={handleChange}
+                    progress={{ strokeWidth: 4, showInfo: false, size: 'default' }}
+                >
+                    {!showPreview && <ValidationFormAvatar.UploadBtn />}
+                </Upload>
+            </Form.Item>
+        </React.Fragment>
     );
 };
 
@@ -239,15 +253,20 @@ export const ValidateFormSubmit = ({
     children,
 }: DataTestIdProp & {
     children: ReactNode | string;
-}) => (
-    <Form.Item className={styles.formItemButton}>
-        <Button
-            type='primary'
-            htmlType='submit'
-            className={styles.submitButton}
-            data-test-id={dataTestId}
-        >
-            {children}
-        </Button>
-    </Form.Item>
-);
+}) => {
+    const { isTouched } = useContext(ValidationFormContext);
+
+    return (
+        <Form.Item className={styles.formItemButton}>
+            <Button
+                type='primary'
+                htmlType='submit'
+                className={styles.submitButton}
+                data-test-id={dataTestId}
+                disabled={!isTouched}
+            >
+                {children}
+            </Button>
+        </Form.Item>
+    );
+};

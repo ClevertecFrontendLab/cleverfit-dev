@@ -1,6 +1,8 @@
 import { FC, memo, useEffect, useState } from 'react';
 import { CloseCircleOutlined, CloseOutlined } from '@ant-design/icons';
+import { ModalNotificationTheme } from '@constants/modal-notification-theme.ts';
 import { Button, Modal, notification, Typography } from 'antd';
+import classNames from 'classnames';
 
 import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
 
@@ -9,16 +11,27 @@ import styles from './modal-notification.module.css';
 type ModalNotificationProps = {
     textButton: string;
     title: string;
-    isCloseIcon: boolean;
+    isCloseIcon?: boolean;
     type: 'warning' | 'error';
     open: boolean;
     onClose?: () => void;
     onClickButton: () => void;
     subtitle?: string;
+    theme?: ModalNotificationTheme;
 };
 
 export const ModalNotification: FC<ModalNotificationProps> = memo(
-    ({ open, onClickButton, onClose, title, isCloseIcon, type, subtitle, textButton }) => {
+    ({
+        open,
+        onClickButton,
+        onClose,
+        title,
+        isCloseIcon = false,
+        type,
+        subtitle,
+        textButton,
+        theme = ModalNotificationTheme.DEFAULT,
+    }) => {
         const [openModal, setOpenModal] = useState(true);
 
         const openNotification = () => {
@@ -47,6 +60,9 @@ export const ModalNotification: FC<ModalNotificationProps> = memo(
                     <Typography.Text
                         data-test-id={DATA_TEST_ID.modalErrorUserTrainingSubTitle}
                         type='secondary'
+                        className={classNames({
+                            [styles.subtitle]: theme === ModalNotificationTheme.ONE_COLOR,
+                        })}
                     >
                         {subtitle}
                     </Typography.Text>

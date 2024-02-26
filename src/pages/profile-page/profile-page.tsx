@@ -2,7 +2,12 @@ import { useCallback, useEffect } from 'react';
 import { ProfileFieldNames } from '@common-types/credentials';
 import { RequireAuth } from '@components/require-auth';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { ProfileCredential, profileCredentialSelector } from '@redux/modules/profile';
+import {
+    ProfileAvatar,
+    ProfileCredential,
+    profileCredentialSelector,
+    profileIsLoadedSelector,
+} from '@redux/modules/profile';
 import { useLazyGetUserQuery, useUpdateUserMutation } from '@redux/serviсes/profile';
 import {
     ValidateFormSubmit,
@@ -22,8 +27,10 @@ import styles from './profile-page.module.css';
 
 export const ProfilePage = () => {
     const credential = useAppSelector(profileCredentialSelector);
+    const isLoaded = useAppSelector(profileIsLoadedSelector);
+
     const [form] = Form.useForm();
-    const [getUser, { isUninitialized, isSuccess }] = useLazyGetUserQuery();
+    const [getUser, { isUninitialized }] = useLazyGetUserQuery();
     const [updateUser] = useUpdateUserMutation();
 
     const initialValues = {
@@ -40,7 +47,9 @@ export const ProfilePage = () => {
 
     const onFinish = useCallback(
         (credentials: ProfileCredential) => {
-            updateUser({ ...credentials, imgSrc: '' });
+            const imgSrc = (credentials.imgSrc as ProfileAvatar).file?.response?.url;
+
+            updateUser({ ...credentials, imgSrc });
         },
         [updateUser],
     );
@@ -48,7 +57,7 @@ export const ProfilePage = () => {
     return (
         <RequireAuth>
             <div className={styles.back}>
-                {isSuccess && (
+                {isLoaded && (
                     <ValidationForm
                         className={styles.form}
                         size='large'
