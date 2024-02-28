@@ -9,6 +9,10 @@
     background-color: var(--header-blue-light);
 }
 
+.menuNoMain {
+    min-height: var(--app-review-page);
+}
+
 .location {
     font: var(--font-s);
 }
