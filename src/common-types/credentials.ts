@@ -10,6 +10,8 @@ export enum ProfileFieldNames {
     surname = 'lastName',
     birthday = 'birthday',
     avatar = 'imgSrc',
+    notifications = 'sendNotification',
+    trainings = 'readyForJointTraining',
 }
 
 export enum FeedbackFieldNames {

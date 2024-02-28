@@ -1,7 +1,13 @@
 import { ApiEndpoints } from '@redux/constants/api';
 import { EndpointNames } from '@redux/constants/endpoint-names';
 import { setAppAlert, setAppLoader } from '@redux/modules/app';
-import { ProfileCredential, setIsLoaded, setProfileCredential } from '@redux/modules/profile.ts';
+import {
+    ProfileCredential,
+    setIsLoaded,
+    setProfileCredential,
+    setTarifs,
+    Tarif,
+} from '@redux/modules/profile.ts';
 import { resetStateCreating } from '@redux/modules/training';
 import { apiSlice } from '@redux/serviсes/index';
 
@@ -28,7 +34,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             },
         }),
 
-        updateUser: builder.mutation<ProfileCredential, ProfileCredential>({
+        updateUser: builder.mutation<ProfileCredential, Partial<ProfileCredential>>({
             query: (body) => ({
                 url: ApiEndpoints.USER,
                 method: 'PUT',
@@ -37,23 +43,55 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
-                    dispatch(setAppLoader(true));
                     const { data } = await queryFulfilled;
 
                     dispatch(setProfileCredential(data));
-                    dispatch(setAppLoader(false));
                     dispatch(
                         setAppAlert({
                             message: 'Данные профиля успешно обновлены',
                             type: 'success',
                         }),
                     );
+
+                    setTimeout(() => {
+                        dispatch(
+                            setAppAlert({
+                                message: '',
+                            }),
+                        );
+                    }, 1500);
                 } catch {
                     dispatch(resetStateCreating());
+                }
+            },
+        }),
+
+        getTarifs: builder.query<Tarif[], void>({
+            query: () => ({
+                url: ApiEndpoints.TARIFS,
+                method: 'GET',
+                name: EndpointNames.GET_TARIFS,
+            }),
+
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    dispatch(setAppLoader(true));
+                    const { data } = await queryFulfilled;
+
+                    dispatch(setAppLoader(false));
+                    dispatch(setTarifs(data));
+                    dispatch(setIsLoaded());
+                } catch {
                     dispatch(setAppLoader(false));
                 }
             },
         }),
     }),
 });
-export const { useLazyGetUserQuery, useGetUserQuery, useUpdateUserMutation } = profileApiSlice;
+export const {
+    useLazyGetUserQuery,
+    useGetUserQuery,
+    useUpdateUserMutation,
+    useGetTarifsQuery,
+    useLazyGetTarifsQuery,
+} = profileApiSlice;

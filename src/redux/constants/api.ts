@@ -11,4 +11,5 @@ export enum ApiEndpoints {
     CURRENT_USER = 'user/me',
     USER = 'user',
     IMAGE = 'upload-image',
+    TARIFS = 'catalogs/tariff-list',
 }

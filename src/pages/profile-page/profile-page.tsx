@@ -39,7 +39,7 @@ export const ProfilePage = () => {
     };
 
     useEffect(() => {
-        if (isUninitialized) {
+        if (isUninitialized && !isLoaded) {
             getUser();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

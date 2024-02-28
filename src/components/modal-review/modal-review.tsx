@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
+import { StarOutlined } from '@ant-design/icons';
 import { FeedbackFieldNames } from '@common-types/credentials';
 import { ErrorModal } from '@components/error-modal';
 import { SuccessModal } from '@components/success-modal';
@@ -49,15 +50,26 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
     return (
         <div>
             <Modal
+                className={styles.form}
                 open={open}
                 title='Ваш отзыв'
-                bodyStyle={{ padding: '64px 32px 56px 32px' }}
                 onOk={handleOk}
                 centered={true}
                 onCancel={handleCancel}
                 width={540}
                 maskStyle={{ backdropFilter: 'blur(6px)' }}
-                footer={[null]}
+                footer={
+                    <Button
+                        type='primary'
+                        className={styles.submit}
+                        htmlType='submit'
+                        block={true}
+                        data-test-id='new-review-submit-button'
+                        onClick={handleOk}
+                    >
+                        Опубликовать
+                    </Button>
+                }
             >
                 <Form
                     form={formNewReview}
@@ -68,7 +80,7 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
                 >
                     <Form.Item name={FeedbackFieldNames.rating}>
                         <Rate
-                            style={{ color: '#faad14' }}
+                            character={<StarOutlined color='#faad14' />}
                             value={rating}
                             onChange={(value) => handleChangeRating(value)}
                             className={styles.rate}
@@ -83,15 +95,6 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
                             onChange={(e) => handleChangeMessage(e.target.value)}
                         />
                     </Form.Item>
-                    <Button
-                        type='primary'
-                        htmlType='submit'
-                        block={true}
-                        data-test-id='new-review-submit-button'
-                        onClick={handleOk}
-                    >
-                        Опубликовать
-                    </Button>
                 </Form>
             </Modal>
 

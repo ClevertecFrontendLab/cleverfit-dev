@@ -44,7 +44,15 @@
   justify-content: space-between;
 }
 
-.profile > h4 {
+.tarif {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-m);
+  max-width: max-content;
+}
+
+.profile > h4,
+.tarif > h4 {
   margin-bottom: 0;
 }
 

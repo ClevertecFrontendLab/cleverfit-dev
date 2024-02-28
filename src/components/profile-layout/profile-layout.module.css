@@ -7,6 +7,7 @@
     background: url(@public/blure.png) left bottom/cover no-repeat;
     background-attachment: fixed;
 }
+
 .blurWrapper {
     filter: blur(10px);
 }

@@ -12,6 +12,7 @@ import { NotFoundPage } from '@pages/not-found-page';
 import { ProfilePage } from '@pages/profile-page';
 import { ResultProfilePage } from '@pages/result-profile-page';
 import { ReviewsPage } from '@pages/reviews-page';
+import { TarifPage } from '@pages/tarif-page';
 
 import { Paths } from './paths';
 
@@ -35,6 +36,9 @@ export const routes = (
             <Route element={<MainLayout isSimpleFooter={true} isImage={false} />}>
                 <Route path={Paths.CALENDAR} element={<CalendarPage />} />
                 <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
+            </Route>
+            <Route element={<MainLayout isImage={false} defaultBack={true} />}>
+                <Route path={Paths.SETTINGS} element={<TarifPage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />
         </Route>

@@ -14,10 +14,26 @@ export type ProfileCredential = {
     [ProfileFieldNames.birthday]: string;
     [AuthFieldNames.email]: string;
     [ProfileFieldNames.avatar]: string | ProfileAvatar;
+    [ProfileFieldNames.notifications]: boolean;
+    [ProfileFieldNames.trainings]: boolean;
+};
+
+type Period = {
+    text: string;
+    cost: number;
+    days: number;
+};
+
+export type Tarif = {
+    _id: string;
+    name: string;
+    periods: Period[];
 };
 
 export const initialState = {
     credential: {} as ProfileCredential,
+    pro: false,
+    tarifs: [] as Tarif[],
     isLoaded: false,
 };
 
@@ -26,7 +42,13 @@ export const profileSlice = createSlice({
     initialState,
     reducers: {
         setProfileCredential(state, { payload: credential }: PayloadAction<ProfileCredential>) {
-            state.credential = credential;
+            state.credential = {
+                ...state.credential,
+                ...credential,
+            };
+        },
+        setTarifs(state, { payload }: PayloadAction<Tarif[]>) {
+            state.tarifs = payload;
         },
         setIsLoaded(state) {
             state.isLoaded = true;
@@ -36,7 +58,8 @@ export const profileSlice = createSlice({
 
 export const profileCredentialSelector = (state: ApplicationState) => state.profile.credential;
 export const profileIsLoadedSelector = (state: ApplicationState) => state.profile.isLoaded;
+export const profileTarifs = (state: ApplicationState) => state.profile.tarifs;
 
-export const { setProfileCredential, setIsLoaded } = profileSlice.actions;
+export const { setProfileCredential, setIsLoaded, setTarifs } = profileSlice.actions;
 
 export default profileSlice.reducer;

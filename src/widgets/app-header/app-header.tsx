@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Paths } from '@routes/paths';
 import settingsIcon from '@shared/assets/icons/buttons/icon-settings.svg';
 import { Breadcrumb, Button, Layout, Typography } from 'antd';
@@ -9,14 +10,19 @@ import styles from './app-header.module.css';
 const { Header } = Layout;
 
 export const AppHeader = () => {
+    const navigate = useNavigate();
     const { pathname } = useLocation();
+
     const isMainPage = pathname === Paths.MAIN;
     const isReviewPage = pathname === Paths.REVIEWS;
     const isProfilePage = pathname === `/${Paths.PROFILE}`;
+    const isTarifPage = pathname === `/${Paths.TARIF}`;
+
+    const showBreadcrumbs = !isProfilePage && !isTarifPage;
 
     return (
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
-            {!isProfilePage && (
+            {showBreadcrumbs && (
                 <AppHeader.Breadcrumb>
                     {isReviewPage && (
                         <Breadcrumb.Item>
@@ -41,6 +47,12 @@ export const AppHeader = () => {
                     <AppHeader.Settings />
                 </div>
             )}
+            {isTarifPage && (
+                <Button type='text' className={styles.tarif} onClick={() => navigate(-1)}>
+                    <ArrowLeftOutlined />
+                    <Typography.Title level={4}>Настройки</Typography.Title>
+                </Button>
+            )}
         </Header>
     );
 };
@@ -56,12 +68,14 @@ AppHeader.Breadcrumb = ({ children }: { children?: JSX.Element | boolean }) => (
 
 AppHeader.Settings = () => (
     <div className={styles.settings}>
-        <Button type='text' className={styles.cardButton}>
-            <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
-            <span>Настройки</span>
-        </Button>
-        <Button type='default' className={styles.settingsMobileButton}>
-            <img src={settingsIcon} alt='settings' />
-        </Button>
+        <Link to={Paths.TARIF}>
+            <Button type='text' className={styles.cardButton}>
+                <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
+                <span>Настройки</span>
+            </Button>
+            <Button type='default' className={styles.settingsMobileButton}>
+                <img src={settingsIcon} alt='settings' />
+            </Button>
+        </Link>
     </div>
 );
