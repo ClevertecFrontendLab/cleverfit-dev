@@ -180,3 +180,7 @@ div:global(.ant-drawer-title) {
   flex: 1 0;
   justify-content: space-between;
 }
+
+div:global(.ant-drawer-content-wrapper) {
+  max-width: 100%;
+}

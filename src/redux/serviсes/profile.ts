@@ -3,13 +3,17 @@ import { EndpointNames } from '@redux/constants/endpoint-names';
 import { setAppAlert, setAppLoader } from '@redux/modules/app';
 import {
     ProfileCredential,
-    setIsLoaded,
     setProfileCredential,
     setTarifs,
     Tarif,
 } from '@redux/modules/profile.ts';
 import { resetStateCreating } from '@redux/modules/training';
 import { apiSlice } from '@redux/serviсes/index';
+
+type NewTarif = {
+    tariffId: string;
+    days: number;
+};
 
 export const profileApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -27,7 +31,6 @@ export const profileApiSlice = apiSlice.injectEndpoints({
 
                     dispatch(setAppLoader(false));
                     dispatch(setProfileCredential(data));
-                    dispatch(setIsLoaded());
                 } catch {
                     dispatch(setAppLoader(false));
                 }
@@ -41,6 +44,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                 name: EndpointNames.UPDATE_USER,
                 body,
             }),
+
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -54,11 +58,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                     );
 
                     setTimeout(() => {
-                        dispatch(
-                            setAppAlert({
-                                message: '',
-                            }),
-                        );
+                        dispatch(setAppAlert({ message: '' }));
                     }, 1500);
                 } catch {
                     dispatch(resetStateCreating());
@@ -80,7 +80,27 @@ export const profileApiSlice = apiSlice.injectEndpoints({
 
                     dispatch(setAppLoader(false));
                     dispatch(setTarifs(data));
-                    dispatch(setIsLoaded());
+                } catch {
+                    dispatch(setAppLoader(false));
+                }
+            },
+        }),
+
+        createTarif: builder.mutation<void, NewTarif>({
+            query: (body) => ({
+                url: ApiEndpoints.NEW_TARIF,
+                method: 'POST',
+                name: EndpointNames.CREATE_TARIF,
+                'content-type': 'application/json',
+                body,
+            }),
+
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    dispatch(setAppLoader(true));
+                    await queryFulfilled;
+
+                    dispatch(setAppLoader(false));
                 } catch {
                     dispatch(setAppLoader(false));
                 }
@@ -94,4 +114,5 @@ export const {
     useUpdateUserMutation,
     useGetTarifsQuery,
     useLazyGetTarifsQuery,
+    useCreateTarifMutation,
 } = profileApiSlice;

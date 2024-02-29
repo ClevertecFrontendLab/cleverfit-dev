@@ -14,4 +14,5 @@ export enum EndpointNames {
     UPDATE_USER = 'update-user',
     UPLOAD_UMAGE = 'upload-image',
     GET_TARIFS = 'get-tarifs',
+    CREATE_TARIF = 'create-tarif',
 }

@@ -9,10 +9,10 @@ import classNames from 'classnames';
 import styles from './tarif-options.module.css';
 
 export const TarifOptions = () => {
-    // const isProUser = useAppSelector(profileProSelector);
-    const isProUser = false;
     const credentials = useAppSelector(profileCredentialSelector);
     const [updateUser] = useUpdateUserMutation();
+
+    const isProUser = credentials.tariff;
 
     const Options = [
         {

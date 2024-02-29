@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { CheckCircleFilled, CheckOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { useLogout } from '@hooks/use-logout';
 import imgFree from '@public/tarifs/free.jpg';
 import imgPro from '@public/tarifs/pro.jpg';
-import { profileTarifs } from '@redux/modules/profile';
-import { useLazyGetTarifsQuery } from '@redux/serviсes/profile';
-import { Button, Card, Drawer, Form, Radio, Typography } from 'antd';
+import { profileCredentialSelector, profileTarifs } from '@redux/modules/profile';
+import { useCreateTarifMutation, useLazyGetTarifsQuery } from '@redux/serviсes/profile';
+import { Button, Card, Drawer, Form, Modal, Radio, Typography } from 'antd';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import styles from './tarif-cards.module.css';
 
@@ -47,14 +49,20 @@ const Traits = [
 ];
 
 export const TarifCards = () => {
+    const logout = useLogout();
     const tarifs = useAppSelector(profileTarifs);
-    const isProUser = false;
+    const credentials = useAppSelector(profileCredentialSelector);
+
+    const [getTarifs, { isUninitialized }] = useLazyGetTarifsQuery();
+    const [createTarif, { isSuccess }] = useCreateTarifMutation();
 
     const [openСomparison, setOpenСomparison] = useState(false);
     const [isTouched, setIsTouched] = useState(false);
-    const [form] = Form.useForm();
 
-    const [getTarifs, { isUninitialized }] = useLazyGetTarifsQuery();
+    const isProUser = credentials.tariff;
+    const date = moment(credentials.tariff?.expired);
+    const month = date.month() + 1;
+    const day = date.date();
 
     useEffect(() => {
         if (isUninitialized) {
@@ -75,13 +83,27 @@ export const TarifCards = () => {
         setIsTouched(true);
     };
 
-    const onFinish = () => {};
+    const onFinish = ({ days }: { days: number }) => {
+        createTarif({
+            // eslint-disable-next-line no-underscore-dangle
+            tariffId: tarifs[0]._id,
+            days,
+        });
+    };
 
     return (
         <div>
             <Typography.Title className={styles.title} level={4}>
                 Мой тариф
             </Typography.Title>
+            <Modal open={isSuccess} closable={true} footer={false} onCancel={logout}>
+                <div>Чек для оплаты у вас на почте</div>
+                <div>
+                    Мы отправили инструкцию для оплаты вам на e-mail {credentials.email}. После
+                    подтверждения оплаты войдите в приложение заново.
+                </div>
+                <div>Не пришло письмо? Проверьте папку Спам.</div>
+            </Modal>
             <div className={styles.cards}>
                 {Tarifs.map(({ title, img, forPro }) => {
                     const hidePro = !isProUser && forPro;
@@ -110,8 +132,13 @@ export const TarifCards = () => {
                         >
                             {!hidePro && (
                                 <div className={styles.active}>
-                                    <Typography.Title level={5}>активен</Typography.Title>
-                                    <CheckOutlined />
+                                    <Typography.Title level={5}>
+                                        активен
+                                        {isProUser &&
+                                            title.includes('PRO') &&
+                                            ` до ${month < 10 ? `0${month}` : month}.${day}`}
+                                    </Typography.Title>
+                                    {title.includes('FREE') && <CheckOutlined />}
                                 </div>
                             )}
                             {hidePro && (
@@ -141,13 +168,7 @@ export const TarifCards = () => {
                 bodyStyle={{ padding: '0 32px' }}
                 footer={
                     !isProUser && (
-                        <Button
-                            form='form'
-                            type='primary'
-                            htmlType='submit'
-                            disabled={!isTouched}
-                            onClick={() => form.submit()}
-                        >
+                        <Button form='form' type='primary' htmlType='submit' disabled={!isTouched}>
                             Выбрать и оплатить
                         </Button>
                     )
@@ -174,13 +195,12 @@ export const TarifCards = () => {
                 {!isProUser && tarifs && (
                     <Form
                         id='form'
-                        form={form}
                         className={styles.form}
                         onFieldsChange={onFieldsChange}
                         onFinish={onFinish}
                     >
                         <div className={styles.priceTitle}>Стоимость тарифа</div>
-                        <Form.Item name='tarif'>
+                        <Form.Item name='days'>
                             <Radio.Group className={styles.prices}>
                                 {tarifs[0]?.periods.map(({ text, cost, days }) => (
                                     <Radio value={days} key={text}>

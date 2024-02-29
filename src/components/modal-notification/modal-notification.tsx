@@ -9,7 +9,7 @@ import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
 import styles from './modal-notification.module.css';
 
 type ModalNotificationProps = {
-    textButton: string;
+    textButton?: string;
     title: string;
     isCloseIcon?: boolean;
     type: 'warning' | 'error';

@@ -123,13 +123,12 @@ export const ValidationFormBirthday = ({ dataTestId }: DataTestIdProp) => {
     );
 };
 
-const BIG_FILE_MESSAGE = 'Файл слишком большой';
-
 export const ValidationFormAvatar = ({ dataTestId }: DataTestIdProp) => {
     const { form } = useContext(ValidationFormContext);
     const token = useAppSelector(accessTokenSelector);
 
     const url = form?.getFieldValue(ProfileFieldNames.avatar);
+
     const initialFile = {
         uid: '1',
         name: 'image.png',
@@ -140,6 +139,7 @@ export const ValidationFormAvatar = ({ dataTestId }: DataTestIdProp) => {
     const [isBigFile, setIsBigFile] = useState(false);
 
     const showPreview = !!fileList[0];
+    const BIG_FILE_MESSAGE = 'Файл слишком большой';
 
     const handleChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
         setFileList(newFileList);

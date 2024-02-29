@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ModalNoReview } from '@components/modal-no-reviews';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { profileCredentialSelector } from '@redux/modules/profile.ts';
+import { useLazyGetUserQuery } from '@redux/serviсes/profile.ts';
 import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
 import { Paths } from '@routes/paths.ts';
 import {
@@ -33,6 +37,8 @@ export const MainPage = () => {
     const navigate = useNavigate();
 
     const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
+    const [getUser] = useLazyGetUserQuery();
+    const credential = useAppSelector(profileCredentialSelector);
 
     const onNavigate = async (route: string) => {
         await navigateAfterRequest(
@@ -42,6 +48,10 @@ export const MainPage = () => {
             route,
         );
     };
+
+    useEffect(() => {
+        if (!credential.email) getUser();
+    }, [credential.email, getUser]);
 
     return (
         <div className={styles.cardBlock}>

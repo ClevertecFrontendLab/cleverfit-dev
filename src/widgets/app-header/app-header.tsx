@@ -16,9 +16,9 @@ export const AppHeader = () => {
     const isMainPage = pathname === Paths.MAIN;
     const isReviewPage = pathname === Paths.REVIEWS;
     const isProfilePage = pathname === `/${Paths.PROFILE}`;
-    const isTarifPage = pathname === `/${Paths.TARIF}`;
+    const isSettingsfPage = pathname === `/${Paths.SETTINGS}`;
 
-    const showBreadcrumbs = !isProfilePage && !isTarifPage;
+    const showBreadcrumbs = !isProfilePage && !isSettingsfPage;
 
     return (
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
@@ -47,7 +47,7 @@ export const AppHeader = () => {
                     <AppHeader.Settings />
                 </div>
             )}
-            {isTarifPage && (
+            {isSettingsfPage && (
                 <Button type='text' className={styles.tarif} onClick={() => navigate(-1)}>
                     <ArrowLeftOutlined />
                     <Typography.Title level={4}>Настройки</Typography.Title>
@@ -68,7 +68,7 @@ AppHeader.Breadcrumb = ({ children }: { children?: JSX.Element | boolean }) => (
 
 AppHeader.Settings = () => (
     <div className={styles.settings}>
-        <Link to={Paths.TARIF}>
+        <Link to={Paths.SETTINGS}>
             <Button type='text' className={styles.cardButton}>
                 <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
                 <span>Настройки</span>
