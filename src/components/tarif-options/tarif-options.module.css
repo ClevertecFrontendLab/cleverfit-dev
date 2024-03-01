@@ -34,3 +34,13 @@
 .inactive {
   color: rgba(191, 191, 191, 1);
 }
+
+@media (max-width: 360px) {
+  .title {
+    align-items: start;
+  }
+
+  .optionTitle {
+    max-width: 176px;
+  }
+}

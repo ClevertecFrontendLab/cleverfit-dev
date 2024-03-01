@@ -31,13 +31,20 @@ export const routes = (
             </Route>
             <Route element={<MainLayout />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
+            </Route>
+            <Route element={<MainLayout withMobilePadding={false} />}>
+                <Route path={Paths.MAIN} element={<MainPage />} />
                 <Route path={Paths.PROFILE} element={<ProfilePage />} />
             </Route>
             <Route element={<MainLayout isSimpleFooter={true} isImage={false} />}>
                 <Route path={Paths.CALENDAR} element={<CalendarPage />} />
                 <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
             </Route>
-            <Route element={<MainLayout isImage={false} defaultBack={true} />}>
+            <Route
+                element={
+                    <MainLayout isImage={false} defaultBack={true} withMobilePadding={false} />
+                }
+            >
                 <Route path={Paths.SETTINGS} element={<TarifPage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />

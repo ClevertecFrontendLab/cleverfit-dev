@@ -20,7 +20,7 @@ import {
     ValidationFormPassword,
     ValidationFormRepeatPassword,
     ValidationFormSurname,
-} from '@shared/components/validation-form/validation-form';
+} from '@shared/components/validation-form';
 import { Form, Typography } from 'antd';
 import moment from 'moment';
 

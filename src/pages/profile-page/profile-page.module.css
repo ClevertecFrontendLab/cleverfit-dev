@@ -38,3 +38,13 @@
 .title:global(.ant-typography) {
   margin-bottom: var(--gap-xl);
 }
+
+@media (max-width: 360px) {
+  .form {
+    gap: var(--gap-l);
+  }
+
+  .group {
+    flex-direction: column-reverse;
+  }
+}
