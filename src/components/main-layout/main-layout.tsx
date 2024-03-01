@@ -16,14 +16,14 @@ type MainLayoutProps = {
     isSimpleFooter?: boolean;
     isImage?: boolean;
     defaultBack?: boolean;
-    withMobilePadding?: boolean;
+    withInnerBack?: boolean;
 };
 
 export const MainLayout: FC<MainLayoutProps> = ({
     isSimpleFooter,
     isImage = true,
     defaultBack,
-    withMobilePadding = true,
+    withInnerBack,
 }) => {
     const [collapsed, setCollapsed] = useState(true);
 
@@ -48,7 +48,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
                     <AppHeader />
                     <Content
                         className={classNames(styles.content, {
-                            [styles.contentMobile]: !withMobilePadding,
+                            [styles.innerBack]: withInnerBack,
                         })}
                     >
                         <Outlet />

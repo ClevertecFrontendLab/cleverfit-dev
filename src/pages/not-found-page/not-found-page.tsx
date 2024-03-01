@@ -13,11 +13,11 @@ export const NotFoundPage = () => {
     return (
         <Exception
             status='404'
-            title='404'
-            subTitle='Страница не найдена'
+            title='Такой страницы нет'
+            subTitle='Извините, страница не найдена, возможно, она была удалена или перемещена.'
             extra={
-                <Button type='link' onClick={handleGoToMainPage}>
-                    Перейти на главную страницу
+                <Button type='primary' onClick={handleGoToMainPage}>
+                    На главную
                 </Button>
             }
         />

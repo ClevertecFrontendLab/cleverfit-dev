@@ -32,7 +32,7 @@ export const routes = (
             <Route element={<MainLayout />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
             </Route>
-            <Route element={<MainLayout withMobilePadding={false} />}>
+            <Route element={<MainLayout withInnerBack={true} />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
                 <Route path={Paths.PROFILE} element={<ProfilePage />} />
             </Route>
@@ -40,14 +40,12 @@ export const routes = (
                 <Route path={Paths.CALENDAR} element={<CalendarPage />} />
                 <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
             </Route>
-            <Route
-                element={
-                    <MainLayout isImage={false} defaultBack={true} withMobilePadding={false} />
-                }
-            >
+            <Route element={<MainLayout isImage={false} defaultBack={true} withInnerBack={true} />}>
                 <Route path={Paths.SETTINGS} element={<TarifPage />} />
             </Route>
-            <Route path='*' element={<NotFoundPage />} />
+            <Route element={<MainLayout withInnerBack={true} />}>
+                <Route path='*' element={<NotFoundPage />} />
+            </Route>
         </Route>
     </Routes>
 );
