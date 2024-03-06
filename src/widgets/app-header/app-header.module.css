@@ -4,7 +4,6 @@
     gap: var(--gap-m);
     padding: var(--gap-m) var(--gap-xl);
     height: unset;
-    min-height: var(--app-header-min-height);
     color: var(--font-title-light);
     background-color: var(--header-blue-light);
 }

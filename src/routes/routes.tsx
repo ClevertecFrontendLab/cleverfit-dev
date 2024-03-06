@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from '@components/layout';
 import { MainLayout } from '@components/main-layout';
 import { Result } from '@components/result/result';
+import {CalendarPage} from '@pages/calendar-page/calendar-page.tsx';
 import { ChangePasswordPage } from '@pages/change-password-page';
 import { ConfirmEmailPage } from '@pages/confirm-email-page';
 import { LoginProfilePage } from '@pages/login-profile-page';
@@ -28,6 +29,9 @@ export const routes = (
             </Route>
             <Route element={<MainLayout />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
+            </Route>
+            <Route element={<MainLayout isSimpleFooter={true}  isImage={false}/>}>
+                <Route path={Paths.CALENDAR} element={<CalendarPage />} />
                 <Route path={Paths.REVIEWS} element={<ReviewsPage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />

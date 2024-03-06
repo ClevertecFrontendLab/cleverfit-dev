@@ -87,7 +87,6 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
                         type='primary'
                         htmlType='submit'
                         block={true}
-                        className={styles.submitButton}
                         data-test-id='new-review-submit-button'
                         onClick={handleOk}
                     >

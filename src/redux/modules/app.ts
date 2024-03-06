@@ -14,6 +14,7 @@ export const initialState = {
         confirmPassword: '',
         remember: false,
     },
+    openLeftMenu: false,
     credentialFeedback: {
         message: '',
         rating: 0,
@@ -43,6 +44,9 @@ export const appSlice = createSlice({
             state.accessToken = token;
         },
         clearStateOnLogout: () => initialState,
+        setStateLeftMenu: (state) => {
+            state.openLeftMenu = !state.openLeftMenu;
+        },
     },
 });
 
@@ -51,13 +55,16 @@ export const credentialSelector = (state: ApplicationState) => state.app.credent
 export const credentialFeedbackSelector = (state: ApplicationState) => state.app.credentialFeedback;
 export const accessTokenSelector = (state: ApplicationState) => state.app.accessToken;
 export const errorSelector = (state: ApplicationState) => state.app.isError;
+
+export const leftMenuSelector = (state: ApplicationState) => state.app.openLeftMenu;
 export const {
     setAppLoader,
     setAppIsError,
     clearStateOnLogout,
     setAppCredential,
-    setAppCredentialFeedback,
     setAccessToken,
+    setAppCredentialFeedback,
+    setStateLeftMenu,
 } = appSlice.actions;
 
 export default appSlice.reducer;
