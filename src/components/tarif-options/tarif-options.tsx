@@ -14,16 +14,22 @@ const Options = [
         title: 'Открыт для совместных тренировок',
         tooltip: 'включеная функция позволит участвовать в совместных тренировках',
         name: ProfileFieldNames.trainings,
+        dataTestId: 'tarif-trainings',
+        dataTestIdIcon: 'tarif-trainings-icon',
     },
     {
         title: 'Уведомления',
         tooltip: 'включеная функция позволит получать уведомления об активностях',
         name: ProfileFieldNames.notifications,
+        dataTestId: 'tarif-notifications',
+        dataTestIdIcon: 'tarif-notifications-icon',
     },
     {
         title: 'Тёмная тема',
         tooltip: 'темная тема доступна для PRO tarif',
         forPro: true,
+        dataTestId: 'tarif-theme',
+        dataTestIdIcon: 'tarif-theme-icon',
     },
 ];
 
@@ -46,7 +52,7 @@ export const TarifOptions = () => {
 
     return (
         <Form className={styles.options} initialValues={credentials} onFieldsChange={handleChange}>
-            {Options.map(({ title, tooltip, forPro, name }) => {
+            {Options.map(({ title, tooltip, forPro, name, dataTestId, dataTestIdIcon }) => {
                 const hidePro = !isProUser && forPro;
 
                 return (
@@ -58,7 +64,10 @@ export const TarifOptions = () => {
                         >
                             <span className={styles.optionTitle}>{title}</span>
                             <Tooltip title={tooltip} placement={tooltipPlacement}>
-                                <InfoCircleOutlined className={styles.icon} />
+                                <InfoCircleOutlined
+                                    data-test-id={dataTestIdIcon}
+                                    className={styles.icon}
+                                />
                             </Tooltip>
                         </div>
                         <Form.Item
@@ -67,7 +76,11 @@ export const TarifOptions = () => {
                             valuePropName='checked'
                             className={styles.option}
                         >
-                            <Switch disabled={hidePro} size={switchSize} />
+                            <Switch
+                                disabled={hidePro}
+                                size={switchSize}
+                                data-test-id={dataTestId}
+                            />
                         </Form.Item>
                     </div>
                 );

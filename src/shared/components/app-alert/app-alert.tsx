@@ -25,6 +25,7 @@ export const AppAlert = () => {
         <Portal>
             <div className={styles.wrapper}>
                 <Alert
+                    data-test-id='alert'
                     className={styles.alert}
                     message={message}
                     type={type}

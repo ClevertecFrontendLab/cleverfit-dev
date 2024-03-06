@@ -57,11 +57,12 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         className={styles.logo}
                     />
                 </div>
-                {MENU_ITEMS.map(({ id, icon, title, route }) => (
+                {MENU_ITEMS.map(({ id, icon, title, route, dataTestId }) => (
                     <Button
                         type='text'
                         key={id}
                         className={styles.menuButton}
+                        data-test-id={dataTestId}
                         onClick={() => onNavigate(route)}
                     >
                         <img alt='icon' src={icon} />

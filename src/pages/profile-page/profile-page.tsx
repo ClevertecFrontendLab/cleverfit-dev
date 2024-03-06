@@ -35,7 +35,7 @@ export const ProfilePage = () => {
 
     const initialValues = {
         ...credential,
-        [ProfileFieldNames.birthday]: moment(credential.birthday),
+        [ProfileFieldNames.birthday]: credential.birthday && moment(credential.birthday),
     };
 
     useEffect(() => {
@@ -44,11 +44,22 @@ export const ProfilePage = () => {
 
     const onFinish = useCallback(
         (credentials: ProfileCredential) => {
-            const imgSrc = (credentials.imgSrc as ProfileAvatar).file?.response?.url || '';
+            const { imgSrc } = credentials;
+            let imgUrl = credential.imgSrc;
 
-            updateUser({ ...credentials, imgSrc });
+            if (imgSrc) {
+                if (typeof imgSrc === 'string') imgUrl = imgSrc;
+                else if ((imgSrc as ProfileAvatar).file?.status === 'removed') imgUrl = '';
+                else {
+                    imgUrl = `https://training-api.clevertec.ru${
+                        (imgSrc as ProfileAvatar).file?.response?.url
+                    }`;
+                }
+            }
+
+            updateUser({ ...credentials, imgSrc: imgUrl });
         },
-        [updateUser],
+        [credential.imgSrc, updateUser],
     );
 
     const handleCloseModal = () => {
@@ -65,6 +76,7 @@ export const ProfilePage = () => {
                 subtitle='Придётся попробовать ещё раз'
                 open={showModal}
                 theme={ModalNotificationTheme.ONE_COLOR}
+                dataTestId='profile-error-button'
             />
             <div className={styles.back}>
                 <ValidationForm
@@ -80,11 +92,11 @@ export const ProfilePage = () => {
                                 Личная информация
                             </Typography.Title>
                             <div className={styles.group}>
-                                <ValidationFormAvatar />
+                                <ValidationFormAvatar dataTestId='profile-avatar' />
                                 <div className={styles.groupFields}>
-                                    <ValidationFormName />
-                                    <ValidationFormSurname />
-                                    <ValidationFormBirthday />
+                                    <ValidationFormName dataTestId='profile-name' />
+                                    <ValidationFormSurname dataTestId='profile-surname' />
+                                    <ValidationFormBirthday dataTestId='profile-birthday' />
                                 </div>
                             </div>
                         </legend>
@@ -95,10 +107,12 @@ export const ProfilePage = () => {
                                 Приватность и авторизация
                             </Typography.Title>
                         </legend>
-                        <ValidationFormEmail />
-                        <ValidationFormPassword withExtra={true} />
-                        <ValidationFormRepeatPassword />
-                        <ValidateFormSubmit>Сохранить изменения</ValidateFormSubmit>
+                        <ValidationFormEmail dataTestId='profile-email' />
+                        <ValidationFormPassword withExtra={true} dataTestId='profile-password' />
+                        <ValidationFormRepeatPassword dataTestId='profile-repeat-password' />
+                        <ValidateFormSubmit dataTestId='profile-submit'>
+                            Сохранить изменения
+                        </ValidateFormSubmit>
                     </fieldset>
                 </ValidationForm>
             </div>

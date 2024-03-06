@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useMemo, useState } from 'react';
 import { AuthFieldNames, CredentialsType } from '@common-types/credentials';
 import { useAuthForm } from '@pages/login-page/hooks/use-auth-form';
+import { ProfileCredential } from '@redux/modules/profile';
 import { Form, FormInstance } from 'antd';
 import { FormProps } from 'antd/es/form';
 
@@ -36,13 +37,14 @@ export const ValidationForm = ({
 
     const [isTouched, setIsTouched] = useState(false);
 
-    const onFieldsChange = () => {
+    const onFieldsChange = (values: FieldData[]) => {
         const errors = form.getFieldsError([AuthFieldNames.email, AuthFieldNames.password]);
 
         const isErrorEmail = errors[0].errors.length > 0;
         const isErrorPassword = errors[1].errors.length > 0;
 
-        setIsTouched(true);
+        if (values[0].name[0] === 'imgSrc' && values[0].value?.file.error) setIsTouched(false);
+        else setIsTouched(true);
 
         setErrorValidate({
             [AuthFieldNames.email]: isErrorEmail,
@@ -50,14 +52,20 @@ export const ValidationForm = ({
         });
     };
 
+    const handleSubmit = (credentials: ProfileCredential) => {
+        onFinish?.(credentials);
+        setIsTouched(false);
+        form.setFieldValue(AuthFieldNames.password, '');
+        form.setFieldValue(AuthFieldNames.confirmPassword, '');
+    };
+
     const memoizedContextValue = useMemo(
         () => ({
             form,
-            onFinish,
             errorValidate,
             isTouched,
         }),
-        [form, onFinish, errorValidate, isTouched],
+        [form, errorValidate, isTouched],
     );
 
     return (
@@ -67,7 +75,7 @@ export const ValidationForm = ({
                 className={className}
                 initialValues={initialValues}
                 form={form}
-                onFinish={onFinish}
+                onFinish={handleSubmit}
                 requiredMark={false}
                 onFieldsChange={onFieldsChange}
                 scrollToFirstError={true}

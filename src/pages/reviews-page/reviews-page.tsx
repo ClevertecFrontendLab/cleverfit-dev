@@ -33,17 +33,17 @@ export const ReviewsPage = () => {
         <div className={styles.reviewWrap}>
             {isReviews && <NoReviews />}
             {!isReviews && (
-                <div className={styles.reviewWrap}>
+                <div className={styles.reviewWrap} data-test-id='reviews-cards'>
                     <div
                         className={classNames(styles.reviewBlock, {
                             [styles.reviewAllBlock]: isAllReview,
                         })}
                     >
                         {isAllReview
-                            ? data?.map((card) => <ReviewCard key={card.message} {...card} />)
+                            ? data?.map((card) => <ReviewCard key={card.id} {...card} />)
                             : data
                                   ?.slice(0, 4)
-                                  ?.map((card) => <ReviewCard key={card.message} {...card} />)}
+                                  ?.map((card) => <ReviewCard key={card.id} {...card} />)}
                     </div>
                     <div className={styles.buttonBlock}>
                         <Button

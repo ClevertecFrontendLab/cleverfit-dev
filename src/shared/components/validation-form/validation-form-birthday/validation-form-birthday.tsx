@@ -12,6 +12,7 @@ export const ValidationFormBirthday = ({ dataTestId }: DataTestIdProp) => {
     return (
         <Form.Item name={ProfileFieldNames.birthday}>
             <DatePicker
+                format='DD.MM.YYYY'
                 className={styles.datepicker}
                 placeholder='Дата рождения'
                 suffixIcon={<CalendarTwoTone twoToneColor={[iconColor, iconColor]} />}

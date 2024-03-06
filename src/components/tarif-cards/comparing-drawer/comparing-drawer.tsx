@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { useLogout } from '@hooks/use-logout';
 import { profileCredentialSelector, profileTarifs } from '@redux/modules/profile';
-import { useCreateTarifMutation } from '@redux/serviсes/profile';
+import { useCreateTarifMutation, useLazyGetTarifsQuery } from '@redux/serviсes/profile';
 import { Button, Drawer, Form, Modal, Radio, Typography } from 'antd';
 import moment from 'moment';
 
@@ -50,6 +50,8 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
     const tarifs = useAppSelector(profileTarifs);
     const credentials = useAppSelector(profileCredentialSelector);
 
+    const [getTarifs] = useLazyGetTarifsQuery();
+
     const [createTarif, { isSuccess }] = useCreateTarifMutation();
     const [isTouched, setIsTouched] = useState(false);
 
@@ -58,6 +60,12 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
     const month = date.month() + 1;
     const monthString = month < 10 ? `0${month}` : month;
     const day = date.date();
+
+    useEffect(() => {
+        if (!tarifs.length) {
+            getTarifs();
+        }
+    }, [getTarifs, tarifs.length]);
 
     const onFieldsChange = () => {
         setIsTouched(true);
@@ -69,6 +77,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
             tariffId: tarifs[0]._id,
             days,
         });
+        handleClose();
     };
 
     return (
@@ -80,6 +89,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                 footer={false}
                 onCancel={logout}
                 centered={true}
+                data-test-id='tarif-modal-success'
             >
                 <div className={styles.modalContentWrapper}>
                     <CheckCircleFilled className={styles.modalIcon} />
@@ -95,6 +105,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
             <Drawer
                 className={styles.compare}
                 title='Сравнить тарифы'
+                data-test-id='compare-tarifs'
                 open={open}
                 onClose={handleClose}
                 mask={true}
@@ -104,7 +115,13 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                 maskClosable={true}
                 footer={
                     !isProUser && (
-                        <Button form='form' type='primary' htmlType='submit' disabled={!isTouched}>
+                        <Button
+                            form='form'
+                            type='primary'
+                            htmlType='submit'
+                            disabled={!isTouched}
+                            data-test-id='tarif-submit'
+                        >
                             Выбрать и оплатить
                         </Button>
                     )
@@ -143,12 +160,13 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                         className={styles.form}
                         onFieldsChange={onFieldsChange}
                         onFinish={onFinish}
+                        data-test-id='tarif-cost'
                     >
                         <div className={styles.priceTitle}>Стоимость тарифа</div>
                         <Form.Item name='days'>
                             <Radio.Group className={styles.prices}>
                                 {tarifs[0]?.periods.map(({ text, cost, days }) => (
-                                    <Radio value={days} key={text}>
+                                    <Radio value={days} key={text} data-test-id={`tarif-${cost}`}>
                                         <div className={styles.label}>
                                             {text}
                                             <Typography.Title level={5} className={styles.price}>

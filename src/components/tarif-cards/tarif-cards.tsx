@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CheckOutlined } from '@ant-design/icons';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import imgFree from '@public/tarifs/free.jpg';
 import imgPro from '@public/tarifs/pro.jpg';
 import { profileCredentialSelector } from '@redux/modules/profile';
-import { useLazyGetTarifsQuery } from '@redux/serviсes/profile';
 import { Button, Card, Typography } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -14,14 +13,12 @@ import { ComparingDrawer } from './comparing-drawer';
 import styles from './tarif-cards.module.css';
 
 const Tarifs = [
-    { title: 'FREE tarif', img: imgFree },
-    { title: 'PRO tarif', img: imgPro, forPro: true },
+    { title: 'FREE tarif', img: imgFree, dataTestId: 'free-tarif-card' },
+    { title: 'PRO tarif', img: imgPro, forPro: true, dataTestId: 'pro-tarif-card' },
 ];
 
 export const TarifCards = () => {
     const credentials = useAppSelector(profileCredentialSelector);
-
-    const [getTarifs, { isUninitialized }] = useLazyGetTarifsQuery();
 
     const [openСomparison, setOpenСomparison] = useState(false);
 
@@ -30,13 +27,6 @@ export const TarifCards = () => {
     const month = date.month() + 1;
     const monthString = month < 10 ? `0${month}` : month;
     const day = date.date();
-
-    useEffect(() => {
-        if (isUninitialized) {
-            getTarifs();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleOpen = () => {
         setOpenСomparison(true);
@@ -52,7 +42,7 @@ export const TarifCards = () => {
                 Мой тариф
             </Typography.Title>
             <div className={styles.cards}>
-                {Tarifs.map(({ title, img, forPro }) => {
+                {Tarifs.map(({ title, img, forPro, dataTestId }) => {
                     const hidePro = !isProUser && forPro;
 
                     return (
@@ -66,6 +56,7 @@ export const TarifCards = () => {
                             }
                             key={title}
                             hoverable={false}
+                            data-test-id={dataTestId}
                             cover={
                                 <div
                                     className={classNames(styles.cover, {
@@ -89,7 +80,12 @@ export const TarifCards = () => {
                                 </div>
                             )}
                             {hidePro && (
-                                <Button className={styles.btn} type='primary' onClick={handleOpen}>
+                                <Button
+                                    data-test-id='activate-tarif'
+                                    className={styles.btn}
+                                    type='primary'
+                                    onClick={handleOpen}
+                                >
                                     Активировать
                                 </Button>
                             )}

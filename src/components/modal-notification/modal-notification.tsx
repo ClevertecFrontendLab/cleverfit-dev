@@ -18,6 +18,7 @@ type ModalNotificationProps = {
     onClickButton: () => void;
     subtitle?: string;
     theme?: ModalNotificationTheme;
+    dataTestId?: string;
 };
 
 export const ModalNotification: FC<ModalNotificationProps> = memo(
@@ -31,6 +32,7 @@ export const ModalNotification: FC<ModalNotificationProps> = memo(
         subtitle,
         textButton,
         theme = ModalNotificationTheme.DEFAULT,
+        dataTestId,
     }) => {
         const [openModal, setOpenModal] = useState(true);
 
@@ -41,7 +43,7 @@ export const ModalNotification: FC<ModalNotificationProps> = memo(
                     type='primary'
                     size='middle'
                     onClick={onClickButton}
-                    data-test-id={DATA_TEST_ID.modalErrorUserTrainingButton}
+                    data-test-id={dataTestId || DATA_TEST_ID.modalErrorUserTrainingButton}
                 >
                     {textButton}
                 </Button>

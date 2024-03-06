@@ -48,7 +48,12 @@ export const AppHeader = () => {
                 </div>
             )}
             {isSettingsfPage && (
-                <Button type='text' className={styles.tarif} onClick={() => navigate(-1)}>
+                <Button
+                    data-test-id='settings-back'
+                    type='text'
+                    className={styles.tarif}
+                    onClick={() => navigate(-1)}
+                >
                     <ArrowLeftOutlined />
                     <Typography.Title level={4}>Настройки</Typography.Title>
                 </Button>
@@ -68,7 +73,7 @@ AppHeader.Breadcrumb = ({ children }: { children?: JSX.Element | boolean }) => (
 
 AppHeader.Settings = () => (
     <div className={styles.settings}>
-        <Link to={Paths.SETTINGS}>
+        <Link to={Paths.SETTINGS} data-test-id='settings'>
             <Button type='text' className={styles.cardButton}>
                 <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
                 <span>Настройки</span>

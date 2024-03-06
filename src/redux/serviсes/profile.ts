@@ -56,10 +56,6 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                             type: 'success',
                         }),
                     );
-
-                    setTimeout(() => {
-                        dispatch(setAppAlert({ message: '' }));
-                    }, 1500);
                 } catch {
                     dispatch(resetStateCreating());
                 }
