@@ -13,8 +13,8 @@ import { ComparingDrawer } from './comparing-drawer';
 import styles from './tarif-cards.module.css';
 
 const Tarifs = [
-    { title: 'FREE tarif', img: imgFree, dataTestId: 'free-tarif-card' },
-    { title: 'PRO tarif', img: imgPro, forPro: true, dataTestId: 'pro-tarif-card' },
+    { title: 'FREE tarif', img: imgFree, dataTestId: 'free-tariff-card' },
+    { title: 'PRO tarif', img: imgPro, forPro: true, dataTestId: 'pro-tariff-card' },
 ];
 
 export const TarifCards = () => {
@@ -25,7 +25,6 @@ export const TarifCards = () => {
     const isProUser = credentials.tariff;
     const date = moment(credentials.tariff?.expired);
     const month = date.month() + 1;
-    const monthString = month < 10 ? `0${month}` : month;
     const day = date.date();
 
     const handleOpen = () => {
@@ -74,14 +73,16 @@ export const TarifCards = () => {
                                         активен
                                         {isProUser &&
                                             title.includes('PRO') &&
-                                            ` до ${monthString}.${day}`}
+                                            ` до ${String(day).padStart(2, '0')}.${String(
+                                                month,
+                                            ).padStart(2, '0')}`}
                                     </Typography.Title>
                                     {title.includes('FREE') && <CheckOutlined />}
                                 </div>
                             )}
                             {hidePro && (
                                 <Button
-                                    data-test-id='activate-tarif'
+                                    data-test-id='activate-tariff-btn'
                                     className={styles.btn}
                                     type='primary'
                                     onClick={handleOpen}

@@ -28,6 +28,7 @@ export type ProfileCredential = {
     [ProfileFieldNames.avatar]: string | ProfileAvatar;
     [ProfileFieldNames.notifications]: boolean;
     [ProfileFieldNames.trainings]: boolean;
+    password?: string;
     tariff?: {
         tariffId: string;
         expired: string;

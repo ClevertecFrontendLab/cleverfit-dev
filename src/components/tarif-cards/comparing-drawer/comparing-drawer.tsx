@@ -58,7 +58,6 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
     const isProUser = credentials.tariff;
     const date = moment(credentials.tariff?.expired);
     const month = date.month() + 1;
-    const monthString = month < 10 ? `0${month}` : month;
     const day = date.date();
 
     useEffect(() => {
@@ -89,7 +88,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                 footer={false}
                 onCancel={logout}
                 centered={true}
-                data-test-id='tarif-modal-success'
+                data-test-id='tariff-modal-success'
             >
                 <div className={styles.modalContentWrapper}>
                     <CheckCircleFilled className={styles.modalIcon} />
@@ -105,7 +104,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
             <Drawer
                 className={styles.compare}
                 title='Сравнить тарифы'
-                data-test-id='compare-tarifs'
+                data-test-id='tariff-sider'
                 open={open}
                 onClose={handleClose}
                 mask={true}
@@ -120,7 +119,7 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                             type='primary'
                             htmlType='submit'
                             disabled={!isTouched}
-                            data-test-id='tarif-submit'
+                            data-test-id='tariff-submit'
                         >
                             Выбрать и оплатить
                         </Button>
@@ -131,7 +130,8 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                 {isProUser && (
                     <div className={styles.activePro}>
                         <Typography.Title level={5}>
-                            Ваш PRO tarif активен до {monthString}.{day}
+                            Ваш PRO tarif активен до {String(day).padStart(2, '0')}.
+                            {String(month).padStart(2, '0')}
                         </Typography.Title>
                     </div>
                 )}
@@ -160,13 +160,13 @@ export const ComparingDrawer = ({ open, handleClose }: ComparingDrawerProps) => 
                         className={styles.form}
                         onFieldsChange={onFieldsChange}
                         onFinish={onFinish}
-                        data-test-id='tarif-cost'
+                        data-test-id='tariff-cost'
                     >
                         <div className={styles.priceTitle}>Стоимость тарифа</div>
                         <Form.Item name='days'>
                             <Radio.Group className={styles.prices}>
                                 {tarifs[0]?.periods.map(({ text, cost, days }) => (
-                                    <Radio value={days} key={text} data-test-id={`tarif-${cost}`}>
+                                    <Radio value={days} key={text} data-test-id={`tariff-${cost}`}>
                                         <div className={styles.label}>
                                             {text}
                                             <Typography.Title level={5} className={styles.price}>

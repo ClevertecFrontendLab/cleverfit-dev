@@ -25,6 +25,7 @@ export const ChangePasswordPage = () => {
 
     const extraPassword = (
         <span
+            data-test-id='password-invalid-sign'
             className={classNames(styles.extra, {
                 [styles.extraError]: errorPassword,
             })}
@@ -65,7 +66,7 @@ export const ChangePasswordPage = () => {
                     name={AuthFieldNames.password}
                     className={styles.formItemInput}
                     extra={extraPassword}
-                    rules={[VALIDATION_FIELD_REQUIRED, passwordValidator]}
+                    rules={[VALIDATION_FIELD_REQUIRED, passwordValidator(true)]}
                 >
                     <Input.Password
                         type='password'

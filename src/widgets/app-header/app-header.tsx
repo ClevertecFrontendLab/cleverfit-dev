@@ -73,7 +73,7 @@ AppHeader.Breadcrumb = ({ children }: { children?: JSX.Element | boolean }) => (
 
 AppHeader.Settings = () => (
     <div className={styles.settings}>
-        <Link to={Paths.SETTINGS} data-test-id='settings'>
+        <Link to={Paths.SETTINGS} data-test-id='header-settings'>
             <Button type='text' className={styles.cardButton}>
                 <img alt='android' src={settingsIcon} className={styles.settingsIcon} />
                 <span>Настройки</span>

@@ -60,6 +60,7 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
                 maskStyle={{ backdropFilter: 'blur(6px)' }}
                 footer={
                     <Button
+                        form='feedback-form'
                         type='primary'
                         className={styles.submit}
                         htmlType='submit'
@@ -72,6 +73,7 @@ export const ModalReview = ({ open, setOpen }: ModalReviewProps) => {
                 }
             >
                 <Form
+                    id='feedback-form'
                     form={formNewReview}
                     onFinish={onFinish}
                     requiredMark={false}

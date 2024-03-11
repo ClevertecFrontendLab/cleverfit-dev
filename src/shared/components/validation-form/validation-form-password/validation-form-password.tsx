@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { AuthFieldNames } from '@common-types/credentials';
-import { VALIDATION_FIELD_REQUIRED } from '@constants/general';
 import { passwordValidator } from '@shared/utils/password-validator';
 import { Form, Input } from 'antd';
 import classNames from 'classnames';
@@ -32,7 +31,7 @@ export const ValidationFormPassword = ({
             className={styles.formItemInput}
             name={AuthFieldNames.password}
             extra={withExtra && extraPassword}
-            rules={[VALIDATION_FIELD_REQUIRED, passwordValidator]}
+            rules={[passwordValidator(false)]}
         >
             <Input.Password type='password' placeholder='Пароль' data-test-id={dataTestId} />
         </Form.Item>

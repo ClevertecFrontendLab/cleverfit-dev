@@ -1,16 +1,23 @@
+import { useContext } from 'react';
 import { AuthFieldNames } from '@common-types/credentials';
-import { VALIDATION_CONFIRM_PASSWORD } from '@pages/login-page/constants/common';
 import { confirmPasswordValidator } from '@shared/utils/confirm-password-validator';
 import { Form, Input } from 'antd';
 
-import { DataTestIdProp } from '../validation-form';
+import { DataTestIdProp, ValidationFormContext } from '../validation-form';
 
-export const ValidationFormRepeatPassword = ({ dataTestId }: DataTestIdProp) => (
-    <Form.Item
-        name={AuthFieldNames.confirmPassword}
-        dependencies={[AuthFieldNames.password]}
-        rules={[VALIDATION_CONFIRM_PASSWORD, confirmPasswordValidator]}
-    >
-        <Input.Password placeholder='Повторите пароль' data-test-id={dataTestId} />
-    </Form.Item>
-);
+export const ValidationFormRepeatPassword = ({ dataTestId }: DataTestIdProp) => {
+    const { form } = useContext(ValidationFormContext);
+
+    return (
+        <Form.Item
+            name={AuthFieldNames.confirmPassword}
+            dependencies={[AuthFieldNames.password]}
+            rules={[
+                confirmPasswordValidator,
+                { required: form?.getFieldValue(AuthFieldNames.password), message: '' },
+            ]}
+        >
+            <Input.Password placeholder='Повторите пароль' data-test-id={dataTestId} />
+        </Form.Item>
+    );
+};

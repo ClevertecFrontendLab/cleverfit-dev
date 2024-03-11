@@ -14,22 +14,22 @@ const Options = [
         title: 'Открыт для совместных тренировок',
         tooltip: 'включеная функция позволит участвовать в совместных тренировках',
         name: ProfileFieldNames.trainings,
-        dataTestId: 'tarif-trainings',
-        dataTestIdIcon: 'tarif-trainings-icon',
+        dataTestId: 'tariff-trainings',
+        dataTestIdIcon: 'tariff-trainings-icon',
     },
     {
         title: 'Уведомления',
         tooltip: 'включеная функция позволит получать уведомления об активностях',
         name: ProfileFieldNames.notifications,
-        dataTestId: 'tarif-notifications',
-        dataTestIdIcon: 'tarif-notifications-icon',
+        dataTestId: 'tariff-notifications',
+        dataTestIdIcon: 'tariff-notifications-icon',
     },
     {
         title: 'Тёмная тема',
         tooltip: 'темная тема доступна для PRO tarif',
         forPro: true,
-        dataTestId: 'tarif-theme',
-        dataTestIdIcon: 'tarif-theme-icon',
+        dataTestId: 'tariff-theme',
+        dataTestIdIcon: 'tariff-theme-icon',
     },
 ];
 

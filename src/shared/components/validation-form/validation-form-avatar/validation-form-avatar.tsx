@@ -71,7 +71,7 @@ export const ValidationFormAvatar = ({ dataTestId }: DataTestIdProp) => {
                 subtitle='Выберите файл размером менее 5 МБ.'
                 open={isBigFile}
                 theme={ModalNotificationTheme.ONE_COLOR}
-                dataTestId='profile-modal-close-button'
+                dataTestId='big-file-error-close'
             />
             <Form.Item name={ProfileFieldNames.avatar} data-test-id={dataTestId}>
                 <Upload

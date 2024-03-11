@@ -43,23 +43,29 @@ export const ProfilePage = () => {
     }, [isError]);
 
     const onFinish = useCallback(
-        (credentials: ProfileCredential) => {
-            const { imgSrc } = credentials;
-            let imgUrl = credential.imgSrc;
+        ({ firstName, lastName, birthday, email, imgSrc, password }: ProfileCredential) => {
+            const newUserData: Partial<ProfileCredential> = {
+                firstName,
+                lastName,
+                birthday,
+                email,
+            };
 
+            if (password) newUserData.password = password;
             if (imgSrc) {
-                if (typeof imgSrc === 'string') imgUrl = imgSrc;
-                else if ((imgSrc as ProfileAvatar).file?.status === 'removed') imgUrl = '';
+                if (typeof imgSrc === 'string') newUserData.imgSrc = imgSrc;
+                else if ((imgSrc as ProfileAvatar).file?.status === 'removed')
+                    newUserData.imgSrc = '';
                 else {
-                    imgUrl = `https://training-api.clevertec.ru${
+                    newUserData.imgSrc = `https://training-api.clevertec.ru${
                         (imgSrc as ProfileAvatar).file?.response?.url
                     }`;
                 }
             }
 
-            updateUser({ ...credentials, imgSrc: imgUrl });
+            updateUser(newUserData);
         },
-        [credential.imgSrc, updateUser],
+        [updateUser],
     );
 
     const handleCloseModal = () => {
