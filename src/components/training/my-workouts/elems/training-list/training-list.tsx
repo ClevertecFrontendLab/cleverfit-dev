@@ -22,6 +22,7 @@ export const TrainingList: React.FC = () => {
     const [selectedTraining, setSelectedTraining] = useState<UserTraining>();
 
     const {
+        defaultTrainings,
         userTraining,
         createdTraining: { exercises },
     } = useAppSelector(trainingsSelector);
@@ -45,8 +46,6 @@ export const TrainingList: React.FC = () => {
                 name: training.name,
             }),
         );
-
-        // refactor
     };
 
     const addNewTrainingHandler = () => {
@@ -112,8 +111,9 @@ export const TrainingList: React.FC = () => {
             key: 'action',
             title: '',
             dataIndex: 'action',
+            width: 30,
             render: (_text, record) =>
-                isOldDate(record.date) ? (
+                record.isImplementation ? (
                     <Button disabled={true} type='link'>
                         <EditOutlined style={{ fontSize: '24px' }} />
                     </Button>
@@ -126,7 +126,7 @@ export const TrainingList: React.FC = () => {
     ];
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.trainingList}>
             <Table
                 columns={columns}
                 pagination={{ position: ['bottomLeft', 'bottomLeft'], pageSize: 7 }}
@@ -134,16 +134,18 @@ export const TrainingList: React.FC = () => {
                 size='small'
             />
 
-            <div className={styles.addButton}>
-                <Button
-                    type='primary'
-                    size='large'
-                    icon={<PlusOutlined />}
-                    onClick={addNewTrainingHandler}
-                >
-                    Новая тренировка
-                </Button>
-            </div>
+            {!!defaultTrainings.length && (
+                <div className={styles.addButton}>
+                    <Button
+                        type='primary'
+                        size='large'
+                        icon={<PlusOutlined />}
+                        onClick={addNewTrainingHandler}
+                    >
+                        Новая тренировка
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

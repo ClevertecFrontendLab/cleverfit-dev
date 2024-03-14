@@ -10,4 +10,10 @@ export enum EndpointNames {
     GET_USER_TRAINING = 'get-user-training',
     CREATE_TRAINING = 'create-training',
     UPDATE_TRAINING = 'update-training',
+    GET_USER_JOINT_TRAINING_LIST = 'get-user-joint-training-list',
+    GET_TRAINING_PALS_LIST = 'get-training-pals-list',
+    REMOVE_JOINT_TRAINING = 'remobe-joint-training',
+    GET_INVITE_LIST = 'get-invite-list',
+    SEND_INVITE = 'send-invite',
+    ANSWER_ON_INVITE = 'answer-on-invite',
 }

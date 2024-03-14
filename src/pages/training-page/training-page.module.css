@@ -1,28 +1,23 @@
 .root {
     position: relative;
-    padding: 24px;
+    padding: var(--gap-xl);
     height: 100%;
     background-color: var(--neutral-1);
     border-radius: var(--border-radius-m);
 }
 
+:global(.ant-tabs-nav-list) { 
+    width: 100%;
+    justify-content: space-between;
+}
+
 :global(.ant-tabs-tab-btn) {
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 31px;
+    font: var(--font-xl-tablet)
 }
 
-@media (max-width: 834px) {
-    :global(.ant-tabs-tab-btn) {
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 18px;
-    }
+.badge {
+    margin-left: var(--gap-s);
 }
-
-/* :global(.ant-tabs-nav-wrap) {
-    justify-content: space-between !important;
-  } */
 
 .marathonTab {
     background-image: url('/public/marathon-background.png');
@@ -36,4 +31,16 @@
     left: 50%;
     transform: translateX(-50%);
     width: 50%;
+}
+
+@media (max-width: 834px) {
+    :global(.ant-tabs-tab-btn) {
+        font: var(--font-s)
+    }
+}
+
+@media (max-width: 576px) {
+    .root {
+        margin: var(--gap-xl-neg);
+    }
 }

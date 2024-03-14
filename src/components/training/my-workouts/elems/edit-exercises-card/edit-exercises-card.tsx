@@ -29,8 +29,8 @@ export const EditExercisesCard: React.FC<CardProps> = ({
                 </Button>,
             ]}
         >
-            <div className={styles.cardWrapper}>
-                <div className={styles.titleWrapper}>
+            <div>
+                <div className={styles.cardTitle}>
                     <Button
                         type='text'
                         size='small'

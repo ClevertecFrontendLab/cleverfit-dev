@@ -15,6 +15,7 @@ import styles from './my-workouts.module.css';
 
 export const MyWorkouts = () => {
     const {
+        defaultTrainings,
         createdTraining: { exercises },
         userTraining,
     } = useAppSelector(trainingsSelector);
@@ -40,14 +41,16 @@ export const MyWorkouts = () => {
             ) : (
                 <div className={styles.workoutsEmpty}>
                     <Typography.Text>У вас еще нет созданных тренировок</Typography.Text>
-                    <Button
-                        type='primary'
-                        size='large'
-                        onClick={openRightMenuHandler}
-                        style={{ marginTop: '75px' }}
-                    >
-                        Создать тренировку
-                    </Button>
+                    {!!defaultTrainings.length && (
+                        <Button
+                            type='primary'
+                            size='large'
+                            onClick={openRightMenuHandler}
+                            style={{ marginTop: '75px' }}
+                        >
+                            Создать тренировку
+                        </Button>
+                    )}
                 </div>
             )}
 

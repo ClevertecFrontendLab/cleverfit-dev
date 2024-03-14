@@ -78,7 +78,7 @@ export const trainingApiSlice = apiSlice
                 providesTags: [Tags.USER_TRAINING],
             }),
 
-            createTraining: builder.mutation<void, UserTraining>({
+            createTraining: builder.mutation<UserTraining, UserTraining>({
                 query: (body) => ({
                     url: ApiEndpoints.TRAINING,
                     method: 'POST',
@@ -109,7 +109,7 @@ export const trainingApiSlice = apiSlice
                         date: body.date,
                         isImplementation: body.isImplementation,
                         exercises: body.exercises,
-                        parameters: body.parameters
+                        parameters: body.parameters,
                     },
                 }),
                 async onQueryStarted(_, { dispatch, queryFulfilled }) {

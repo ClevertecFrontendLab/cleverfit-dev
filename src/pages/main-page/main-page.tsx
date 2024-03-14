@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useGetInviteListQuery } from '@redux/serviсes/invite.ts';
 import {
     DescriptionCard,
     DescriptionCardTextColor,
@@ -31,6 +32,8 @@ export const MainPage = () => {
     const onNavigate = (route: string) => {
         navigate(route);
     };
+
+    useGetInviteListQuery();
 
     return (
         <div className={styles.cardBlock}>

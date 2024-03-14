@@ -1,16 +1,19 @@
-.editCard {
+.card {
     position: absolute;
     width: 240px;
-    z-index: 1049;
+    height: 240px;
 
     &>div {
         padding: 0;
     }
+
+    z-index: 1049;
 }
 
-.cardTitle {
+.titleWrapper {
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: var(--gap-m) var(--gap-s) var(--gap-s);
     border-bottom: 1px solid var(--color-border-gray);
@@ -22,20 +25,16 @@
 
 .cardBody {
     padding: var(--gap-m) var(--gap-s);
-    height: 125px;
+    overflow: auto;
+    width: 100%;
 }
 
-.items {
+.flexBetween {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
 }
 
-:global(.ant-card-actions) {
-    padding: 0 var(--gap-s);
-}
-
-@media (max-width: 460px) {
-    .editCard {
-        width: 312px;
-    }
+.iteration {
+    font: var(--font-xs);
+    color: var(--primary-light);
 }

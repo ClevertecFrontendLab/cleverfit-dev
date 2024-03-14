@@ -25,6 +25,7 @@ module.exports = {
         },
     ],
     rules: {
+        "complexity": ["error", 25],
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         'import/no-absolute-path': 'off',
         'react/react-in-jsx-scope': 'off',

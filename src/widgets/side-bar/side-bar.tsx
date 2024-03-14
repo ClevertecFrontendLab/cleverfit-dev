@@ -2,12 +2,15 @@ import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { clearStateOnLogout } from '@redux/modules/app';
+import { inviteListSelector } from '@redux/modules/invite';
 import { apiSlice } from '@redux/serviсes';
+import { Paths } from '@routes/paths';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
-import { Button, Divider, Layout } from 'antd';
+import { Badge, Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
 
 import { MENU_ITEM_EXIT, MENU_ITEMS } from './config/menu-items';
@@ -22,7 +25,8 @@ type SideBarProps = {
 };
 
 export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
-    const navigate = useNavigate()
+    const inviteList = useAppSelector(inviteListSelector);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const logout = useCallback(() => {
@@ -32,8 +36,8 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
     }, [dispatch]);
 
     const onNavigate = (rout: string) => {
-        navigate(rout)
-    }
+        navigate(rout);
+    };
 
     return (
         <Sider
@@ -57,8 +61,20 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                     />
                 </div>
                 {MENU_ITEMS.map(({ id, icon, title, route }) => (
-                    <Button type='text' key={id} className={styles.menuButton} onClick={() => onNavigate(route)}>
-                        <img alt='icon' src={icon} />
+                    <Button
+                        type='text'
+                        key={id}
+                        className={styles.menuButton}
+                        onClick={() => onNavigate(route)}
+                    >
+                        {route === Paths.TRAINING ? (
+                            <Badge count={inviteList.length} style={{ margin: '0' }}>
+                                <img alt='icon' src={icon} />
+                            </Badge>
+                        ) : (
+                            <img alt='icon' src={icon} />
+                        )}
+
                         {!collapsed && <span>{title}</span>}
                     </Button>
                 ))}

@@ -5,9 +5,12 @@ import { BadgeChanged } from '@components/badge-changed/badge-changed.tsx';
 import { DrawerRight } from '@components/drawer-right';
 import { ExercisesForm } from '@components/exercises-form/exercises-form.tsx';
 import { ModalNotification } from '@components/modal-notification';
+import { PartnerInfo } from '@components/partner-info/partner-info.tsx';
 import { Frequency } from '@components/training/my-workouts/elems/frequency/frequency.tsx';
+import { CardModalBody, ChangeType } from '@constants/card-modal.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { leftMenuSelector, setStateLeftMenu } from '@redux/modules/app.ts';
+import { selectedUserSelector } from '@redux/modules/invite.ts';
 import {
     addDefaultTraining,
     addExercises,
@@ -20,6 +23,7 @@ import {
     setTrainingData,
     trainingsSelector,
 } from '@redux/modules/training.ts';
+import { useSendInviteMutation } from '@redux/serviсes/invite.ts';
 import { useCreateTrainingMutation, useUpdateTrainingMutation } from '@redux/serviсes/training.ts';
 import { UserTraining } from '@redux/types/training.ts';
 import { findUserTraining } from '@utils/find-user-training.ts';
@@ -27,8 +31,6 @@ import { FORMAT_Y_M_D, formatDate, isOldDate } from '@utils/format-date.ts';
 import { Alert, Button, Typography } from 'antd';
 import classNames from 'classnames';
 import moment, { Moment } from 'moment';
-
-import { CardModalBody, ChangeType } from '../../../constans/card-modal.ts';
 
 import { CardExercises } from './card-exercises/card-exercises.tsx';
 import { TrainingDataCall } from './types/card-modal.ts';
@@ -51,12 +53,14 @@ const titleDrawer: Record<ChangeType, string> = {
     [ChangeType.ADD_NEW]: 'Добавление упражнений',
     [ChangeType.EDIT_OLD]: 'Редактирование',
     [ChangeType.EDIT_FUTURE]: 'Редактирование',
+    [ChangeType.JOINT_TRAINING]: 'Совместная тренировка',
 };
 
 const iconDrawer: Record<ChangeType, ReactNode> = {
     [ChangeType.ADD_NEW]: <PlusOutlined />,
     [ChangeType.EDIT_OLD]: <EditOutlined />,
     [ChangeType.EDIT_FUTURE]: <EditOutlined />,
+    [ChangeType.JOINT_TRAINING]: <PlusOutlined />,
 };
 
 export const CardModal: FC<CardModalWrapper> = ({
@@ -82,6 +86,8 @@ export const CardModal: FC<CardModalWrapper> = ({
         userTraining,
     } = useAppSelector(trainingsSelector);
 
+    const partner = useAppSelector(selectedUserSelector);
+
     const [
         createTraining,
         { isLoading: isLoadingCreate, isError: isErrorCreate, isSuccess: isCreateSuccess },
@@ -90,12 +96,13 @@ export const CardModal: FC<CardModalWrapper> = ({
         updateTraining,
         { isLoading: isLoadingUpdate, isError: isErrorUpdate, isSuccess: isUpdateSuccess },
     ] = useUpdateTrainingMutation();
+    const [sendInviteMutation, { isError: isInviteError }] = useSendInviteMutation();
 
     useEffect(() => {
-        if (isErrorCreate || isErrorUpdate) {
+        if (isErrorCreate || isErrorUpdate || isInviteError) {
             setOpenModalError(true);
         }
-    }, [isErrorCreate, isErrorUpdate]);
+    }, [isErrorCreate, isErrorUpdate, isInviteError]);
 
     const onNextState = (data: TrainingDataCall) => {
         const dateFormat = formatDate(data.date, FORMAT_Y_M_D);
@@ -173,24 +180,31 @@ export const CardModal: FC<CardModalWrapper> = ({
         dispatch(setStateCardModal());
     };
 
-    const onSaveTraining = () => {
+    const onSaveTraining = async () => {
+        const trainingType = typeEdit === ChangeType.JOINT_TRAINING ? partner.trainingType : name;
         const body = {
             isImplementation: isOldDate(dataCreated),
             id,
-            name,
+            name: trainingType,
             exercises,
             date: `${dataCreated}T00:00:00.000Z`,
             parameters,
         };
 
-        if (typeEdit !== ChangeType.ADD_NEW && id) {
-            updateTraining(body);
-            dispatch(setStateLeftMenu());
+        try {
+            if (typeEdit !== ChangeType.ADD_NEW && id) {
+                updateTraining(body);
 
-            return;
+                return;
+            }
+            const data = await createTraining(body).unwrap();
+
+            if (typeEdit === ChangeType.JOINT_TRAINING) {
+                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+            }
+        } finally {
+            dispatch(setStateLeftMenu());
         }
-        createTraining(body);
-        dispatch(setStateLeftMenu());
     };
 
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
@@ -242,6 +256,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 iconClose={iconDrawer[typeEdit]}
             >
                 <div>
+                    {typeEdit === ChangeType.JOINT_TRAINING && <PartnerInfo partner={partner} />}
                     {screen === 'training' ? (
                         <Frequency />
                     ) : (
@@ -302,13 +317,15 @@ export const CardModal: FC<CardModalWrapper> = ({
                     {screen === 'training' && (
                         <div className={styles.saveButton}>
                             <Button
-                                disabled={isLoadingCreate}
+                                disabled={!(dataCreated || isLoadingCreate) || !exercises[0].name}
                                 type='primary'
                                 size='large'
                                 onClick={onSaveTraining}
                                 block={true}
                             >
-                                Сохранить
+                                {typeEdit === ChangeType.JOINT_TRAINING
+                                    ? 'Отправить приглашение'
+                                    : 'Сохранить'}
                             </Button>
                         </div>
                     )}
