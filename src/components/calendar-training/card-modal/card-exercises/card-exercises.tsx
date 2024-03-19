@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { FC, useEffect, useState } from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { BadgeChanged } from '@components/badge-changed/badge-changed.tsx';

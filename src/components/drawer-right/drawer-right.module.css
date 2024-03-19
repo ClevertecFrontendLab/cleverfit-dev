@@ -14,3 +14,8 @@
         border-top-left-radius: var(--border-radius-xxl);
     }
 }
+
+:global(.ant-drawer-header button.ant-drawer-close) {
+    position: relative;
+    left: 0;
+}

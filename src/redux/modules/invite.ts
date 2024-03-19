@@ -54,7 +54,7 @@ export const inviteSlice = createSlice({
             state,
             { payload: { inviteId } }: PayloadAction<{ inviteId: Nullable<string>}>,
         ) {
-            state.jointTrainingList = state.jointTrainingList.filter(el => el.inviteId !== inviteId);
+            state.acceptedUsersList = state.acceptedUsersList.filter(el => el.inviteId !== inviteId);
         },
     },
 });
