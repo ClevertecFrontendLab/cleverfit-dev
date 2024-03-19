@@ -23,14 +23,14 @@ export const InviteList: React.FC<InviteListProps> = ({ onShowPartnersList }) =>
     const [collapsed, setCollapsed] = useState(true);
 
     const inviteList = useAppSelector(inviteListSelector);
-    const inviteListToRender = collapsed ? [inviteList[1]] : inviteList;
+    const inviteListToRender = collapsed ? [inviteList[0]] : inviteList;
 
     const { refetch } = useGetAcceptedUsersListQuery();
     const [sendAnswerInviteMutation, { isSuccess }] = useSendAnswerInviteMutation();
 
-    const sendInviteHandler = (id: string) => {
-        sendAnswerInviteMutation({ id, status: Status.ACCEPTED });
-        refetch();
+    const acceptInviteHandler = async (id: string) => {
+        await sendAnswerInviteMutation({ id, status: Status.ACCEPTED });
+        await refetch();
         if (!isSuccess) {
             onShowPartnersList(true);
         }
@@ -72,7 +72,7 @@ export const InviteList: React.FC<InviteListProps> = ({ onShowPartnersList }) =>
                         </div>
                     </div>
                     <div className={styles.message}>
-                        <Typography.Text type='secondary' style={{fontSize: '12px'}}>
+                        <Typography.Text type='secondary' style={{ fontSize: '12px' }}>
                             {formatDate(item.createdAt)}
                         </Typography.Text>
                         <Typography.Title level={5} style={{ color: '#061178', marginTop: '8px' }}>
@@ -99,7 +99,7 @@ export const InviteList: React.FC<InviteListProps> = ({ onShowPartnersList }) =>
                         <Button
                             type='primary'
                             // eslint-disable-next-line
-                            onClick={() => sendInviteHandler(item._id)}
+                            onClick={() => acceptInviteHandler(item._id)}
                         >
                             Тренироваться вместе
                         </Button>

@@ -112,16 +112,20 @@ export const TrainingList: React.FC = () => {
             title: '',
             dataIndex: 'action',
             width: 30,
-            render: (_text, record) =>
-                record.isImplementation ? (
-                    <Button disabled={true} type='link'>
+            render: (_text, record) => (
+                <Button
+                    type='link'
+                    disabled={record.isImplementation}
+                    onClick={() => editTrainingHandler(record)}
+                >
+                    {record.isImplementation ? (
                         <EditOutlined style={{ fontSize: '24px' }} />
-                    </Button>
-                ) : (
-                    <Button type='link' onClick={() => editTrainingHandler(record)}>
+                    ) : (
                         <EditTwoTone style={{ fontSize: '24px' }} />
-                    </Button>
-                ),
+                    )}
+                </Button>
+            ),
+            // ),
         },
     ];
 
