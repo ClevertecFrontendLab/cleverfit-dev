@@ -1,9 +1,9 @@
-import { FC, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ModalNoReview } from '@components/modal-no-reviews';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { useLogout } from '@hooks/use-logout';
 import { clearStateOnLogout } from '@redux/modules/app';
 import { inviteListSelector } from '@redux/modules/invite';
 import { apiSlice } from '@redux/serviсes';
@@ -30,14 +30,8 @@ type SideBarProps = {
 export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
     const inviteList = useAppSelector(inviteListSelector);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const logout = useLogout();
     const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
-
-    const logout = useCallback(() => {
-        localStorage.removeItem(ACCESS_TOKEN_NAME);
-        dispatch(clearStateOnLogout());
-        dispatch(apiSlice.util.resetApiState());
-    }, [dispatch]);
 
     const onNavigate = async (route: string) => {
         await navigateAfterRequest(
@@ -69,11 +63,12 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         className={styles.logo}
                     />
                 </div>
-                {MENU_ITEMS.map(({ id, icon, title, route }) => (
+                {MENU_ITEMS.map(({ id, icon, title, route, dataTestId }) => (
                     <Button
                         type='text'
                         key={id}
                         className={styles.menuButton}
+                        data-test-id={dataTestId}
                         onClick={() => onNavigate(route)}
                     >
                         {route === `/${RoutNamePage.TRAINING}` ? (

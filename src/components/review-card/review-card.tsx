@@ -19,7 +19,7 @@ export const ReviewCard = ({ fullName, imageSrc, message, rating, createdAt }: R
         <Card className={styles.reviewCardWrap} bordered={false}>
             <div className={styles.reviewCard}>
                 <div className={styles.profileInfo}>
-                    <Avatar size={42} icon={imageSrc || <UserOutlined />} />
+                    <Avatar size={42} src={imageSrc} icon={<UserOutlined />} />
                     <div>
                         <h6 className={styles.profileName}>{name || 'Имя'}</h6>
                         <h6 className={styles.profileSurName}>{surName || 'Фамилия'}</h6>

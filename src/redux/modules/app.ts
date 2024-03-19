@@ -1,8 +1,17 @@
 import { CredentialsFeedbackType, CredentialsType } from '@common-types/credentials';
 import { ApplicationState } from '@redux/configure-store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AlertProps } from 'antd';
 
-export type AppState = typeof initialState;
+export type AppState = {
+    isError: boolean;
+    isLoading: boolean;
+    accessToken: string;
+    credential: CredentialsType;
+    openLeftMenu: boolean;
+    credentialFeedback: CredentialsFeedbackType;
+    alert: AlertProps;
+};
 
 export const initialState = {
     isError: false,
@@ -19,6 +28,7 @@ export const initialState = {
         message: '',
         rating: 0,
     },
+    alert: {} as AlertProps,
 };
 
 export const appSlice = createSlice({
@@ -30,6 +40,9 @@ export const appSlice = createSlice({
         },
         setAppLoader(state, { payload: isLoading }: PayloadAction<boolean>) {
             state.isLoading = isLoading;
+        },
+        setAppAlert(state, { payload }: PayloadAction<AlertProps>) {
+            state.alert = { ...payload };
         },
         setAppCredential(state, { payload: credential }: PayloadAction<CredentialsType>) {
             state.credential = credential;
@@ -55,6 +68,7 @@ export const credentialSelector = (state: ApplicationState) => state.app.credent
 export const credentialFeedbackSelector = (state: ApplicationState) => state.app.credentialFeedback;
 export const accessTokenSelector = (state: ApplicationState) => state.app.accessToken;
 export const errorSelector = (state: ApplicationState) => state.app.isError;
+export const alertSelector = (state: ApplicationState) => state.app.alert;
 
 export const leftMenuSelector = (state: ApplicationState) => state.app.openLeftMenu;
 export const {
@@ -65,6 +79,7 @@ export const {
     setAccessToken,
     setAppCredentialFeedback,
     setStateLeftMenu,
+    setAppAlert,
 } = appSlice.actions;
 
 export default appSlice.reducer;

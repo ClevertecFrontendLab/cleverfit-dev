@@ -15,9 +15,16 @@ const { Content } = Layout;
 type MainLayoutProps = {
     isSimpleFooter?: boolean;
     isImage?: boolean;
+    defaultBack?: boolean;
+    withInnerBack?: boolean;
 };
 
-export const MainLayout: FC<MainLayoutProps> = ({ isSimpleFooter, isImage = true }) => {
+export const MainLayout: FC<MainLayoutProps> = ({
+    isSimpleFooter,
+    isImage = true,
+    defaultBack,
+    withInnerBack,
+}) => {
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleMenu = () => {
@@ -26,7 +33,11 @@ export const MainLayout: FC<MainLayoutProps> = ({ isSimpleFooter, isImage = true
 
     return (
         <RequireAuth>
-            <Layout className={isImage ? styles.appImage : styles.app}>
+            <Layout
+                className={classNames(isImage ? styles.appImage : styles.app, {
+                    [styles.defaultBack]: defaultBack,
+                })}
+            >
                 <SideBar toggleMenu={toggleMenu} collapsed={collapsed} />
                 <MobileSideBar />
                 <Layout
@@ -35,7 +46,11 @@ export const MainLayout: FC<MainLayoutProps> = ({ isSimpleFooter, isImage = true
                     })}
                 >
                     <AppHeader />
-                    <Content className={styles.content}>
+                    <Content
+                        className={classNames(styles.content, {
+                            [styles.innerBack]: withInnerBack,
+                        })}
+                    >
                         <Outlet />
                     </Content>
                     {isSimpleFooter ? <div /> : <AppFooter />}

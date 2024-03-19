@@ -7,6 +7,7 @@ import { ReviewCard } from '@components/review-card';
 import { useGetFeedbacksQuery } from '@redux/serviсes/feedback';
 import { Button } from 'antd';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import { useCreateFeedback } from './hooks/use-create-feedback';
 
@@ -34,17 +35,23 @@ export const ReviewsPage = () => {
             {isReviews && <NoReviews />}
             {!isReviews && (
                 <div className={styles.reviewWrap}>
-                    <div
-                        className={classNames(styles.reviewBlock, {
-                            [styles.reviewAllBlock]: isAllReview,
-                        })}
-                    >
-                        {isAllReview
-                            ? data?.map((card) => <ReviewCard key={card.message} {...card} />)
-                            : data
-                                  ?.slice(0, 4)
-                                  ?.map((card) => <ReviewCard key={card.message} {...card} />)}
-                    </div>
+                    {data && (
+                        <div
+                            data-test-id='reviews-cards'
+                            className={classNames(styles.reviewBlock, {
+                                [styles.reviewAllBlock]: isAllReview,
+                            })}
+                        >
+                            {isAllReview
+                                ? data
+                                      .toSorted((a, b) => moment(b.createdAt).diff(a.createdAt))
+                                      .map((card) => <ReviewCard key={card.id} {...card} />)
+                                : data
+                                      .toSorted((a, b) => moment(b.createdAt).diff(a.createdAt))
+                                      .slice(0, 4)
+                                      .map((card) => <ReviewCard key={card.id} {...card} />)}
+                        </div>
+                    )}
                     <div className={styles.buttonBlock}>
                         <Button
                             type='primary'

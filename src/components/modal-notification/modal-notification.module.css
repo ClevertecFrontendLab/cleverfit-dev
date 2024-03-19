@@ -20,5 +20,6 @@
     }
 }
 
-
-
+.subtitle:global(.ant-typography.ant-typography-secondary) {
+  color: var(--font-title-light);
+}

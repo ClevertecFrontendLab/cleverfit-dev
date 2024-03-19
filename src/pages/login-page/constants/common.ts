@@ -11,5 +11,5 @@ export const VALIDATION_FIELD_EMAIL = [
     },
 ] as RuleObject[];
 
-export const VALIDATION_CONFIRM_PASSWORD = { required: true, message: '' };
+export const VALIDATION_CONFIRM_PASSWORD = { message: '', required: true };
 export const EMAIL_NO_EXIST = 'Email не найден';
