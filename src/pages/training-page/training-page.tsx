@@ -6,7 +6,7 @@ import { MyWorkouts } from '@components/training/my-workouts/my-workouts.tsx';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { inviteListSelector } from '@redux/modules/invite';
 import { resetStateCreating, trainingsSelector } from '@redux/modules/training.ts';
-import { useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
+import { useGetUserTrainingQuery, useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
 import { Badge, Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
 import classNames from 'classnames';
@@ -43,6 +43,7 @@ export const TrainingPage: React.FC = () => {
 
     const dispatch = useAppDispatch();
 
+    useGetUserTrainingQuery();
     const [getTrainingList, { isError: isGetTrainingListError }] = useLazyGetTrainingListQuery();
 
     const retryRequestHandler = () => {

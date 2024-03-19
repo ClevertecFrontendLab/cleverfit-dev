@@ -609,7 +609,7 @@ describe('Sprint 6', () => {
             takeScreenshots('calendar-page', resolutionLaptop);
         });
 
-        it.only('create new training', () => {
+        it('create new training', () => {
             goToCalendar();
             cy.viewport(1440, 900);
 
@@ -658,6 +658,7 @@ describe('Sprint 6', () => {
                 cy.contains('Сохранить').click();
             });
             cy.wait('@postUserTraining');
+            cy.wait('@getUserTraining');
             cy.get(`[data-test-id=${DATA_TEST_ID.createTrainingSuccessAlert}]`).within(() => {
                 cy.contains('Новая тренировка успешно добавлена').should('exist');
             });
@@ -670,7 +671,7 @@ describe('Sprint 6', () => {
             });
         });
 
-        it('update trainings', () => {
+        it.only('update trainings', () => {
             goToCalendar();
             cy.viewport(833, 900);
 

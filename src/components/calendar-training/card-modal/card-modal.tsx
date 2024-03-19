@@ -44,7 +44,7 @@ type CardModalWrapper = {
     offsetTop?: number;
     trainings?: UserTraining[];
     date?: Moment;
-    onClose?: () => void;
+    onClose: () => void;
     isLeft?: boolean;
     screen?: string;
     selectedTraining?: UserTraining;
@@ -77,6 +77,7 @@ export const CardModal: FC<CardModalWrapper> = ({
     const [indexes, setIndexes] = useState<number[]>([]);
     const [openModalError, setOpenModalError] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     const dispatch = useAppDispatch();
     const openMenu = useAppSelector(leftMenuSelector);
@@ -211,18 +212,28 @@ export const CardModal: FC<CardModalWrapper> = ({
 
         if (typeEdit !== ChangeType.ADD_NEW && id) {
             updateTraining(body);
+            setAlertMessage('Тренировка успешно обновлена');
+            if (screen === 'training') {
+                dispatch(resetStateCreating());
+            }
 
             return;
         }
-        const data = await createTraining(body).unwrap();
 
-        if (typeEdit === ChangeType.JOINT_TRAINING) {
-            sendInviteMutation({ to: partner.id, trainingId: data._id as string });
-            // dispatch(resetStateCreating()); //???
-        }
+        try {
+            const data = await createTraining(body).unwrap();
 
-        if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
-            dispatch(resetStateCreating());
+            setAlertMessage('Новая тренировка успешно добавлена');
+
+            if (typeEdit === ChangeType.JOINT_TRAINING) {
+                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+            }
+
+            if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
+                dispatch(resetStateCreating());
+            }
+        } catch (e) {
+            throw new Error('save training error');
         }
     };
 
@@ -374,11 +385,7 @@ export const CardModal: FC<CardModalWrapper> = ({
             {showAlert && screen && (isCreateSuccess || isUpdateSuccess) && (
                 <Alert
                     data-test-id={DATA_TEST_ID.createTrainingSuccessAlert}
-                    message={
-                        isCreateSuccess
-                            ? 'Новая тренировка успешно добавлена'
-                            : 'Тренировка успешно обновлена'
-                    }
+                    message={alertMessage}
                     type='success'
                     showIcon={true}
                     closable={true}

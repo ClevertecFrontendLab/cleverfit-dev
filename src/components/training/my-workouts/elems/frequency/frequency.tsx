@@ -78,7 +78,6 @@ export const Frequency: React.FC = () => {
             {typeEdit !== ChangeType.JOINT_TRAINING && (
                 <SelectDouble
                     dataTestId={DATA_TEST_ID.modalCreateExerciseSelect}
-                    disabled={false}
                     defaultItem={name}
                     onSelectItem={selectTrainingTypeHandler}
                     defaultsItems={defaultTrainings}
@@ -109,7 +108,6 @@ export const Frequency: React.FC = () => {
                     {parameters?.repeat && (
                         <SelectDouble
                             dataTestId={DATA_TEST_ID.modalDrawerRightSelectPeriod}
-                            disabled={!parameters?.repeat}
                             defaultItem={getKeyByPeriod(parameters?.period) || 'Периодичность'}
                             onSelectItem={selectFrequencyHandler}
                             defaultsItems={getPeriodItems()}

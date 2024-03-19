@@ -24,6 +24,10 @@
     height: 125px;
 }
 
+:global(.ant-card-actions) {
+    padding: 0 var(--gap-m);
+}
+
 .items {
     display: flex;
     flex-direction: row;
