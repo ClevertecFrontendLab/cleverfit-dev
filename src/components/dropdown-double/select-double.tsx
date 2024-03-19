@@ -6,12 +6,13 @@ import { DATA_TEST_ID } from '../../constans/data-test-id';
 import styles from './select-double.module.css';
 
 type DropdownDoubleProps = {
-    isDouble: boolean;
+    isDouble?: boolean;
     defaultsItems: string[];
     selectedItems?: string[];
     defaultItem: string;
     onSelectItem: (name: string) => void;
     size?: string;
+    screen?: string
 };
 
 export const SelectDouble: FC<DropdownDoubleProps> = ({
@@ -20,7 +21,8 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     onSelectItem,
     defaultItem,
     isDouble = true,
-    size
+    size,
+    screen
 }) => {
     const items = isDouble
         ? defaultsItems
@@ -40,6 +42,7 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
             onChange={onChange}
             options={items}
             size={size}
+            disabled={!!screen}
         />
     );
 };

@@ -1,13 +1,12 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalNotification } from '@components/modal-notification';
 import { GroupWorkouts } from '@components/training/group-workouts/group-workouts';
 import { Marathons } from '@components/training/marathons';
 import { MyWorkouts } from '@components/training/my-workouts/my-workouts.tsx';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { inviteListSelector } from '@redux/modules/invite';
-import { trainingsSelector } from '@redux/modules/training.ts';
-import { useGetUserTrainingQuery, useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
+import { resetStateCreating, trainingsSelector } from '@redux/modules/training.ts';
+import { useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
 import { Badge, Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
 import classNames from 'classnames';
@@ -42,20 +41,9 @@ export const TrainingPage: React.FC = () => {
     const { defaultTrainings } = useAppSelector(trainingsSelector);
     const inviteList = useAppSelector(inviteListSelector);
 
-    const { isError: isGetUserTrainingError, isSuccess } = useGetUserTrainingQuery();
+    const dispatch = useAppDispatch();
+
     const [getTrainingList, { isError: isGetTrainingListError }] = useLazyGetTrainingListQuery();
-
-    useEffect(() => {
-        if (isSuccess && !defaultTrainings?.length) {
-            getTrainingList();
-        }
-    }, [isSuccess]);
-
-    useEffect(() => {
-        if (isGetTrainingListError) {
-            setOpenModal(true);
-        }
-    }, [isGetTrainingListError]);
 
     const retryRequestHandler = () => {
         setOpenModal(false);
@@ -67,6 +55,22 @@ export const TrainingPage: React.FC = () => {
     };
 
     const currentTabHandler = (activeKey: string) => setCurrentTab(activeKey);
+
+    useEffect(() => {
+        if (!defaultTrainings?.length) {
+            getTrainingList();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isGetTrainingListError) {
+            setOpenModal(true);
+        }
+    }, [isGetTrainingListError]);
+
+    useEffect(() => {
+        dispatch(resetStateCreating());
+    }, [dispatch]);
 
     const renderTab = (tabItem: TabsType) => {
         if (tabItem.badgeCount && inviteList.length !== 0) {
@@ -94,8 +98,6 @@ export const TrainingPage: React.FC = () => {
                     </TabPane>
                 ))}
             </Tabs>
-
-            <ModalNoReview open={isGetUserTrainingError} />
 
             <ModalNotification
                 textButton='Обновить'

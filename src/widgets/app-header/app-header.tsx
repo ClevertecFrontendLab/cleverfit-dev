@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Paths } from '@routes/paths';
@@ -15,6 +16,7 @@ export const AppHeader = () => {
 
     const isMainPage = pathname === Paths.MAIN;
     const isReviewPage = pathname === Paths.REVIEWS;
+    const isTrainingPage = pathname === `/${Paths.TRAINING}`;
     const isProfilePage = pathname === `/${Paths.PROFILE}`;
     const isSettingsfPage = pathname === `/${Paths.SETTINGS}`;
 
@@ -24,11 +26,18 @@ export const AppHeader = () => {
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
             {showBreadcrumbs && (
                 <AppHeader.Breadcrumb>
-                    {isReviewPage && (
-                        <Breadcrumb.Item>
-                            <Link to={Paths.REVIEWS}>Отзывы пользователей</Link>
-                        </Breadcrumb.Item>
-                    )}
+                    <React.Fragment>
+                        {isReviewPage && (
+                            <Breadcrumb.Item>
+                                <Link to={Paths.REVIEWS}>Отзывы пользователей</Link>
+                            </Breadcrumb.Item>
+                        )}
+                        {isTrainingPage && (
+                            <Breadcrumb.Item>
+                                <Link to={Paths.REVIEWS}>Тренировки</Link>
+                            </Breadcrumb.Item>
+                        )}
+                    </React.Fragment>
                 </AppHeader.Breadcrumb>
             )}
             {isMainPage && (

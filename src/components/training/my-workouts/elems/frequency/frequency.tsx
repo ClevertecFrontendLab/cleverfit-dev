@@ -75,10 +75,10 @@ export const Frequency: React.FC = () => {
         <div>
             {typeEdit !== ChangeType.JOINT_TRAINING && (
                 <SelectDouble
-                    disabled={false}
                     defaultItem={name}
                     onSelectItem={selectTrainingTypeHandler}
                     defaultsItems={defaultTrainings}
+                    screen='training'
                 />
             )}
             <Row gutter={16} style={{ marginTop: '24px' }}>
@@ -99,7 +99,6 @@ export const Frequency: React.FC = () => {
                 <Col span={12} style={{ marginTop: '8px' }}>
                     {parameters?.repeat && (
                         <SelectDouble
-                            disabled={!parameters?.repeat}
                             defaultItem={getKeyByPeriod(parameters?.period) || 'Периодичность'}
                             onSelectItem={selectFrequencyHandler}
                             defaultsItems={getPeriodItems()}

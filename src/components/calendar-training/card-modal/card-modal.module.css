@@ -40,7 +40,6 @@
     transform: translate(-50%, 0);
 }
 
-
 @media (max-width: 480px) {
     .cardModalWrapper {
         min-width: 312px;

@@ -37,15 +37,18 @@ export const PartnersList: React.FC<PartnersListProps> = ({ onShowList, screen }
 
     const rejectJointTrainigHandler = (inviteId: Nullable<string>) => {
         removeJointTrainingMutation({ inviteId });
-        if (isSuccess) {
-            onShowList?.(false);
-            setOpenModal((prev) => !prev);
-        }
     };
 
     const onClickButtonError = () => {
         setOpenModalError(false);
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            onShowList?.(false);
+            setOpenModal((prev) => !prev);
+        }
+    }, [isSuccess, onShowList]);
 
     useEffect(() => {
         if (isError) {
