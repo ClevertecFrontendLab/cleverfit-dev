@@ -24,9 +24,9 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
 }) => {
     const items = isDouble
         ? defaultsItems
-              .filter((element) => !selectedItems.includes(element))
+              .filter((element) => !selectedItems?.includes(element))
               .map((element) => ({ label: element, value: element }))
-        : selectedItems.map((element) => ({ label: element, value: element }));
+        : selectedItems?.map((element) => ({ label: element, value: element }));
 
     const onChange = (value: string) => {
         onSelectItem(value);

@@ -8,7 +8,7 @@ import { clearStateOnLogout } from '@redux/modules/app';
 import { inviteListSelector } from '@redux/modules/invite';
 import { apiSlice } from '@redux/serviсes';
 import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
-import { Paths } from '@routes/paths.ts';
+import { Paths, RoutNamePage } from '@routes/paths.ts';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
@@ -76,7 +76,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         className={styles.menuButton}
                         onClick={() => onNavigate(route)}
                     >
-                        {route === Paths.TRAINING ? (
+                        {route === `/${RoutNamePage.TRAINING}` ? (
                             <Badge count={inviteList.length} style={{ margin: '0' }}>
                                 <img alt='icon' src={icon} />
                             </Badge>

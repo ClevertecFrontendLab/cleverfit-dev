@@ -216,12 +216,6 @@ export const CardModal: FC<CardModalWrapper> = ({
         }
     };
 
-    console.log('typeEdit', typeEdit);
-    console.log('!exercises.length', !exercises.length);
-    console.log(
-        '!exercises.length && typeEdit === ChangeType.ADD_NEW',
-        !exercises.length && typeEdit === ChangeType.ADD_NEW,
-    );
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
         [CardModalBody.TRAINING]: (
             <CardTraining
