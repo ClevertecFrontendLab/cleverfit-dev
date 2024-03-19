@@ -43,7 +43,7 @@ type CardModalWrapper = {
     offsetTop?: number;
     trainings?: UserTraining[];
     date?: Moment;
-    onClose: () => void;
+    onClose?: () => void;
     isLeft?: boolean;
     screen?: string;
     selectedTraining?: UserTraining;
@@ -75,6 +75,7 @@ export const CardModal: FC<CardModalWrapper> = ({
     const [selectTraining, setSelectTraining] = useState(selectedTraining?.name ?? '');
     const [indexes, setIndexes] = useState<number[]>([]);
     const [openModalError, setOpenModalError] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
 
     const dispatch = useAppDispatch();
     const openMenu = useAppSelector(leftMenuSelector);
@@ -130,7 +131,9 @@ export const CardModal: FC<CardModalWrapper> = ({
     const onCloseDrawer = () => {
         dispatch(setStateLeftMenu());
         dispatch(setExercisesNotEmpty(exercises.filter(({ name }) => Boolean(name))));
-        dispatch(resetStateCreating());
+        if (screen === 'training') {
+            dispatch(resetStateCreating());
+        }
     };
 
     const onSelectedTraining = (value: string, date: string | Moment) => {
@@ -200,21 +203,37 @@ export const CardModal: FC<CardModalWrapper> = ({
             parameters,
         };
 
-        try {
-            if (typeEdit !== ChangeType.ADD_NEW && id) {
-                updateTraining(body);
-
-                return;
-            }
-            const data = await createTraining(body).unwrap();
-
-            if (typeEdit === ChangeType.JOINT_TRAINING) {
-                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
-            }
-        } finally {
+        if (screen === 'training') {
             dispatch(setStateLeftMenu());
+            setShowAlert(true);
+        }
+
+        if (typeEdit !== ChangeType.ADD_NEW && id) {
+            updateTraining(body);
+
+            return;
+        }
+        const data = await createTraining(body).unwrap();
+
+        if (typeEdit === ChangeType.JOINT_TRAINING) {
+            sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+            // dispatch(resetStateCreating()); //???
+        }
+
+        if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
+            dispatch(resetStateCreating());
         }
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowAlert(false);
+        }, 5000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [showAlert]);
 
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
         [CardModalBody.TRAINING]: (
@@ -351,7 +370,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 open={openModalError}
             />
 
-            {screen && (isCreateSuccess || isUpdateSuccess) && (
+            {showAlert && screen && (isCreateSuccess || isUpdateSuccess) && (
                 <Alert
                     message={
                         isCreateSuccess

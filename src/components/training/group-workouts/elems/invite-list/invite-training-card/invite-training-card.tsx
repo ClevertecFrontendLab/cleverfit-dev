@@ -30,7 +30,7 @@ export const InviteTrainingCard: React.FC<CardProps> = ({ selectedInvite, onClos
             <div className={styles.cardBody}>
                 {selectedInvite.training.parameters?.period && (
                     <div className={styles.flexBetween}>
-                        <Typography.Text>
+                        <Typography.Text style={{ fontSize: '16px' }}>
                             {getKeyByPeriod(selectedInvite.training.parameters?.period)}
                         </Typography.Text>
                         <Typography.Text>
