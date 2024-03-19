@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.1",
+    "@babel/runtime": "^7.23.9",
     "@reduxjs/toolkit": "^2.0.1",
     "@uidotdev/usehooks": "^2.4.1",
     "antd": "^4.24.15",

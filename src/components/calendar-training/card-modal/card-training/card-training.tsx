@@ -11,6 +11,7 @@ import Meta from 'antd/lib/card/Meta';
 import { Moment } from 'moment';
 
 import { CardModalBody } from '../../../../constans/card-modal.ts';
+import { DATA_TEST_ID } from '../../../../constans/data-test-id';
 import { TrainingDataCall } from '../types/card-modal.ts';
 
 import styles from './card-training.module.css';
@@ -44,10 +45,11 @@ export const CardTraining: FC<CardTrainingProps> = ({
         if (isTraining) {
             setBody(
                 <div className={styles.cardBody}>
-                    {trainings?.map(({ name, date, isImplementation }, index) => (
+                    {trainings?.map(({ name, date, isImplementation, id }, index) => (
                         <BadgeChanged
+                            index={index}
                             disabled={isImplementation}
-                            key={index}
+                            key={id}
                             isStatus={true}
                             isEdit={true}
                             text={name}
@@ -62,6 +64,7 @@ export const CardTraining: FC<CardTrainingProps> = ({
 
     return (
         <Card
+            data-test-id={DATA_TEST_ID.modalCreateTraining}
             className={styles.cardModal}
             actions={[
                 <Button
@@ -83,6 +86,7 @@ export const CardTraining: FC<CardTrainingProps> = ({
                         description={!isTraining && 'Нет активных тренировок'}
                     />
                     <Button
+                        data-test-id={DATA_TEST_ID.modalCreateTrainingButtonClose}
                         className={styles.button}
                         type='text'
                         size='small'

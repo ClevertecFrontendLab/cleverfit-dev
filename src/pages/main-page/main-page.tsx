@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
+import { ModalNoReview } from '@components/modal-no-reviews';
 import { useGetInviteListQuery } from '@redux/serviсes/invite.ts';
+import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
+import { Paths } from '@routes/paths.ts';
 import {
     DescriptionCard,
     DescriptionCardTextColor,
     DescriptionCardTextSize,
 } from '@shared/components/description-card';
+import { navigateAfterRequest } from '@utils/navigate-after-request.ts';
 import { Button, Card } from 'antd';
 
 import { CardMenu } from '../../constans/menu.ts';
@@ -28,9 +32,15 @@ const cardBodyStyle = {
 
 export const MainPage = () => {
     const navigate = useNavigate();
+    const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
 
-    const onNavigate = (route: string) => {
-        navigate(route);
+    const onNavigate = async (route: string) => {
+        await navigateAfterRequest(
+            navigate,
+            getUserTraining,
+            [`${Paths.AUTH}${Paths.CALENDAR}`],
+            route,
+        );
     };
 
     useGetInviteListQuery();
@@ -72,7 +82,7 @@ export const MainPage = () => {
             </DescriptionCard>
 
             <div className={styles.actionCardsBlocks}>
-                {CardMenu.map(({ route, name, cardTitle, icon, id }) => (
+                {CardMenu.map(({ route, name, cardTitle, icon, id, dataTestId }) => (
                     <Card
                         title={cardTitle}
                         bordered={false}
@@ -82,6 +92,7 @@ export const MainPage = () => {
                         key={id}
                     >
                         <Button
+                            data-test-id={dataTestId}
                             type='text'
                             className={styles.cardButton}
                             onClick={() => onNavigate(route)}
@@ -92,6 +103,7 @@ export const MainPage = () => {
                     </Card>
                 ))}
             </div>
+            <ModalNoReview open={isError} />
         </div>
     );
 };

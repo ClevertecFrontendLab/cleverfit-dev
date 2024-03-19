@@ -4,6 +4,8 @@ import noReviewModal from '@public/modal-error.png';
 import { Paths } from '@routes/paths';
 import { Button, Image, Modal } from 'antd';
 
+import { DATA_TEST_ID } from '../../constans/data-test-id';
+
 import styles from './modal-no-reviews.module.scss';
 
 type ModalNoReviewProps = {
@@ -25,6 +27,7 @@ export const ModalNoReview = ({ open }: ModalNoReviewProps) => {
 
     return (
         <Modal
+            data-test-id={DATA_TEST_ID.modalNoReview}
             className={styles.modal}
             open={openModal}
             centered={true}

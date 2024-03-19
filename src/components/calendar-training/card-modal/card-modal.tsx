@@ -133,10 +133,19 @@ export const CardModal: FC<CardModalWrapper> = ({
         dispatch(resetStateCreating());
     };
 
-    const onSelectedTraining = (value: string) => {
+    const onSelectedTraining = (value: string, date: string | Moment) => {
+        const valueFormatDate = formatDate(date, FORMAT_Y_M_D);
+
         dispatch(
-            setTrainingData({ date: formatDate(value, FORMAT_Y_M_D), name: value, exercises: [] }),
+            setTrainingData({
+                date: valueFormatDate,
+                name: value,
+                exercises:
+                    userTraining[valueFormatDate]?.filter(({ name }) => name === value)?.[0]
+                        ?.exercises || [],
+            }),
         );
+
         setSelectTraining(value);
     };
 
@@ -207,6 +216,12 @@ export const CardModal: FC<CardModalWrapper> = ({
         }
     };
 
+    console.log('typeEdit', typeEdit);
+    console.log('!exercises.length', !exercises.length);
+    console.log(
+        '!exercises.length && typeEdit === ChangeType.ADD_NEW',
+        !exercises.length && typeEdit === ChangeType.ADD_NEW,
+    );
     const ComponentToRender: Record<CardModalBody, ReactNode> = {
         [CardModalBody.TRAINING]: (
             <CardTraining
@@ -229,7 +244,7 @@ export const CardModal: FC<CardModalWrapper> = ({
                 exercises={selectedTraining?.exercises ?? exercises}
                 onAddButton={onOpenMenu}
                 onSaveButton={onSaveTraining}
-                disabledSave={!name || !exercises.length}
+                disabledSave={!exercises.length && typeEdit === ChangeType.ADD_NEW}
                 date={date as Moment}
                 onNextOpen={onNextState}
                 openFlag={CardModalBody.TRAINING}
@@ -337,8 +352,8 @@ export const CardModal: FC<CardModalWrapper> = ({
                 onClickButton={onClickButtonError}
                 type='error'
                 isCloseIcon={false}
-                title='При сохранении данных произошла ошибка '
-                subtitle='Попробуйте ещё раз.'
+                title='При сохранении данных произошла ошибка'
+                subtitle='Придётся попробовать ещё раз'
                 open={openModalError}
             />
 

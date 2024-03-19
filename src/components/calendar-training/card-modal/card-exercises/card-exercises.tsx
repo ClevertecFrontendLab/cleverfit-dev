@@ -12,6 +12,7 @@ import ButtonGroup from 'antd/es/button/button-group';
 import { Moment } from 'moment';
 
 import { CardModalBody } from '../../../../constans/card-modal.ts';
+import { DATA_TEST_ID } from '../../../../constans/data-test-id';
 
 import styles from './card-exercises.module.css';
 
@@ -28,7 +29,7 @@ type CardExercisesProps = {
     onAddButton: (date: Moment) => void;
     onSaveButton: () => void;
     onNextOpen: (data: TrainingDataCall) => void;
-    onSelectedTraining: (value: string) => void;
+    onSelectedTraining: (value: string, data: string | Moment) => void;
 };
 
 export const CardExercises: FC<CardExercisesProps> = ({
@@ -47,19 +48,26 @@ export const CardExercises: FC<CardExercisesProps> = ({
     textButtonCancel,
 }) => {
     const [body, setBody] = useState(<EmptyElement />);
-    const selectedTrainings = trainings.map(({ name }) => name);
+    const selectedTrainings = isOldDate(date)
+        ? trainings.filter(({ isImplementation }) => !isImplementation).map(({ name }) => name)
+        : trainings.map(({ name }) => name);
     const isDisabled = !defaultsTrainings.includes(selectedTraining);
 
     const onNextOpenHandel = () => {
         onNextOpen({ openFlag, date });
     };
 
+    const onSelectedTrainingHandel = (value: string) => {
+        onSelectedTraining(value, date);
+    };
+
     useEffect(() => {
         if (exercises && exercises.length && isExercisesNotEmpty(exercises)) {
             setBody(
                 <div className={styles.cardBody}>
-                    {exercises?.map(({ name }) => (
+                    {exercises?.map(({ name }, index) => (
                         <BadgeChanged
+                            index={index}
                             isStatus={false}
                             isEdit={true}
                             text={name}
@@ -76,6 +84,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
 
     return (
         <Card
+            data-test-id={DATA_TEST_ID.modalCreateExercise}
             className={styles.cardModal}
             actions={[
                 <ButtonGroup className={styles.buttonGroup}>
@@ -93,7 +102,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
                         loading={isLoading}
                         className={styles.buttonAction}
                         onClick={onSaveButton}
-                        disabled={disabledSave || !isExercisesNotEmpty(exercises)}
+                        disabled={disabledSave}
                     >
                         {textButtonCancel}
                     </Button>
@@ -103,15 +112,16 @@ export const CardExercises: FC<CardExercisesProps> = ({
             <div className={styles.cardWrapper}>
                 <div className={styles.titleWrapper}>
                     <Button
+                        data-test-id={DATA_TEST_ID.modalExerciseTrainingButtonClose}
                         type='text'
                         size='small'
                         icon={<ArrowLeftOutlined />}
                         onClick={onNextOpenHandel}
                     />
                     <SelectDouble
-                        disabled={isOldDate(date)}
+                        isDouble={!isOldDate(date)}
                         defaultItem={selectedTraining}
-                        onSelectItem={onSelectedTraining}
+                        onSelectItem={onSelectedTrainingHandel}
                         selectedItems={selectedTrainings}
                         defaultsItems={defaultsTrainings}
                     />

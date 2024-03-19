@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BadgeBlocks } from '@components/badge-blocks/badge-blocks.tsx';
 import { CardModal } from '@components/calendar-training/card-modal/card-modal.tsx';
-import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalNotification } from '@components/modal-notification';
 import { Portal } from '@components/portal';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
@@ -40,14 +39,14 @@ export const CalendarTraining = () => {
     const { defaultTrainings, isBlock, cardModalState } = useAppSelector(trainingsSelector);
     const dispatch = useAppDispatch();
 
-    const { isError, isSuccess } = useGetUserTrainingQuery();
     const [getList, { isError: isErrorRequest }] = useLazyGetTrainingListQuery();
 
+    useGetUserTrainingQuery();
     useEffect(() => {
-        if (isSuccess && !defaultTrainings?.length) {
+        if (!defaultTrainings?.length) {
             getList();
         }
-    }, [isSuccess]);
+    }, []);
 
     useEffect(() => {
         if (!cardModalState) {
@@ -159,8 +158,6 @@ export const CalendarTraining = () => {
                     />
                 </Portal>
             )}
-
-            <ModalNoReview open={isError} />
 
             <ModalNotification
                 textButton='Обновить'

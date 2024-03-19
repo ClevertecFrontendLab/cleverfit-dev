@@ -1,15 +1,18 @@
 import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ModalNoReview } from '@components/modal-no-reviews';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { clearStateOnLogout } from '@redux/modules/app';
 import { inviteListSelector } from '@redux/modules/invite';
 import { apiSlice } from '@redux/serviсes';
-import { Paths } from '@routes/paths';
+import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
+import { Paths } from '@routes/paths.ts';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
+import { navigateAfterRequest } from '@utils/navigate-after-request.ts';
 import { Badge, Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
 
@@ -28,6 +31,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
     const inviteList = useAppSelector(inviteListSelector);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
 
     const logout = useCallback(() => {
         localStorage.removeItem(ACCESS_TOKEN_NAME);
@@ -35,8 +39,13 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
         dispatch(apiSlice.util.resetApiState());
     }, [dispatch]);
 
-    const onNavigate = (rout: string) => {
-        navigate(rout);
+    const onNavigate = async (route: string) => {
+        await navigateAfterRequest(
+            navigate,
+            getUserTraining,
+            [`${Paths.AUTH}${Paths.CALENDAR}`],
+            route,
+        );
     };
 
     return (
@@ -99,6 +108,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                 toggleMenu={toggleMenu}
                 isDesktop={true}
             />
+            <ModalNoReview open={isError} />
         </Sider>
     );
 };
