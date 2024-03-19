@@ -211,18 +211,25 @@ export const CardModal: FC<CardModalWrapper> = ({
 
         if (typeEdit !== ChangeType.ADD_NEW && id) {
             updateTraining(body);
+            if (screen === 'training') {
+                dispatch(resetStateCreating());
+            }
 
             return;
         }
-        const data = await createTraining(body).unwrap();
 
-        if (typeEdit === ChangeType.JOINT_TRAINING) {
-            sendInviteMutation({ to: partner.id, trainingId: data._id as string });
-            // dispatch(resetStateCreating()); //???
-        }
+        try {
+            const data = await createTraining(body).unwrap();
 
-        if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
-            dispatch(resetStateCreating());
+            if (typeEdit === ChangeType.JOINT_TRAINING) {
+                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+            }
+
+            if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
+                dispatch(resetStateCreating());
+            }
+        } catch (e) {
+            console.log('error');
         }
     };
 
