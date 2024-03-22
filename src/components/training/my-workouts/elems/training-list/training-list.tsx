@@ -125,7 +125,6 @@ export const TrainingList: React.FC = () => {
                     )}
                 </Button>
             ),
-            // ),
         },
     ];
 

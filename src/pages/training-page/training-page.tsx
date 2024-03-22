@@ -4,9 +4,9 @@ import { ModalNotification } from '@components/modal-notification';
 import { GroupWorkouts } from '@components/training/group-workouts/group-workouts';
 import { Marathons } from '@components/training/marathons';
 import { MyWorkouts } from '@components/training/my-workouts/my-workouts.tsx';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { inviteListSelector } from '@redux/modules/invite';
-import { trainingsSelector } from '@redux/modules/training.ts';
+import { resetStateCreating, trainingsSelector } from '@redux/modules/training.ts';
 import { useGetUserTrainingQuery, useLazyGetTrainingListQuery } from '@redux/serviсes/training.ts';
 import { Badge, Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
@@ -42,8 +42,21 @@ export const TrainingPage: React.FC = () => {
     const { defaultTrainings } = useAppSelector(trainingsSelector);
     const inviteList = useAppSelector(inviteListSelector);
 
+    const dispatch = useAppDispatch();
+
     const { isError: isGetUserTrainingError, isSuccess } = useGetUserTrainingQuery();
     const [getTrainingList, { isError: isGetTrainingListError }] = useLazyGetTrainingListQuery();
+
+    const retryRequestHandler = () => {
+        setOpenModal(false);
+        getTrainingList();
+    };
+
+    const onCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const currentTabHandler = (activeKey: string) => setCurrentTab(activeKey);
 
     useEffect(() => {
         if (isSuccess && !defaultTrainings?.length) {
@@ -57,16 +70,9 @@ export const TrainingPage: React.FC = () => {
         }
     }, [isGetTrainingListError]);
 
-    const retryRequestHandler = () => {
-        setOpenModal(false);
-        getTrainingList();
-    };
-
-    const onCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    const currentTabHandler = (activeKey: string) => setCurrentTab(activeKey);
+    useEffect(() => {
+        dispatch(resetStateCreating());
+    }, [dispatch]);
 
     const renderTab = (tabItem: TabsType) => {
         if (tabItem.badgeCount && inviteList.length !== 0) {

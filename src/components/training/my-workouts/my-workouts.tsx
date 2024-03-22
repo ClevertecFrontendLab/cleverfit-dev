@@ -2,11 +2,7 @@ import React from 'react';
 import { CardModal } from '@components/calendar-training/card-modal/card-modal';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { setStateLeftMenu } from '@redux/modules/app.ts';
-import {
-    addDefaultTraining,
-    setExercisesNotEmpty,
-    trainingsSelector,
-} from '@redux/modules/training.ts';
+import { addDefaultTraining, trainingsSelector } from '@redux/modules/training.ts';
 import { Button, Typography } from 'antd';
 
 import { TrainingList } from './elems/training-list';
@@ -29,11 +25,6 @@ export const MyWorkouts = () => {
         }
     };
 
-    const closeRightMenuHandler = () => {
-        dispatch(setStateLeftMenu());
-        dispatch(setExercisesNotEmpty(exercises.filter(({ name }) => Boolean(name))));
-    };
-
     return (
         <React.Fragment>
             {userTraining ? (
@@ -54,7 +45,7 @@ export const MyWorkouts = () => {
                 </div>
             )}
 
-            <CardModal onClose={closeRightMenuHandler} screen='training' />
+            <CardModal screen='training' />
         </React.Fragment>
     );
 };

@@ -12,5 +12,14 @@ export const sortTrainingList = (list: UserJointTrainigList[]) =>
         const statusA = a.status || 'null';
         const statusB = b.status || 'null';
 
-        return statusOrder[statusA] - statusOrder[statusB];
+        const [firstNameA, lastNameA] = (a.name || '').toLowerCase().split(' ');
+        const [firstNameB, lastNameB] = (b.name || '').toLowerCase().split(' ');
+
+        if (statusA !== statusB) {
+            return statusOrder[statusA] - statusOrder[statusB];
+        }
+
+        const result = firstNameA.charCodeAt(0) - firstNameB.charCodeAt(0);
+
+        return result ? firstNameA.localeCompare(firstNameB) : lastNameA.localeCompare(lastNameB);
     });
