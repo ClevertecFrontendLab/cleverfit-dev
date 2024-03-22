@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /// <reference types="cypress" />
 
 const DATA_TEST_ID = {

@@ -10,8 +10,8 @@ import { Button, Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { Moment } from 'moment';
 
-import { DATA_TEST_ID } from '../../../../../cypress/mocks/data-test-id';
 import { CardModalBody } from '../../../../constans/card-modal.ts';
+import { DATA_TEST_ID } from '../../../../constans/data-test-id';
 import { TrainingDataCall } from '../types/card-modal.ts';
 
 import styles from './card-training.module.css';

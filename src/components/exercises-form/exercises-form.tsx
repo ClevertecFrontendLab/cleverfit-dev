@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC } from 'react';
 import { Checkbox, Input, InputNumber } from 'antd';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 import { Nullable } from '../../types/nullable.ts';
 
 import styles from './exercises-form.module.css';

@@ -3,7 +3,7 @@ import calendarIcon from '@shared/assets/icons/buttons/icon-calendar.svg';
 import profileIcon from '@shared/assets/icons/buttons/icon-profile.svg';
 import trainingIcon from '@shared/assets/icons/buttons/icon-training.svg';
 
-import { DATA_TEST_ID } from '../../cypress/mocks/data-test-id.ts';
+import { DATA_TEST_ID } from './data-test-id.ts';
 
 export const CardMenu = [
     {

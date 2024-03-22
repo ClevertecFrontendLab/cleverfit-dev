@@ -11,8 +11,8 @@ import { Button, Card } from 'antd';
 import ButtonGroup from 'antd/es/button/button-group';
 import { Moment } from 'moment';
 
-import { DATA_TEST_ID } from '../../../../../cypress/mocks/data-test-id';
 import { CardModalBody } from '../../../../constans/card-modal.ts';
+import { DATA_TEST_ID } from '../../../../constans/data-test-id';
 
 import styles from './card-exercises.module.css';
 

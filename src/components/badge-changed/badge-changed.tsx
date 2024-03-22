@@ -3,7 +3,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { Badge, Button, Typography } from 'antd';
 import { Moment } from 'moment';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import styles from './badge-changed.module.css';
 

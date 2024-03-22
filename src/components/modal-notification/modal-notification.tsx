@@ -4,7 +4,7 @@ import { ModalNotificationTheme } from '@constants/modal-notification-theme.ts';
 import { Button, Modal, notification, Typography } from 'antd';
 import classNames from 'classnames';
 
-import { DATA_TEST_ID } from '../../../cypress/mocks/data-test-id.ts';
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import styles from './modal-notification.module.css';
 

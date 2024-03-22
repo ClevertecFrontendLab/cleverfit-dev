@@ -35,7 +35,6 @@ const cardBodyStyle = {
 
 export const MainPage = () => {
     const navigate = useNavigate();
-
     const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
     const [getUser] = useLazyGetUserQuery();
     const credential = useAppSelector(profileCredentialSelector);
