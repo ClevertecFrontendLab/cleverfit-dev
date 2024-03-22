@@ -8,4 +8,9 @@ export enum ApiEndpoints {
     LOGIN_GOOGLE = '/auth/google',
     TRAINING = 'training',
     TRAINING_LIST = 'catalogs/training-list',
+    CURRENT_USER = 'user/me',
+    USER = 'user',
+    IMAGE = 'upload-image',
+    TARIFS = 'catalogs/tariff-list',
+    NEW_TARIF = 'tariff',
 }

@@ -72,7 +72,7 @@ export const LoginPage = () => {
                 <Form.Item
                     name={AuthFieldNames.password}
                     className={styles.formItemInput}
-                    rules={[VALIDATION_FIELD_REQUIRED, passwordValidator]}
+                    rules={[VALIDATION_FIELD_REQUIRED, passwordValidator(true)]}
                 >
                     <Input.Password
                         type='password'
@@ -189,7 +189,7 @@ export const RegPage = () => {
                 name={AuthFieldNames.password}
                 className={styles.formItemInput}
                 extra={extraPassword}
-                rules={[VALIDATION_FIELD_REQUIRED, passwordValidator]}
+                rules={[VALIDATION_FIELD_REQUIRED, passwordValidator(true)]}
             >
                 <Input.Password
                     type='password'

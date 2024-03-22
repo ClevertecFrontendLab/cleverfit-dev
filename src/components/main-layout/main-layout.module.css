@@ -12,6 +12,10 @@
     url(@public/background.png) left bottom/cover no-repeat, lightgray 50%;
 }
 
+.defaultBack {
+  background-color: rgb(245, 245, 245);
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -20,6 +24,20 @@
     padding: var(--gap-xl);
     background: transparent;
 }
+
+.innerBack {
+  margin: var(--gap-xl);
+  background-color: var(--neutral-1);
+  border-radius: 8px;
+}
+
+@media (max-width: 360px) {
+  .innerBack {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+    
 
 .appContent {
     margin-left: var(--app-expanded-sidebar);

@@ -9,26 +9,28 @@ type MenuItem = {
     title: string;
     icon: string;
     route: string;
+    dataTestId: string;
 };
 
-
-const [item1, item2, ...other] = CardMenu;
+const [item1, item2, profile] = CardMenu;
 
 export const MENU_ITEMS: MenuItem[] = [
-    item2,
-    item1,
+    { ...item2, dataTestId: 'sidebar-calendar' },
+    { ...item1, dataTestId: 'sidebar-training' },
     {
         id: 3,
         title: 'Достижения',
         icon: topIcon,
-        route: Paths.ACHIEVEMENTS
+        route: Paths.ACHIEVEMENTS,
+        dataTestId: 'sidebar-achivements',
     },
-    ...other,
+    { ...profile, dataTestId: 'sidebar-profile' },
 ];
 
 export const MENU_ITEM_EXIT: MenuItem = {
     id: 5,
     title: 'Выход',
     icon: exitIcon,
-    route: ''
+    route: '',
+    dataTestId: 'sidebar-logout',
 };

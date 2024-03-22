@@ -1,11 +1,11 @@
-export enum RoutNamePage  {
+export enum RoutNamePage {
     MAIN = 'main',
     CALENDAR = 'calendar',
     TRAINING = 'training',
 }
 
 export enum SidebarPath {
-    MAIN = `/${RoutNamePage.MAIN}`
+    MAIN = `/${RoutNamePage.MAIN}`,
 }
 export const Paths = {
     AUTH: '/',
@@ -25,8 +25,8 @@ export const Paths = {
     ERROR_CHECK_EMAIL_NO_EXIST: 'error-check-email-no-exist',
     ERROR_CHECK_EMAIL: 'error-check-email',
     PROFILE: 'profile',
+    SETTINGS: 'settings',
     ACHIEVEMENTS: 'achievements',
     ...RoutNamePage,
     ...SidebarPath,
 } as const;
-

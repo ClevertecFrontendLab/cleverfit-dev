@@ -4,6 +4,7 @@ export type GetFeedbackRequestType = {
     message: string;
     rating: number;
     createdAt: Date;
+    id: string;
 };
 
 export type CreateFeedbackRequestType = {

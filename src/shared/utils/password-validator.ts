@@ -2,13 +2,13 @@
 import { RuleObject } from 'antd/es/form';
 import { StoreValue } from 'rc-field-form/lib/interface';
 
-export const passwordValidator = () => ({
+export const passwordValidator = (required = true) => ({
     validator(_: RuleObject, value: StoreValue) {
         const hasUpperCase = /[A-Z]/.test(String(value));
         const hasDigit = /\d/.test(String(value));
         const hasMinLength = String(value).length >= 8;
 
-        if (hasUpperCase && hasDigit && hasMinLength) {
+        if ((!required && !value) || (hasUpperCase && hasDigit && hasMinLength)) {
             return Promise.resolve();
         }
 
