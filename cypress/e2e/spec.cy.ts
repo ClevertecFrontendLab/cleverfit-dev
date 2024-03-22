@@ -191,7 +191,6 @@ describe('Sprint 5', () => {
         cy.get(`[data-test-id=${DATA_TEST_ID.profileSubmit}]`).should('be.enabled');
         cy.get(`[data-test-id=${DATA_TEST_ID.profileSubmit}]`).click();
         cy.wait('@updateUserWithError');
-        cy.wait(1000);
         takeScreenshots('profile-modal-error', resolutionLaptop);
     });
 
@@ -234,6 +233,7 @@ describe('Sprint 5', () => {
                 sendNotification: false,
             },
         }).as('getUser');
+        cy.wait('@getUser');
         cy.intercept('GET', 'tariff-list', {
             statusCode: 200,
             body: [
@@ -260,7 +260,6 @@ describe('Sprint 5', () => {
                 },
             ],
         }).as('getTarifList');
-        cy.wait('@getUser');
 
         // кнопка назад
         cy.get(`[data-test-id=${DATA_TEST_ID.headerSettings}]`).click();
@@ -551,6 +550,10 @@ describe('Sprint 5', () => {
             body: {},
         }).as('postFeedback');
         cy.contains('Написать отзыв').click();
+        cy.get(`[data-test-id=${DATA_TEST_ID.newReviewSubmitBtn}]`).invoke(
+            'removeAttr',
+            'disabled',
+        );
         cy.get(`[data-test-id=${DATA_TEST_ID.newReviewSubmitBtn}]`).click();
         cy.wait('@postFeedback');
     });
