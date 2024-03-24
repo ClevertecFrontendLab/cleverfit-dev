@@ -12,6 +12,7 @@ type DropdownDoubleProps = {
     defaultItem: string;
     onSelectItem: (name: string) => void;
     size?: string;
+    dataTestId?: string;
 };
 
 export const SelectDouble: FC<DropdownDoubleProps> = ({
@@ -20,7 +21,8 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     onSelectItem,
     defaultItem,
     isDouble = true,
-    size
+    size,
+    dataTestId,
 }) => {
     const items = isDouble
         ? defaultsItems
@@ -34,7 +36,7 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
 
     return (
         <Select
-            data-test-id={DATA_TEST_ID.modalCreateExerciseSelect}
+            data-test-id={dataTestId}
             defaultValue={defaultItem || 'Выбор типа тренировки'}
             className={styles.dropdownDouble}
             onChange={onChange}

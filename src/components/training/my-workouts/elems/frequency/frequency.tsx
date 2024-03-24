@@ -9,6 +9,8 @@ import { Checkbox, Col, DatePicker, DatePickerProps, Row } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import moment, { Moment } from 'moment';
 
+import { DATA_TEST_ID } from '../../../../../constans/data-test-id';
+
 export const Frequency: React.FC = () => {
     const {
         typeEdit,
@@ -75,6 +77,7 @@ export const Frequency: React.FC = () => {
         <div>
             {typeEdit !== ChangeType.JOINT_TRAINING && (
                 <SelectDouble
+                    dataTestId={DATA_TEST_ID.modalCreateExerciseSelect}
                     disabled={false}
                     defaultItem={name}
                     onSelectItem={selectTrainingTypeHandler}
@@ -84,6 +87,7 @@ export const Frequency: React.FC = () => {
             <Row gutter={16} style={{ marginTop: '24px' }}>
                 <Col span={12}>
                     <DatePicker
+                        data-test-id={DATA_TEST_ID.modalDrawerRightDatePicker}
                         size='small'
                         disabledDate={disabledDateHandler}
                         dateRender={dateCellRender}
@@ -92,13 +96,18 @@ export const Frequency: React.FC = () => {
                     />
                 </Col>
                 <Col span={12}>
-                    <Checkbox checked={parameters?.repeat} onChange={frequencyHandler}>
+                    <Checkbox
+                        checked={parameters?.repeat}
+                        data-test-id={DATA_TEST_ID.modalDrawerRightCheckboxPeriod}
+                        onChange={frequencyHandler}
+                    >
                         С периодичностью
                     </Checkbox>
                 </Col>
                 <Col span={12} style={{ marginTop: '8px' }}>
                     {parameters?.repeat && (
                         <SelectDouble
+                            dataTestId={DATA_TEST_ID.modalDrawerRightSelectPeriod}
                             disabled={!parameters?.repeat}
                             defaultItem={getKeyByPeriod(parameters?.period) || 'Периодичность'}
                             onSelectItem={selectFrequencyHandler}

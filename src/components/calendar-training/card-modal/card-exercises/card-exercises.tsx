@@ -125,6 +125,7 @@ export const CardExercises: FC<CardExercisesProps> = ({
                         onSelectItem={onSelectedTrainingHandel}
                         selectedItems={selectedTrainings}
                         defaultsItems={defaultsTrainings}
+                        dataTestId={DATA_TEST_ID.modalCreateExerciseSelect}
                     />
                 </div>
                 {body}

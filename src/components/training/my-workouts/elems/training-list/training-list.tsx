@@ -12,6 +12,7 @@ import { Button } from 'antd';
 import Table, { ColumnsType } from 'antd/lib/table';
 import moment from 'moment';
 
+import { DATA_TEST_ID } from '../../../../../constans/data-test-id';
 import { EditExercisesCard } from '../edit-exercises-card';
 
 import styles from './training-list.module.css';
@@ -112,8 +113,9 @@ export const TrainingList: React.FC = () => {
             title: '',
             dataIndex: 'action',
             width: 30,
-            render: (_text, record) => (
+            render: (_text, record, index) => (
                 <Button
+                    data-test-id={`${DATA_TEST_ID.updateMyTrainingTableIcon}${index}`}
                     type='link'
                     disabled={record.isImplementation}
                     onClick={() => editTrainingHandler(record)}
@@ -131,6 +133,7 @@ export const TrainingList: React.FC = () => {
     return (
         <div className={styles.trainingList}>
             <Table
+                data-test-id={DATA_TEST_ID.myTrainingsTable}
                 columns={columns}
                 pagination={{ position: ['bottomLeft', 'bottomLeft'], pageSize: 7 }}
                 dataSource={allTrainings}
@@ -140,6 +143,7 @@ export const TrainingList: React.FC = () => {
             {!!defaultTrainings.length && (
                 <div className={styles.addButton}>
                     <Button
+                        data-test-id={DATA_TEST_ID.createNewTrainingButton}
                         type='primary'
                         size='large'
                         icon={<PlusOutlined />}
