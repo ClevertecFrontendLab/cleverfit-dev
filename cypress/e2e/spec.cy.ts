@@ -135,6 +135,7 @@ const userTraining = [
                 replays: 1,
                 weight: 0,
                 approaches: 3,
+
             },
         ],
     },
@@ -738,5 +739,6 @@ describe('Sprint 6', () => {
             cy.contains('У вас пока нет партнёров для совместных тренировок').should('exist');
             cy.contains('Случайный выбор').click();
         });
+
     });
 });
