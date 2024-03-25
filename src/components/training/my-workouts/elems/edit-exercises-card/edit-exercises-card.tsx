@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { UserTraining } from '@redux/types/training.ts';
+import { getColorStatus } from '@utils/get-color-status';
 import { Button, Card, Typography } from 'antd';
 
 import styles from './edit-exercises-card.module.css';
@@ -30,7 +31,7 @@ export const EditExercisesCard: React.FC<CardProps> = ({
             ]}
         >
             <div>
-                <div className={styles.cardTitle}>
+                <div className={styles.cardTitle} style={{borderBottom: `2px solid ${getColorStatus()}`}}>
                     <Button
                         type='text'
                         size='small'

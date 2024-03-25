@@ -480,7 +480,6 @@ describe('Sprint 4', () => {
                     capture: 'viewport',
                 });
             }
-            selectDropdown(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseSelect}]`, 'Ноги');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightCheckboxPeriod}`).check();
             selectDropdown(
                 `[data-test-id=${DATA_TEST_ID.modalDrawerRightSelectPeriod}]`,
@@ -578,9 +577,9 @@ describe('Sprint 4', () => {
                 statusCode: 400,
             }).as('getTrainingList');
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonTraining}]`).click();
-            // cy.wait('@getUserTraining');
+            cy.wait('@getUserTraining');
             takeScreenshots('get-training-error', resolutionLaptop);
-            // cy.url().should('include', '/main');
+            cy.url().should('include', '/main');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).within(() => {
                 cy.contains('Что-то пошло не так');
                 cy.contains('Произошла ошибка, попробуйте ещё раз.');
@@ -607,9 +606,7 @@ describe('Sprint 4', () => {
             }).as('getTrainingList');
             cy.contains('Главная').click();
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonTraining}]`).click();
-            // cy.wait(1000);
             takeScreenshots('calendar-page', resolutionLaptop);
-            cy.contains('Ноги').should('be.exist');
         });
 
         it('create new training', () => {

@@ -115,10 +115,10 @@ export const TrainingList: React.FC = () => {
             width: 30,
             render: (_text, record, index) => (
                 <Button
-                    data-test-id={`${DATA_TEST_ID.updateMyTrainingTableIcon}${index}`}
                     type='link'
                     disabled={record.isImplementation}
                     onClick={() => editTrainingHandler(record)}
+                    data-test-id={`${DATA_TEST_ID.updateMyTrainingTableIcon}${index}`}
                 >
                     {record.isImplementation ? (
                         <EditOutlined style={{ fontSize: '24px' }} />
@@ -135,7 +135,7 @@ export const TrainingList: React.FC = () => {
             <Table
                 data-test-id={DATA_TEST_ID.myTrainingsTable}
                 columns={columns}
-                pagination={{ position: ['bottomLeft', 'bottomLeft'], pageSize: 7 }}
+                pagination={{ position: ['bottomLeft', 'bottomLeft'] }}
                 dataSource={allTrainings}
                 size='small'
             />

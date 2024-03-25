@@ -1,5 +1,4 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { ModalNoReview } from '@components/modal-no-reviews';
 import { ModalNotification } from '@components/modal-notification';
 import { GroupWorkouts } from '@components/training/group-workouts/group-workouts';
 import { Marathons } from '@components/training/marathons';
@@ -59,10 +58,10 @@ export const TrainingPage: React.FC = () => {
     const currentTabHandler = (activeKey: string) => setCurrentTab(activeKey);
 
     useEffect(() => {
-        if (isSuccess && !defaultTrainings?.length) {
+        if (!defaultTrainings?.length) {
             getTrainingList();
         }
-    }, [isSuccess]);
+    }, []);
 
     useEffect(() => {
         if (isGetTrainingListError) {
@@ -100,8 +99,6 @@ export const TrainingPage: React.FC = () => {
                     </TabPane>
                 ))}
             </Tabs>
-
-            <ModalNoReview open={isGetUserTrainingError} />
 
             <ModalNotification
                 textButton='Обновить'

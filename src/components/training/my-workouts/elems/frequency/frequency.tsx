@@ -82,6 +82,7 @@ export const Frequency: React.FC = () => {
                     defaultItem={name}
                     onSelectItem={selectTrainingTypeHandler}
                     defaultsItems={defaultTrainings}
+                    screen='training'
                 />
             )}
             <Row gutter={16} style={{ marginTop: '24px' }}>

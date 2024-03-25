@@ -214,19 +214,15 @@ export const CardModal: FC<CardModalWrapper> = ({
 
             return;
         }
-        try {
-            const data = await createTraining(body).unwrap();
+        const data = await createTraining(body).unwrap();
 
-            if (typeEdit === ChangeType.JOINT_TRAINING) {
-                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
-                // dispatch(resetStateCreating()); //???
-            }
+        if (typeEdit === ChangeType.JOINT_TRAINING) {
+            sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+            // dispatch(resetStateCreating()); //???
+        }
 
-            if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
-                dispatch(resetStateCreating());
-            }
-        } catch {
-            console.log('error');
+        if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
+            dispatch(resetStateCreating());
         }
     };
 

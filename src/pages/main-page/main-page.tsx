@@ -40,11 +40,11 @@ export const MainPage = () => {
     const [getUser] = useLazyGetUserQuery();
     const credential = useAppSelector(profileCredentialSelector);
 
-    const onNavigate = async (route: string) => {
-        await navigateAfterRequest(
+    const onNavigate = (route: string) => {
+         navigateAfterRequest(
             navigate,
             getUserTraining,
-            [`${Paths.AUTH}${Paths.CALENDAR}`],
+            [`${Paths.AUTH}${Paths.CALENDAR}`, `${Paths.AUTH}${Paths.TRAINING}`],
             route,
         );
     };
