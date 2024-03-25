@@ -1,7 +1,12 @@
 import { UserJointTrainigList } from '@redux/types/invite';
 
-export const sortTrainingList = (list: UserJointTrainigList[]) =>
-    [...list].sort((a, b) => {
+export const sortTrainingList = (list: UserJointTrainigList[]) => {
+
+    if (!list.length) {
+        return [];
+    }
+
+    return [...list].sort((a, b) => {
         const statusOrder: Record<string, number> = {
             accepted: 0,
             pending: 1,
@@ -19,7 +24,12 @@ export const sortTrainingList = (list: UserJointTrainigList[]) =>
             return statusOrder[statusA] - statusOrder[statusB];
         }
 
+        if (a.name === '' || b.name === '') {
+            return statusOrder[statusA]
+        }
+
         const result = firstNameA.charCodeAt(0) - firstNameB.charCodeAt(0);
 
         return result ? firstNameA.localeCompare(firstNameB) : lastNameA.localeCompare(lastNameB);
-    });
+    })
+};

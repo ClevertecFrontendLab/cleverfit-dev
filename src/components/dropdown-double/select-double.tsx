@@ -1,4 +1,7 @@
 import { FC } from 'react';
+import { ChangeType } from '@constants/card-modal';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { trainingsSelector } from '@redux/modules/training';
 import { Select } from 'antd';
 
 import styles from './select-double.module.css';
@@ -24,6 +27,7 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
     size,
     dataTestId,
 }) => {
+    const { typeEdit } = useAppSelector(trainingsSelector);
     const items = isDouble
         ? defaultsItems
               .filter((element) => !selectedItems?.includes(element))
@@ -42,7 +46,7 @@ export const SelectDouble: FC<DropdownDoubleProps> = ({
             onChange={onChange}
             options={items}
             size={size}
-            disabled={!!screen}
+            disabled={screen === 'training' && typeEdit !== ChangeType.ADD_NEW}
         />
     );
 };

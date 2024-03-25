@@ -135,7 +135,7 @@ export const TrainingList: React.FC = () => {
             <Table
                 data-test-id={DATA_TEST_ID.myTrainingsTable}
                 columns={columns}
-                pagination={{ position: ['bottomLeft', 'bottomLeft'] }}
+                pagination={{ position: ['bottomLeft', 'bottomLeft']}}
                 dataSource={allTrainings}
                 size='small'
             />

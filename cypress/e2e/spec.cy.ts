@@ -385,8 +385,8 @@ const trainingList = [
     { name: 'Грудь', key: 'chest' },
 ];
 
-describe('Sprint 4', () => {
-    describe('Calendar', () => {
+describe('Sprint 6', () => {
+    describe('Trainings', () => {
         const resolutionFull = [
             { width: 360, height: 740 },
             { width: 833, height: 900 },
@@ -609,7 +609,7 @@ describe('Sprint 4', () => {
             takeScreenshots('calendar-page', resolutionLaptop);
         });
 
-        it('create new training', () => {
+        it.only('create new training', () => {
             goToCalendar();
             cy.viewport(1440, 900);
 
@@ -631,7 +631,9 @@ describe('Sprint 4', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Сохранить').click();
             });
+            cy.wait(1000);
             cy.wait('@postUserTraining');
+            cy.wait(1000);
             errorModal('create-new-training', resolutionLaptop);
             cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
                 cy.contains('Периодичность').click();
@@ -726,7 +728,7 @@ describe('Sprint 4', () => {
             });
         });
 
-        it.only('joint training', () => {
+        it('joint training', () => {
             goToCalendar();
             cy.intercept('GET', 'training-pals', {
                 body: [],
