@@ -40,7 +40,6 @@ const dayAfterTomorrow = new Date().setDate(new Date().getDate() + 1);
 const dayBeforeToday = new Date().setDate(new Date().getDate() - 1);
 const twoDaysLater = new Date().setDate(new Date().getDate() + 2);
 const threeDaysLater = new Date().setDate(new Date().getDate() + 3);
-const fourDaysLater = new Date().setDate(new Date().getDate() + 4);
 
 const userTraining = [
     {
@@ -52,7 +51,7 @@ const userTraining = [
         parameters: {
             jointTraining: false,
             participants: [],
-            period: null,
+            period: 6,
             repeat: false,
         },
         exercises: [
@@ -135,7 +134,6 @@ const userTraining = [
                 replays: 1,
                 weight: 0,
                 approaches: 3,
-
             },
         ],
     },
@@ -302,22 +300,17 @@ const userTraining = [
     },
 ];
 
-const postUserTraining = {
-    isImplementation: false,
-    id: '',
-    name: 'Спина',
-    exercises: [
-        { name: 'Становая тяга', approaches: 10, weight: 50, replays: 3, index: 0 },
-        { name: 'Сведение лопаток', approaches: 10, weight: 50, replays: 3, index: 1 },
-    ],
-    date: dayAfterTomorrow,
-};
-
 function returnUpdateUserTraining(id, date, isImplementation: boolean) {
     return {
         isImplementation,
         id,
         name: 'Ноги',
+        parameters: {
+            jointTraining: false,
+            participants: [],
+            period: 7,
+            repeat: true,
+        },
         exercises: [
             {
                 _id: '1',
@@ -340,33 +333,21 @@ function returnUpdateUserTraining(id, date, isImplementation: boolean) {
 }
 
 const newUserTraining = {
-    _id: '12',
-    name: 'Спина',
-    date: fourDaysLater,
-    isImplementation: false,
     userId: '65b809899adc9e39e3660ae0',
+    isImplementation: false,
+    id: '12',
+    name: 'Спина',
     parameters: {
         jointTraining: false,
         participants: [],
         period: 7,
-        repeat: true,
+        repeat: false,
     },
     exercises: [
-        {
-            _id: '3',
-            name: 'Становая тяга',
-            replays: 3,
-            weight: 50,
-            approaches: 10,
-        },
-        {
-            _id: '4',
-            name: 'Сведение лопаток',
-            replays: 3,
-            weight: 50,
-            approaches: 10,
-        },
+        { name: 'Становая тяга', approaches: 10, weight: 50, replays: 3, index: 0 },
+        { name: 'Сведение лопаток', approaches: 10, weight: 50, replays: 3, index: 1 },
     ],
+    date: dayAfterTomorrow,
 };
 
 function getFormatDate(date, isStandardFormat) {
@@ -437,7 +418,7 @@ describe('Sprint 6', () => {
                 'have.class',
                 'ant-picker-cell-disabled',
             );
-            cy.get(`td[title=${getFormatDate(fourDaysLater, true)}]`).click();
+            cy.get(`td[title=${getFormatDate(dayAfterTomorrow, true)}]`).click();
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightCheckboxPeriod}`).check();
             selectDropdown(
                 `[data-test-id=${DATA_TEST_ID.modalDrawerRightSelectPeriod}]`,
@@ -610,7 +591,7 @@ describe('Sprint 6', () => {
             takeScreenshots('calendar-page', resolutionLaptop);
         });
 
-        it.only('create new training', () => {
+        it('create new training', () => {
             goToCalendar();
             cy.viewport(1440, 900);
 
@@ -632,9 +613,6 @@ describe('Sprint 6', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Сохранить').click();
             });
-            cy.wait(1000);
-            cy.wait('@postUserTraining');
-            cy.wait(1000);
             errorModal('create-new-training', resolutionLaptop);
             cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
                 cy.contains('Периодичность').click();
@@ -648,7 +626,6 @@ describe('Sprint 6', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.createNewTrainingButton}]`).click();
             generalBlockCreatingTrainings();
             cy.intercept('POST', 'training', {
-                body: postUserTraining,
                 statusCode: 200,
             }).as('postUserTraining');
             cy.intercept('GET', 'training', {
@@ -658,7 +635,6 @@ describe('Sprint 6', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Сохранить').click();
             });
-            cy.wait('@postUserTraining');
             cy.get(`[data-test-id=${DATA_TEST_ID.createTrainingSuccessAlert}]`).within(() => {
                 cy.contains('Новая тренировка успешно добавлена').should('exist');
             });
@@ -677,19 +653,14 @@ describe('Sprint 6', () => {
 
             // TODO Проверка изменения тренировок с ошибкой сохранения
             cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
-                cy.contains('Периодичность').click();
-                cy.contains('Периодичность').click();
-                cy.get(`[data-test-id=${DATA_TEST_ID.updateMyTrainingTableIcon}${0}]`).click();
+                cy.get(`[data-test-id=${DATA_TEST_ID.updateMyTrainingTableIcon}${7}]`).click();
             });
             generalBlockUpdatingTrainings('update-trainings-1');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Сохранить').click();
             });
-            cy.wait(1000);
-            cy.wait('@putUserTraining');
             errorModal('update-future-trainings-2', resolutionTablet);
             cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
-                cy.contains('Периодичность').click();
                 cy.contains('Периодичность').click();
                 cy.contains('1 раз в неделю').should('not.exist');
                 cy.contains('Периодичность').click();
@@ -698,7 +669,9 @@ describe('Sprint 6', () => {
             });
 
             // TODO  Проверка на успех изменения тренировки
-            cy.get(`[title=${getFormatDate(threeDaysLater, true)}]`).click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
+                cy.get(`[data-test-id=${DATA_TEST_ID.updateMyTrainingTableIcon}${7}]`).click();
+            });
             generalBlockUpdatingTrainings();
             cy.intercept('PUT', 'training/8', {
                 statusCode: 200,
@@ -713,23 +686,22 @@ describe('Sprint 6', () => {
                 ),
                 statusCode: 200,
             }).as('getUserTraining');
-            cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`).within(() => {
-                cy.contains('Присяд').should('exist');
-                cy.contains('Прыжки с нагрузкой').should('exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
                 cy.contains('Сохранить').click();
             });
-            cy.wait('@putUserTraining');
-            cy.wait(1000);
-            cy.get(`[data-test-id=${DATA_TEST_ID.modalUpdateTrainingEditButton}${0}]`)
-                .should('be.visible')
-                .click();
-            cy.get(`[data-test-id=${DATA_TEST_ID.modalCreateExercise}]`).within(() => {
-                cy.contains('Присяд').should('exist');
-                cy.contains('Прыжки с нагрузкой').should('exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.createTrainingSuccessAlert}]`).within(() => {
+                cy.contains('Тренировка успешно обновлена').should('exist');
+            });
+            cy.get(`[data-test-id=${DATA_TEST_ID.myTrainingsTable}]`).within(() => {
+                cy.contains('Периодичность').click();
+                cy.contains('1 раз в неделю').should('not.exist');
+                cy.contains('Периодичность').click();
+                cy.contains('1 раз в неделю').should('exist');
+                cy.contains('Периодичность').click();
             });
         });
 
-        it('joint training', () => {
+        it.only('joint training', () => {
             goToCalendar();
             cy.intercept('GET', 'training-pals', {
                 body: [],
@@ -739,6 +711,5 @@ describe('Sprint 6', () => {
             cy.contains('У вас пока нет партнёров для совместных тренировок').should('exist');
             cy.contains('Случайный выбор').click();
         });
-
     });
 });

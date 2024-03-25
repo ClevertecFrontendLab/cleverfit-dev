@@ -118,6 +118,7 @@ export const trainingApiSlice = apiSlice
                         dispatch(setAppLoader(true));
                         await queryFulfilled;
                         dispatch(setStateCardModal(CardModalBody.TRAINING));
+                        dispatch(setAppLoader(false));
                     } catch {
                         dispatch(resetStateCreating());
                         dispatch(setAppLoader(false));
