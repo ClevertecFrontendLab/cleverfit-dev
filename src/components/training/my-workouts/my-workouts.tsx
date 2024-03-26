@@ -23,10 +23,10 @@ export const MyWorkouts = () => {
             dispatch(addDefaultTraining());
         }
     };
-
+    
     return (
         <React.Fragment>
-            {Object.keys(userTraining) ? (
+            {Object.keys(userTraining).length ? (
                 <TrainingList />
             ) : (
                 <div className={styles.workoutsEmpty}>

@@ -66,12 +66,13 @@ export const PartnersList: React.FC<PartnersListProps> = ({ onShowList, screen }
                     <Space className={styles.partnersList} onClick={onOpenModal}>
                         <List
                             dataSource={acceptedUsersList}
-                            renderItem={(partner) => (
+                            renderItem={(partner, index) => (
                                 <UserCard
                                     partner={partner}
                                     screen={screen}
                                     onRejectJointTraining={rejectJointTrainigHandler}
                                     setSelectedPartner={setSelectedPartner}
+                                    index={index}
                                 />
                             )}
                         />

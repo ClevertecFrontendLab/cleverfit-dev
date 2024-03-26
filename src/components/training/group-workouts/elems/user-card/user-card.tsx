@@ -12,12 +12,15 @@ import { Avatar, Button, Card, Col, Row, Tooltip } from 'antd';
 import classNames from 'classnames';
 import { Nullable } from 'src/types/nullable';
 
+import { DATA_TEST_ID } from '../../../../../constans/data-test-id';
+
 import styles from './user-card.module.css';
 
 type CardProps = {
     partner: UserJointTrainigList;
     screen: string;
     onRejectJointTraining: (inviteId: Nullable<string>) => void;
+    index: number;
     searchFilter?: string;
     setSelectedPartner?: (partner: UserJointTrainigList) => void;
     onClick?: VoidFunction;
@@ -30,6 +33,7 @@ export const UserCard: React.FC<CardProps> = ({
     searchFilter,
     setSelectedPartner,
     onClick,
+    index,
 }) => {
     const dispatch = useAppDispatch();
 
@@ -61,6 +65,7 @@ export const UserCard: React.FC<CardProps> = ({
 
     return (
         <Card
+            data-test-id={`${DATA_TEST_ID.jointTrainingCards}${index}`}
             key={partner.id}
             className={classNames(styles.userCard, {
                 [styles.blueBackground]: screen === 'joint-list',
@@ -128,7 +133,7 @@ export const UserCard: React.FC<CardProps> = ({
                                     <Tooltip
                                         placement='topRight'
                                         overlayStyle={{ width: '150px' }}
-                                        title='повторный запрос будет доступнен 
+                                        title='повторный запрос будет доступнен
                                     через 2 недели'
                                     >
                                         <InfoCircleOutlined />

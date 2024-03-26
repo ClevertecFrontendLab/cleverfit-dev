@@ -7,6 +7,8 @@ import { formatDate } from '@utils/format-date';
 import { Button, Card, Typography } from 'antd';
 import moment from 'moment';
 
+import { DATA_TEST_ID } from '../../../../../../constans/data-test-id';
+
 import styles from './invite-training-card.module.css';
 
 type CardProps = {
@@ -15,7 +17,7 @@ type CardProps = {
 };
 
 export const InviteTrainingCard: React.FC<CardProps> = ({ selectedInvite, onClose }) => (
-    <Card className={styles.card}>
+    <Card data-test-id={DATA_TEST_ID.jointTrainingReviewCard} className={styles.card}>
         <div className={styles.cardWrapper}>
             <div className={styles.titleWrapper}>
                 <BadgeChanged

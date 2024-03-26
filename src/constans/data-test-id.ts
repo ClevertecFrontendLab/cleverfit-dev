@@ -30,4 +30,9 @@ export const DATA_TEST_ID = {
     myTrainingsTable: 'my-trainings-table',
     updateMyTrainingTableIcon: 'update-my-training-table-icon',
     createTrainingSuccessAlert: 'create-training-success-alert',
+    searchInput: 'search-input',
+    jointTrainingCards: 'joint-training-cards',
+    notificationAboutJointTraining: 'notification-about-joint-training',
+    jointTrainingReviewCard: 'joint-training-review-card',
+    partnerModal: 'partner-modal',
 };

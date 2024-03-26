@@ -33,6 +33,11 @@ export const DATA_TEST_ID = {
     myTrainingsTable: 'my-trainings-table',
     updateMyTrainingTableIcon: 'update-my-training-table-icon',
     createTrainingSuccessAlert: 'create-training-success-alert',
+    searchInput: 'search-input',
+    jointTrainingCards: 'joint-training-cards',
+    notificationAboutJointTraining: 'notification-about-joint-training',
+    jointTrainingReviewCard: 'joint-training-review-card',
+    partnerModal: 'partner-modal',
 };
 
 const today = new Date().setDate(new Date().getDate());
@@ -40,6 +45,7 @@ const dayAfterTomorrow = new Date().setDate(new Date().getDate() + 1);
 const dayBeforeToday = new Date().setDate(new Date().getDate() - 1);
 const twoDaysLater = new Date().setDate(new Date().getDate() + 2);
 const threeDaysLater = new Date().setDate(new Date().getDate() + 3);
+const fourDaysLater = new Date().setDate(new Date().getDate() + 4);
 
 const userTraining = [
     {
@@ -234,7 +240,7 @@ const userTraining = [
     },
     {
         _id: '9',
-        name: 'Руки',
+        name: 'Спина',
         date: threeDaysLater,
         isImplementation: false,
         userId: '65b809899adc9e39e3660ae0',
@@ -299,6 +305,95 @@ const userTraining = [
         ],
     },
 ];
+const jointTrainingList = [
+    {
+        id: '65fb234f77536b7e4569acfe',
+        name: 'Шунто Дмитрий',
+        trainingType: 'Ноги',
+        avgWeightInWeek: 2,
+        imageSrc:
+            'https://lh3.googleusercontent.com/a/ACg8ocLeUQVWXkWBNDoFsw5K3vUdQsaw8Fv2gleepUNRJXPzyw=s96-c',
+        inviteId: '6603fd9268b4b7f6e631d0bb',
+        status: 'accepted',
+    },
+];
+const jointTrainingListForMyTraining = [
+    {
+        id: '65fafa2677536b7e4569a98e',
+        name: 'Рудак Максим',
+        trainingType: 'Ноги',
+        avgWeightInWeek: 6,
+        imageSrc: '/media/avatar/65fafa2677536b7e4569a98e.png',
+        inviteId: null,
+        status: null,
+    },
+    {
+        id: '65fb234f77536b7e4569acfe',
+        name: 'Шунто Дмитрий',
+        trainingType: 'Ноги',
+        avgWeightInWeek: 2,
+        imageSrc:
+            'https://lh3.googleusercontent.com/a/ACg8ocLeUQVWXkWBNDoFsw5K3vUdQsaw8Fv2gleepUNRJXPzyw=s96-c',
+        inviteId: null,
+        status: null,
+    },
+    {
+        id: '65fb309e77536b7e4569b465',
+        name: 'Бокша Вероника',
+        trainingType: 'Ноги',
+        avgWeightInWeek: 2,
+        imageSrc: 'https://training-api.clevertec.ru/media/avatar/65fb309e77536b7e4569b465.png',
+        inviteId: null,
+        status: null,
+    },
+    {
+        id: '65ffbe0668b4b7f6e62e9323',
+        name: 'Каракулько Дмитрий',
+        trainingType: 'Ноги',
+        avgWeightInWeek: 0,
+        imageSrc: 'https://training-api.clevertec.ru/media/avatar/65ffbe0668b4b7f6e62e9323.png',
+        inviteId: null,
+        status: null,
+    },
+];
+
+const inviteJointTraining = [
+    {
+        _id: '6603fd9268b4b7f6e631d0bb',
+        from: {
+            _id: '65fb234f77536b7e4569acfe',
+            firstName: 'Дмитрий',
+            lastName: 'Шунто',
+            imageSrc:
+                'https://lh3.googleusercontent.com/a/ACg8ocLeUQVWXkWBNDoFsw5K3vUdQsaw8Fv2gleepUNRJXPzyw=s96-c',
+        },
+        training: {
+            _id: '14',
+            name: 'Ноги',
+            date: fourDaysLater,
+            isImplementation: false,
+            userId: '6603fd9268b4b7f6e631d0bb',
+            parameters: {
+                repeat: true,
+                period: 4,
+                jointTraining: true,
+                participants: [],
+            },
+            exercises: [
+                {
+                    _id: '1',
+                    name: 'Присяд',
+                    replays: 3,
+                    weight: 50,
+                    approaches: 10,
+                    isImplementation: false,
+                },
+            ],
+        },
+        status: 'pending',
+        createdAt: dayBeforeToday,
+    },
+];
 
 function returnUpdateUserTraining(id, date, isImplementation: boolean) {
     return {
@@ -332,11 +427,12 @@ function returnUpdateUserTraining(id, date, isImplementation: boolean) {
     };
 }
 
-const newUserTraining = {
-    userId: '65b809899adc9e39e3660ae0',
-    isImplementation: false,
+const newUserTraining1 = {
     id: '12',
     name: 'Спина',
+    date: dayAfterTomorrow,
+    isImplementation: false,
+    userId: '65b809899adc9e39e3660ae0',
     parameters: {
         jointTraining: false,
         participants: [],
@@ -347,7 +443,36 @@ const newUserTraining = {
         { name: 'Становая тяга', approaches: 10, weight: 50, replays: 3, index: 0 },
         { name: 'Сведение лопаток', approaches: 10, weight: 50, replays: 3, index: 1 },
     ],
+};
+
+const newUserTraining2 = {
+    id: '13',
+    name: 'Ноги',
     date: dayAfterTomorrow,
+    isImplementation: false,
+    userId: '65b809899adc9e39e3660ae0',
+    parameters: {
+        period: 7,
+        repeat: true,
+        jointTraining: true,
+        participants: [],
+    },
+    exercises: [
+        {
+            name: 'Присяд',
+            approaches: 10,
+            weight: 50,
+            replays: 3,
+            index: 0,
+        },
+        {
+            name: 'Толкание нагрузки',
+            approaches: 10,
+            weight: 50,
+            replays: 3,
+            index: 1,
+        },
+    ],
 };
 
 function getFormatDate(date, isStandardFormat) {
@@ -492,6 +617,53 @@ describe('Sprint 6', () => {
                 .invoke('val')
                 .should('equal', 'Прыжки с нагрузкой');
         }
+
+        function generalBlockCreatingJointTrainings(screenshotName?: string) {
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).should('be.visible');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
+                cy.contains('Совместная тренировка').should('exist');
+                cy.contains('Рудак Максим').should('exist');
+                cy.contains('Ноги').should('exist');
+                cy.contains('Отправить приглашение').should('be.disabled');
+            });
+            if (screenshotName) {
+                cy.screenshot(`${screenshotName}`, {
+                    capture: 'viewport',
+                });
+            }
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightDatePicker}]`).click();
+            cy.get(`td[title=${getFormatDate(dayAfterTomorrow, true)}]`).click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightCheckboxPeriod}`).check();
+            selectDropdown(
+                `[data-test-id=${DATA_TEST_ID.modalDrawerRightSelectPeriod}]`,
+                '1 раз в неделю',
+            );
+            cy.contains('Добавить ещё').click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputExercise}${0}]`).type(
+                'Присяд',
+            );
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputApproach}${0}]`)
+                .clear()
+                .type('3');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputWeight}${0}]`)
+                .clear()
+                .type('50');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputQuantity}${0}]`)
+                .clear()
+                .type('10');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputExercise}${1}]`).type(
+                'Толкание нагрузки',
+            );
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputApproach}${1}]`)
+                .clear()
+                .type('3');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputWeight}${1}]`)
+                .clear()
+                .type('50');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRightInputQuantity}${1}]`)
+                .clear()
+                .type('10');
+        }
         function goToCalendar() {
             cy.intercept('GET', 'catalogs/training-list', {
                 body: trainingList,
@@ -544,10 +716,6 @@ describe('Sprint 6', () => {
                     sendNotification: false,
                 },
             }).as('getUser');
-            cy.intercept('GET', 'invite', {
-                statusCode: 200,
-                body: [],
-            }).as('getInvite');
         });
 
         it('come to trainings', () => {
@@ -559,7 +727,6 @@ describe('Sprint 6', () => {
                 statusCode: 400,
             }).as('getTrainingList');
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonTraining}]`).click();
-            cy.wait('@getUserTraining');
             takeScreenshots('get-training-error', resolutionLaptop);
             cy.url().should('include', '/main');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalNoReview}]`).within(() => {
@@ -573,12 +740,9 @@ describe('Sprint 6', () => {
                 body: userTraining,
             }).as('getUserTraining');
             cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonTraining}]`).click();
-            cy.wait('@getUserTraining');
-            cy.wait('@getTrainingList');
             cy.url().should('include', '/training');
             takeScreenshots('get-training-list-error', resolutionLaptop);
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`).click();
-            cy.wait('@getTrainingList');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButtonClose}]`).click();
             cy.url().should('include', '/training');
             takeScreenshots('empty-calendar-page', resolutionLaptop);
@@ -626,10 +790,11 @@ describe('Sprint 6', () => {
             cy.get(`[data-test-id=${DATA_TEST_ID.createNewTrainingButton}]`).click();
             generalBlockCreatingTrainings();
             cy.intercept('POST', 'training', {
+                body: newUserTraining1,
                 statusCode: 200,
             }).as('postUserTraining');
             cy.intercept('GET', 'training', {
-                body: [...userTraining, newUserTraining],
+                body: [...userTraining, newUserTraining1],
                 statusCode: 200,
             }).as('getUserTraining');
             cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).within(() => {
@@ -701,15 +866,143 @@ describe('Sprint 6', () => {
             });
         });
 
-        it.only('joint training', () => {
+        it('come to joint training according to training', () => {
             goToCalendar();
             cy.intercept('GET', 'training-pals', {
                 body: [],
                 statusCode: 200,
-            }).as('getTrainingPals');
+            }).as('getTrainingPals1');
+            // TODO Обработка сценария ошибки выбора друга по моим тренировкам
+            cy.intercept('GET', 'user-joint-training-list?trainingType=legs', {
+                statusCode: 500,
+            }).as('getTrainingPals2');
+
             cy.contains('Совместные тренировки').click();
             cy.contains('У вас пока нет партнёров для совместных тренировок').should('exist');
-            cy.contains('Случайный выбор').click();
+            cy.contains('Выбор друга по моим тренировкам').click();
+            cy.url().should('include', '/training');
+            cy.wait(1000);
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingTitle}]`).should('exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButton}]`).click();
+            cy.wait(1000);
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingTitle}]`).should('exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalErrorUserTrainingButtonClose}]`).click();
+            cy.url().should('include', '/training');
+
+            // TODO Обработка положительного сценария выбора друга по моим тренировкам
+            cy.intercept('GET', 'user-joint-training-list?trainingType=legs', {
+                body: jointTrainingListForMyTraining,
+                statusCode: 200,
+            }).as('getTrainingPals2');
+            cy.intercept('POST', 'training', {
+                body: newUserTraining2,
+                statusCode: 200,
+            }).as('postUserTraining');
+            cy.intercept('GET', 'training', {
+                body: [...userTraining, newUserTraining2],
+                statusCode: 200,
+            }).as('getUserTraining');
+            cy.intercept('POST', 'invite', (req) => {
+                req.reply({
+                    statusCode: 200,
+                    body: {
+                        to: '65fafa2677536b7e4569a98e',
+                        trainingId: '13',
+                    },
+                });
+            }).as('postInvite');
+
+            cy.contains('Выбор друга по моим тренировкам').click();
+            cy.contains('Рудак Максим').should('exist');
+            cy.get(`[data-test-id=${DATA_TEST_ID.searchInput}]`).type('Руд');
+            cy.get('.ant-input-group-addon').click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.jointTrainingCards}${0}]`)
+                .should('exist')
+                .contains('Рудак Максим');
+            cy.contains(`[data-test-id=${DATA_TEST_ID.jointTrainingCards}${1}]`).should(
+                'not.exist',
+            );
+            cy.contains('Создать тренировку').click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.modalDrawerRight}]`).should('be.visible');
+            generalBlockCreatingJointTrainings();
+            cy.contains('Отправить приглашение').click();
+            cy.wait(1000);
+            cy.get(`[data-test-id=${DATA_TEST_ID.jointTrainingCards}${0}]`).within(() => {
+                cy.contains('Создать тренировку').should('be.disabled');
+                cy.contains('ожидает подтверждения').should('exist');
+            });
+        });
+        it('accept an invitation from a friend to train together', () => {
+            cy.intercept('GET', 'catalogs/training-list', {
+                body: trainingList,
+                statusCode: 200,
+            }).as('getTrainingList');
+
+            cy.intercept('GET', 'training', {
+                body: userTraining,
+                statusCode: 200,
+            }).as('getUserTraining');
+
+            cy.intercept('GET', 'invite', {
+                statusCode: 200,
+                body: inviteJointTraining,
+            }).as('getInvite');
+
+            cy.intercept('GET', 'training-pals', {
+                body: [],
+                statusCode: 200,
+            }).as('getTrainingPals1');
+
+            cy.intercept('PUT', 'invite', (req) => {
+                req.reply({
+                    statusCode: 200,
+                    body: {
+                        id: '6603fd9268b4b7f6e631d0bb',
+                        status: 'accepted',
+                    },
+                });
+            }).as('putInvite');
+
+            cy.url().should('include', '/main');
+            cy.get(`[data-test-id=${DATA_TEST_ID.notificationAboutJointTraining}]`).should('exist');
+
+            cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonTraining}]`).click();
+
+            // TODO Принимаем заявку на совместную тренировку
+            cy.url().should('include', '/training');
+            cy.contains('Совместные тренировки').click();
+            cy.contains('Шунто').should('exist');
+            cy.contains('Посмотреть детали тренировки').click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.jointTrainingReviewCard}]`)
+                .should('exist')
+                .within(() => {
+                    cy.contains('Ноги').should('exist');
+                    cy.contains('Через 4 дня').should('exist');
+                    cy.contains(`${getFormatDate(fourDaysLater, false)}`).should('exist');
+                    cy.contains('Присяд').should('exist');
+                });
+            cy.intercept('GET', 'training-pals', {
+                body: jointTrainingList,
+                statusCode: 200,
+            }).as('getTrainingPals1');
+            cy.contains('Тренироваться вместе').click();
+            cy.get(`[data-test-id=${DATA_TEST_ID.jointTrainingCards}${0}]`)
+                .should('exist')
+                .contains('Шунто Дмитрий');
+            cy.get(`[data-test-id=${DATA_TEST_ID.jointTrainingCards}${0}]`).click();
+
+            cy.intercept('DELETE', 'invite/6603fd9268b4b7f6e631d0bb', {
+                statusCode: 200,
+            }).as('deleteInvite');
+
+            cy.get(`[data-test-id=${DATA_TEST_ID.partnerModal}]`)
+                .should('exist')
+                .within(() => {
+                    cy.contains('Ноги').should('exist');
+                    cy.contains('Шунто Дмитрий').should('exist');
+                    cy.contains('Отменить тренировку').should('exist').click();
+                });
+            cy.contains('У вас пока нет партнёров для совместных тренировок').should('exist');
         });
     });
 });

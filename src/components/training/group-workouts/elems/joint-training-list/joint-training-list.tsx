@@ -7,6 +7,7 @@ import { sortTrainingList } from '@utils/sort-training-list';
 import { Button, Input, List } from 'antd';
 import { Nullable } from 'src/types/nullable';
 
+import { DATA_TEST_ID } from '../../../../../constans/data-test-id';
 import { UserCard } from '../user-card';
 
 import styles from './joint-training-list.module.css';
@@ -52,6 +53,7 @@ export const JointTrainingList: React.FC<ListProps> = ({ goBack }) => {
                     Назад
                 </Button>
                 <Search
+                    data-test-id={DATA_TEST_ID.searchInput}
                     placeholder='Поиск по имени'
                     onSearch={searchHandler}
                     className={styles.searhInput}
@@ -59,12 +61,13 @@ export const JointTrainingList: React.FC<ListProps> = ({ goBack }) => {
             </div>
             <List
                 dataSource={filteredTrainingList}
-                renderItem={(partner) => (
+                renderItem={(partner, index) => (
                     <UserCard
                         partner={partner}
                         onRejectJointTraining={rejectJointTrainigHandler}
                         screen='joint-list'
                         searchFilter={searchValue}
+                        index={index}
                     />
                 )}
                 pagination={

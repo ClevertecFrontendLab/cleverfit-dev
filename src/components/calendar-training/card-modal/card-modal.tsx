@@ -44,7 +44,7 @@ type CardModalWrapper = {
     offsetTop?: number;
     trainings?: UserTraining[];
     date?: Moment;
-    onClose?: () => void;
+    onClose: () => void;
     isLeft?: boolean;
     screen?: string;
     selectedTraining?: UserTraining;
@@ -77,6 +77,7 @@ export const CardModal: FC<CardModalWrapper> = ({
     const [indexes, setIndexes] = useState<number[]>([]);
     const [openModalError, setOpenModalError] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     const dispatch = useAppDispatch();
     const openMenu = useAppSelector(leftMenuSelector);
@@ -211,6 +212,7 @@ export const CardModal: FC<CardModalWrapper> = ({
 
         if (typeEdit !== ChangeType.ADD_NEW && id) {
             updateTraining(body);
+            setAlertMessage('Тренировка успешно обновлена');
             if (screen === 'training') {
                 dispatch(resetStateCreating());
             }
@@ -221,6 +223,7 @@ export const CardModal: FC<CardModalWrapper> = ({
         try {
             const data = await createTraining(body).unwrap();
 
+            setAlertMessage('Новая тренировка успешно добавлена');
             if (typeEdit === ChangeType.JOINT_TRAINING) {
                 sendInviteMutation({ to: partner.id, trainingId: data._id as string });
             }
@@ -228,9 +231,7 @@ export const CardModal: FC<CardModalWrapper> = ({
             if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
                 dispatch(resetStateCreating());
             }
-        } catch (e) {
-            console.log('error');
-        }
+        } catch {}
     };
 
     useEffect(() => {
@@ -381,11 +382,7 @@ export const CardModal: FC<CardModalWrapper> = ({
             {showAlert && screen && (isCreateSuccess || isUpdateSuccess) && (
                 <Alert
                     data-test-id={DATA_TEST_ID.createTrainingSuccessAlert}
-                    message={
-                        isCreateSuccess
-                            ? 'Новая тренировка успешно добавлена'
-                            : 'Тренировка успешно обновлена'
-                    }
+                    message={alertMessage}
                     type='success'
                     showIcon={true}
                     closable={true}

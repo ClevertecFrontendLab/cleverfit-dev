@@ -16,6 +16,8 @@ import { navigateAfterRequest } from '@utils/navigate-after-request.ts';
 import { Badge, Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
 
+import { DATA_TEST_ID } from '../../constans/data-test-id';
+
 import { MENU_ITEM_EXIT, MENU_ITEMS } from './config/menu-items';
 
 import styles from './side-bar.module.css';
@@ -78,7 +80,11 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         onClick={() => onNavigate(route)}
                     >
                         {route === `/${RoutNamePage.TRAINING}` ? (
-                            <Badge count={inviteList.length} style={{ margin: '0' }}>
+                            <Badge
+                                data-test-id={DATA_TEST_ID.notificationAboutJointTraining}
+                                count={inviteList.length}
+                                style={{ margin: '0' }}
+                            >
                                 <img alt='icon' src={icon} />
                             </Badge>
                         ) : (

@@ -43,6 +43,7 @@ export const TrainingPage: React.FC = () => {
 
     const dispatch = useAppDispatch();
 
+    useGetUserTrainingQuery();
     const [getTrainingList, { isError: isGetTrainingListError }] = useLazyGetTrainingListQuery();
 
     useGetUserTrainingQuery();
