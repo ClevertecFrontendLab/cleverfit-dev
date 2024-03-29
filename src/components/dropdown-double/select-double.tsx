@@ -3,6 +3,7 @@ import { ChangeType } from '@constants/card-modal';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { trainingsSelector } from '@redux/modules/training';
 import { Select } from 'antd';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 import styles from './select-double.module.css';
 
@@ -12,7 +13,7 @@ type DropdownDoubleProps = {
     selectedItems?: string[];
     defaultItem: string;
     onSelectItem: (name: string) => void;
-    size?: string;
+    size?: SizeType;
     screen?: string;
     dataTestId?: string;
 };

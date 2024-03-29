@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { setTrainingData, trainingsSelector } from '@redux/modules/training';
 import { getKeyByPeriod, getPeriodByItem, getPeriodItems } from '@utils/find-period-options';
 import { FORMAT_Y_M_D, formatDate, isOldDate } from '@utils/format-date';
-import { Checkbox, Col, DatePicker, DatePickerProps, Row } from 'antd';
+import { Checkbox, Col, DatePicker, Row } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import moment, { Moment } from 'moment';
 
@@ -47,8 +47,8 @@ export const Frequency: React.FC = () => {
         );
     };
 
-    const selectTrainigDateHandler = (dateString: DatePickerProps['onChange']) => {
-        dispatch(setTrainingData({ date: formatDate(dateString, FORMAT_Y_M_D) }));
+    const selectTrainigDateHandler = (pickerDate: Moment) => {
+        dispatch(setTrainingData({ date: formatDate(pickerDate, FORMAT_Y_M_D) }));
     };
 
     const selectTrainingTypeHandler = (value: string) => {
@@ -56,6 +56,10 @@ export const Frequency: React.FC = () => {
     };
 
     const dateCellRender = (pickerDate: Moment) => {
+        if (pickerDate === undefined) {
+            return 'Select date';
+        }
+
         const formattedDate = pickerDate.format('YYYY-MM-DD');
 
         if (Object.keys(userTraining).includes(formattedDate)) {
@@ -91,7 +95,9 @@ export const Frequency: React.FC = () => {
                         size='small'
                         disabledDate={disabledDateHandler}
                         dateRender={dateCellRender}
-                        defaultValue={date ? moment(date) : ''}
+                        defaultValue={date ? moment(date) : undefined}
+                        // eslint-disable-next-line
+                        // @ts-ignore
                         onChange={selectTrainigDateHandler}
                     />
                 </Col>

@@ -38,6 +38,7 @@ import { CardTraining } from './card-training';
 
 import styles from './card-modal.module.css';
 import Nullable = Cypress.Nullable;
+
 import { DATA_TEST_ID } from '../../../constans/data-test-id';
 
 type CardModalWrapper = {
@@ -225,13 +226,17 @@ export const CardModal: FC<CardModalWrapper> = ({
 
             setAlertMessage('Новая тренировка успешно добавлена');
             if (typeEdit === ChangeType.JOINT_TRAINING) {
-                sendInviteMutation({ to: partner.id, trainingId: data._id as string });
+                const trainingId: string = data.id || '';
+
+                sendInviteMutation({ to: partner.id, trainingId });
             }
 
             if ((data && screen === 'training') || typeEdit === ChangeType.JOINT_TRAINING) {
                 dispatch(resetStateCreating());
             }
-        } catch {}
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     useEffect(() => {

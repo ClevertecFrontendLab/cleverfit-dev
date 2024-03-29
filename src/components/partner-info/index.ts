@@ -1,1 +1,1 @@
-export { SelectDouble } from './select-double.tsx';
+export { PartnerInfo } from './partner-info.tsx';

@@ -8,8 +8,6 @@ export const HighLightText: React.FC<TextProps> = ({ text, searchFilter }) => {
     if (!searchFilter) return text;
     const regexp = new RegExp(searchFilter, 'ig');
     const matchValue = text.match(regexp);
-
-    console.log(text.split(regexp));
     
     if (matchValue) {
         return text.split(regexp).map((s, index, array) => {

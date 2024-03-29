@@ -23,7 +23,7 @@ export const MyWorkouts = () => {
             dispatch(addDefaultTraining());
         }
     };
-    
+
     return (
         <React.Fragment>
             {Object.keys(userTraining).length ? (
@@ -42,7 +42,7 @@ export const MyWorkouts = () => {
                 </div>
             )}
 
-            <CardModal screen='training' />
+            <CardModal screen='training' onClose={() => {}} />
         </React.Fragment>
     );
 };
