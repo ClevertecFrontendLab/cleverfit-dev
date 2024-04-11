@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from '@components/layout';
 import { MainLayout } from '@components/main-layout';
 import { Result } from '@components/result/result';
+import { AchievementsPage } from '@pages/achievements-page/achievements-page';
 import { CalendarPage } from '@pages/calendar-page/calendar-page.tsx';
 import { ChangePasswordPage } from '@pages/change-password-page';
 import { ConfirmEmailPage } from '@pages/confirm-email-page';
@@ -30,12 +31,10 @@ export const routes = (
             <Route path={Paths.RESULT} element={<ResultProfilePage />}>
                 <Route index={true} path=':resultName' element={<Result />} />
             </Route>
-            <Route element={<MainLayout />}>
-                <Route path={Paths.MAIN} element={<MainPage />} />
-            </Route>
             <Route element={<MainLayout withInnerBack={true} />}>
                 <Route path={Paths.MAIN} element={<MainPage />} />
                 <Route path={Paths.PROFILE} element={<ProfilePage />} />
+                <Route path={Paths.ACHIEVEMENTS} element={<AchievementsPage />} />
             </Route>
             <Route element={<MainLayout isSimpleFooter={true} isImage={false} />}>
                 <Route path={Paths.CALENDAR} element={<CalendarPage />} />

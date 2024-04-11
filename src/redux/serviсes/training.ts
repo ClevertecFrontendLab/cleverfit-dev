@@ -131,6 +131,7 @@ export const trainingApiSlice = apiSlice
     });
 export const {
     useLazyGetTrainingListQuery,
+    useGetTrainingListQuery,
     useLazyGetUserTrainingQuery,
     useGetUserTrainingQuery,
     useCreateTrainingMutation,

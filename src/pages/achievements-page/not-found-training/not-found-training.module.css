@@ -1,0 +1,15 @@
+.container {
+  padding: 112px 24px;
+  text-align: center;
+}
+
+.text {
+  margin-top: 32px;
+  font-size: 24px;
+}
+
+@media(max-width: 576px) {
+  .container {
+    padding: 0 18px;
+  }
+}

@@ -45,7 +45,11 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
         await navigateAfterRequest(
             navigate,
             getUserTraining,
-            [`${Paths.AUTH}${Paths.CALENDAR}`, `${Paths.AUTH}${Paths.TRAINING}`],
+            [
+                `${Paths.AUTH}${Paths.CALENDAR}`,
+                `${Paths.AUTH}${Paths.TRAINING}`,
+                `${Paths.ACHIEVEMENTS}`,
+            ],
             route,
         );
     };

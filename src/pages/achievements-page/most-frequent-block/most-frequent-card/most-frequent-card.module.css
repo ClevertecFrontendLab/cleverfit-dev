@@ -1,0 +1,20 @@
+.titleContainer {
+    width: 100%;
+    color: var(--secondary-light);
+}
+
+.title {
+    width: 80%;
+}
+
+.value {
+    font-weight: 500;
+    font-size: var(--font-size-xl-tablet);
+}
+
+@media(max-width: 576px) {
+    .value {
+        font-size: var(--font-size-l);
+    }
+
+}

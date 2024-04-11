@@ -81,11 +81,11 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
             <div className={styles.wrapperBlock}>
                 <InputNumber
                     data-test-id={`${DATA_TEST_ID.modalDrawerRightInputApproach}${index}`}
-                    value={replays}
+                    value={approaches}
                     className={styles.inputNumber}
                     addonBefore='+'
                     min={1}
-                    onChange={onChangeReplaysHandle}
+                    onChange={onChangeApproachesHandle}
                 />
                 <div className={styles.wrapperItem}>
                     <InputNumber
@@ -97,10 +97,10 @@ export const ExercisesForm: FC<ExercisesFormProps> = ({
                     />
                     <InputNumber
                         data-test-id={`${DATA_TEST_ID.modalDrawerRightInputQuantity}${index}`}
-                        value={approaches}
+                        value={replays}
                         className={styles.simpleInput}
                         min={0}
-                        onChange={onChangeApproachesHandle}
+                        onChange={onChangeReplaysHandle}
                     />
                 </div>
             </div>

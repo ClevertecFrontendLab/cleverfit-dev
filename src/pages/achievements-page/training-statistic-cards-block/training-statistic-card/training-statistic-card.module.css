@@ -1,0 +1,36 @@
+.card {
+    min-width: 156px;
+    width: auto;
+    height: 138px;
+    text-align: center;
+}
+
+.cardContent {
+    padding: 12px;
+}
+
+.value {
+    font-size: 38px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.text {
+    color: #8C8C8C;
+}
+@media(max-width: 576px) {
+    .card {
+        width: 100%;
+        text-align: start;
+        height: auto;
+    }
+    .cardContent {
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .value {
+        flex: 1;
+    }
+}

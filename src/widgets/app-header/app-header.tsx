@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Paths } from '@routes/paths';
@@ -18,9 +18,10 @@ export const AppHeader = () => {
     const isReviewPage = pathname === Paths.REVIEWS;
     const isTrainingPage = pathname === `/${Paths.TRAINING}`;
     const isProfilePage = pathname === `/${Paths.PROFILE}`;
-    const isSettingsfPage = pathname === `/${Paths.SETTINGS}`;
+    const isSettingsPage = pathname === `/${Paths.SETTINGS}`;
+    const isAchievementsPage = pathname === `/${Paths.ACHIEVEMENTS}`;
 
-    const showBreadcrumbs = !isProfilePage && !isSettingsfPage;
+    const showBreadcrumbs = !isProfilePage && !isSettingsPage && !isAchievementsPage;
 
     return (
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
@@ -56,7 +57,13 @@ export const AppHeader = () => {
                     <AppHeader.Settings />
                 </div>
             )}
-            {isSettingsfPage && (
+            {isAchievementsPage && (
+                <div className={styles.profile}>
+                    <Typography.Title level={4}>Достижения</Typography.Title>
+                    <AppHeader.Settings />
+                </div>
+            )}
+            {isSettingsPage && (
                 <Button
                     data-test-id='settings-back'
                     type='text'
