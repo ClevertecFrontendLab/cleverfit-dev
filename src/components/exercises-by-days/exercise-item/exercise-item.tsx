@@ -8,7 +8,7 @@ type ExerciseItemProps = {
 };
 
 export const ExerciseItem = ({ exercise, day, serialNumber }: ExerciseItemProps) => (
-    <Space style={{ height: 32 }} size={16} direction='horizontal'>
+    <Space style={{ minHeight: 32, width: '100%' }} align='start' size={16} direction='horizontal'>
         <Badge count={serialNumber} color={ACTIVE_RED} />
         <div style={{ width: 92, color: '#8C8C8C' }}>{day}</div>
         <span style={{ fontWeight: 700 }}>{exercise ?? ''}</span>

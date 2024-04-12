@@ -22,7 +22,7 @@ export const MENU_ITEMS: MenuItem[] = [
         title: 'Достижения',
         icon: topIcon,
         route: Paths.ACHIEVEMENTS,
-        dataTestId: 'sidebar-achivements',
+        dataTestId: 'sidebar-achievements',
     },
     { ...profile, dataTestId: 'sidebar-profile' },
 ];

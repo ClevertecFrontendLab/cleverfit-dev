@@ -12,7 +12,7 @@ export const PieGraph = ({ data }: PieGraphProps) => {
         radius: 0.95,
         innerRadius: 0.6,
         legend: false,
-        width: 300,
+        width: 520,
         height: 220,
         label: {
             text: 'exercise',

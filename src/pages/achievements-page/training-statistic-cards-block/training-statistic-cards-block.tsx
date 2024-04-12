@@ -13,12 +13,9 @@ export const TrainingStatisticCardsBlock = ({
     filteredTrainings,
     isMonthPeriod,
 }: TrainingStatisticCarsBlockProps) => {
-    const commonWorkload = useMemo(
-        () => filteredTrainings.reduce((acc, el) => el.weight + acc, 0),
+    const commonWorkLoad = useMemo(
+        () => filteredTrainings.reduce((acc, el) => el.workLoad + acc, 0),
         [filteredTrainings],
-    );
-    const avgWorkload = (commonWorkload / (isMonthPeriod ? DAYS_IN_MONTH : DAYS_IN_WEEK)).toFixed(
-        1,
     );
     const approachesCount = useMemo(
         () => filteredTrainings.reduce((acc, el) => el.approaches + acc, 0),
@@ -29,15 +26,19 @@ export const TrainingStatisticCardsBlock = ({
         [filteredTrainings],
     );
 
+    const avgWorkloadByDay = (
+        commonWorkLoad / (isMonthPeriod ? DAYS_IN_MONTH : DAYS_IN_WEEK)
+    ).toFixed(1);
+
     return (
         <div className={styles.container}>
             <TrainingStatisticCard
-                value={commonWorkload}
+                value={commonWorkLoad}
                 firstDescription='Общая'
                 secondDescription='нагрузка, кг'
             />
             <TrainingStatisticCard
-                value={avgWorkload}
+                value={avgWorkloadByDay}
                 firstDescription='Нагрузка'
                 secondDescription='в день, кг'
             />

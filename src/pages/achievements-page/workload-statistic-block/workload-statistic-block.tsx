@@ -19,9 +19,6 @@ export const WorkloadStatisticBlock = ({
 
     return (
         <Row gutter={[32, 24]} align='middle' wrap={true}>
-            <Col>
-                <h5 className={styles.graphTitle}>Средняя нагрузка по дням недели</h5>
-            </Col>
             <Col lg={isMonthPeriod ? 24 : 12} md={24} xs={24} className={styles.graphBlock}>
                 <Card bodyStyle={{ padding: 0, height: windowWith > 576 ? 374 : 256 }}>
                     <ColumnGraph data={filteredTrainings} />

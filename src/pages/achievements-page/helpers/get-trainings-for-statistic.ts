@@ -1,17 +1,18 @@
+import { TabName } from '@pages/achievements-page/constants/tabs';
 import {
     DAYS_IN_MONTH,
     DAYS_IN_WEEK,
     weekDaysLocaleMap,
     WeekDaysLocalKeys,
 } from '@pages/achievements-page/constants/week-days';
-import { PeriodFilterType, Training } from '@pages/achievements-page/types';
+import { Training } from '@pages/achievements-page/types';
 import { Exercises, UserTrainingTransform } from '@redux/types/training';
 import { FORMAT_D_M_Y_POINT } from '@utils/format-date';
 import moment from 'moment';
 
 type FunctionParams = {
     formatDay: 'dayOfWeek' | typeof FORMAT_D_M_Y_POINT;
-    periodFilter: PeriodFilterType;
+    periodFilter: TabName;
     trainings?: UserTrainingTransform;
 };
 
@@ -51,6 +52,9 @@ export const getTrainingsForStatistic = ({
             approaches: 0,
             replays: 0,
             weight: 0,
+            exercisesCount: 0,
+            avgWorkLoad: 0,
+            workLoad: 0,
             date: isDayOfWeekFormat ? weekDaysLocaleMap[dayOfWeek] : date.format('DD.MM.YYYY'),
         });
     }

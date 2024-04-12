@@ -10,5 +10,8 @@ export type Training = {
         exercises: Exercises[];
     }>;
     date: string;
+    exercisesCount: number;
+    avgWorkLoad: number;
+    workLoad: number;
 };
 export type FilterType = 'Все' | string;

@@ -3,7 +3,7 @@ import { useWindowWidth } from '@hooks/use-window-with';
 import { DAYS_IN_WEEK } from '@pages/achievements-page/constants/week-days';
 
 type ColumnGraphProps = {
-    data: Array<{ type: string; weight: number }>;
+    data: Array<{ type: string; avgWorkLoad: number }>;
 };
 
 export const ColumnGraph = ({ data }: ColumnGraphProps) => {
@@ -13,7 +13,7 @@ export const ColumnGraph = ({ data }: ColumnGraphProps) => {
     const config: ColumnConfig = {
         data,
         xField: 'type',
-        yField: 'weight',
+        yField: 'avgWorkLoad',
         containerStyle: {
             height: '100%',
         },

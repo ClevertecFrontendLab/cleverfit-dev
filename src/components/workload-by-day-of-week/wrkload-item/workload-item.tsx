@@ -14,10 +14,10 @@ export const WorkloadItem = ({ item, serialNumber }: WorkloadItemProps) => (
     <Space style={{ height: 32 }} size={16} direction='horizontal'>
         <Badge
             count={serialNumber}
-            color={item.weight ? ACTIVE_BLUE : INACTIVE_BLUE}
-            style={{ color: item.weight ? '' : FONT_INACTIVE_BLUE }}
+            color={item.avgWorkLoad ? ACTIVE_BLUE : INACTIVE_BLUE}
+            style={{ color: item.avgWorkLoad ? '' : FONT_INACTIVE_BLUE }}
         />
         <div style={{ width: 92, color: '#8C8C8C' }}>{item.date}</div>
-        <span style={{ fontWeight: 700 }}>{item.weight ? `${item.weight} кг` : ''}</span>
+        <span style={{ fontWeight: 700 }}>{item.avgWorkLoad ? `${item.avgWorkLoad} кг` : ''}</span>
     </Space>
 );
