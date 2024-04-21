@@ -23,9 +23,12 @@
     "cy:e2e": "start-server-and-test start http-get://localhost:3000 cy:open-e2e"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.0.3",
     "@ant-design/icons": "^4.8.1",
+    "@ant-design/plots": "^2.1.15",
     "@babel/runtime": "^7.23.9",
     "@reduxjs/toolkit": "^2.0.1",
+    "@types/moment": "^2.13.0",
     "@uidotdev/usehooks": "^2.4.1",
     "antd": "^4.24.15",
     "classnames": "^2.5.1",

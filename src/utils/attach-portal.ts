@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 
 type AttachPortalProps = {
-    date: Moment | string;
+    date: Moment | string; 
 };
 
 const PORTAL_ID = 'portal';

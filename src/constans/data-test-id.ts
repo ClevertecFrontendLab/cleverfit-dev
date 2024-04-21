@@ -1,4 +1,5 @@
 export const DATA_TEST_ID = {
+    createNewTrainingButton: 'create-new-training-button',
     modalNoReview: 'modal-no-review',
     modalErrorUserTrainingTitle: 'modal-error-user-training-title',
     modalErrorUserTrainingSubTitle: 'modal-error-user-training-subtitle',
@@ -14,6 +15,7 @@ export const DATA_TEST_ID = {
     modalCreateExerciseButton: 'modal-create-exercise-button',
     modalCreateExerciseSelect: 'modal-create-exercise-select',
     modalExerciseTrainingButtonClose: 'modal-exercise-training-button-close',
+
     modalDrawerRight: 'modal-drawer-right',
     modalDrawerRightButtonClose: 'modal-drawer-right-button-close',
     modalDrawerRightInputExercise: 'modal-drawer-right-input-exercise',
@@ -21,4 +23,16 @@ export const DATA_TEST_ID = {
     modalDrawerRightInputApproach: 'modal-drawer-right-input-approach',
     modalDrawerRightInputWeight: 'modal-drawer-right-input-weight',
     modalDrawerRightInputQuantity: 'modal-drawer-right-input-quantity',
+    modalDrawerRightDatePicker: 'modal-drawer-right-date-picker',
+    modalDrawerRightCheckboxPeriod: 'modal-drawer-right-checkbox-period',
+    modalDrawerRightSelectPeriod: 'modal-drawer-right-select-period',
+
+    myTrainingsTable: 'my-trainings-table',
+    updateMyTrainingTableIcon: 'update-my-training-table-icon',
+    createTrainingSuccessAlert: 'create-training-success-alert',
+    searchInput: 'search-input',
+    jointTrainingCards: 'joint-training-cards',
+    notificationAboutJointTraining: 'notification-about-joint-training',
+    jointTrainingReviewCard: 'joint-training-review-card',
+    partnerModal: 'partner-modal',
 };

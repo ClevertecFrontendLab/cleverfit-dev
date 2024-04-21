@@ -33,6 +33,12 @@ export const initialState: InitialStateTraining = {
         date: '',
         id: '',
         isImplementation: false,
+        parameters: {
+            repeat: false,
+            period: null,
+            jointTraining: false,
+            participants: [],
+        },
         exercises: [],
     },
     cardModalState: CardModalBody.TRAINING,
@@ -55,6 +61,9 @@ export const trainingSlice = createSlice({
         setUserTrainings(state, { payload: userTraining }: PayloadAction<UserTrainingTransform>) {
             state.userTraining = userTraining;
         },
+        setTypeEdit(state, { payload: typeEdit }: PayloadAction<ChangeType>) {
+            state.typeEdit = typeEdit;
+        },
         setTrainingData(
             state,
             { payload: userTrainingData }: PayloadAction<Partial<UserTraining>>,
@@ -63,13 +72,14 @@ export const trainingSlice = createSlice({
                 if (isOldDate(userTrainingData.date)) {
                     state.typeEdit = ChangeType.EDIT_OLD;
                 }
-
                 if (
                     state.userTraining[userTrainingData.date as string]?.find(
                         ({ name }) => name === userTrainingData.name,
                     )?.name === userTrainingData.name
                 ) {
                     state.typeEdit = ChangeType.EDIT_FUTURE;
+                } else if (state.createdTraining.parameters?.jointTraining) {
+                    state.typeEdit = ChangeType.JOINT_TRAINING;
                 } else {
                     state.typeEdit = ChangeType.ADD_NEW;
                 }
@@ -111,7 +121,6 @@ export const trainingSlice = createSlice({
 });
 
 export const userTraining = (state: ApplicationState) => state.trainings.userTraining;
-
 export const trainingsSelector = (state: ApplicationState) => state.trainings;
 
 export const {
@@ -127,6 +136,7 @@ export const {
     resetState,
     setExercisesNotEmpty,
     resetStateCreating,
+    setTypeEdit,
 } = trainingSlice.actions;
 
 export default trainingSlice.reducer;

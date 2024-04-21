@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { ComponentPropsWithRef, useCallback, useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import VerificationInput from 'react-verification-input';
 import { EMAIL } from '@constants/general';
 import { useLastPartUrl } from '@hooks/use-last-part-url';
@@ -96,7 +95,14 @@ export const ConfirmEmailPage = () => {
                 onComplete={onSendCodeHandler}
                 placeholder=''
                 validChars='0-9'
-                inputProps={{ inputMode: 'numeric', 'data-test-id': 'verification-input' }}
+                inputProps={
+                    {
+                        inputMode: 'numeric',
+                        'data-test-id': 'verification-input',
+                    } as ComponentPropsWithRef<'input'> & {
+                        'data-test-id': string;
+                    }
+                }
             />
             <span className={styles.description}>Не пришло письмо? Проверьте папку Спам.</span>
         </CustomSpace>

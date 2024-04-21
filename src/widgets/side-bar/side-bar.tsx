@@ -1,15 +1,22 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ModalNoReview } from '@components/modal-no-reviews';
-import { useLogout } from '@hooks/use-logout';
+import { ACCESS_TOKEN_NAME } from '@constants/general';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { clearStateOnLogout } from '@redux/modules/app';
+import { inviteListSelector } from '@redux/modules/invite';
+import { apiSlice } from '@redux/serviсes';
 import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
-import { Paths } from '@routes/paths.ts';
+import { Paths, RoutNamePage } from '@routes/paths.ts';
 import logoCollapsed from '@shared/assets/icons/logo-collapsed.svg';
 import logoFull from '@shared/assets/icons/logo-full.svg';
 import { CollapseSwitcher } from '@shared/components/collapse-switcher';
 import { navigateAfterRequest } from '@utils/navigate-after-request.ts';
-import { Button, Divider, Layout } from 'antd';
+import { Badge, Button, Divider, Layout } from 'antd';
 import classNames from 'classnames';
+
+import { DATA_TEST_ID } from '../../constans/data-test-id';
 
 import { MENU_ITEM_EXIT, MENU_ITEMS } from './config/menu-items';
 
@@ -23,15 +30,26 @@ type SideBarProps = {
 };
 
 export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
+    const inviteList = useAppSelector(inviteListSelector);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const logout = useLogout();
     const [getUserTraining, { isError }] = useLazyGetUserTrainingQuery();
+
+    const logout = useCallback(() => {
+        localStorage.removeItem(ACCESS_TOKEN_NAME);
+        dispatch(clearStateOnLogout());
+        dispatch(apiSlice.util.resetApiState());
+    }, [dispatch]);
 
     const onNavigate = async (route: string) => {
         await navigateAfterRequest(
             navigate,
             getUserTraining,
-            [`${Paths.AUTH}${Paths.CALENDAR}`],
+            [
+                `${Paths.AUTH}${Paths.CALENDAR}`,
+                `${Paths.AUTH}${Paths.TRAINING}`,
+                `${Paths.ACHIEVEMENTS}`,
+            ],
             route,
         );
     };
@@ -65,7 +83,18 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
                         data-test-id={dataTestId}
                         onClick={() => onNavigate(route)}
                     >
-                        <img alt='icon' src={icon} />
+                        {route === `/${RoutNamePage.TRAINING}` ? (
+                            <Badge
+                                data-test-id={DATA_TEST_ID.notificationAboutJointTraining}
+                                count={inviteList.length}
+                                style={{ margin: '0' }}
+                            >
+                                <img alt='icon' src={icon} />
+                            </Badge>
+                        ) : (
+                            <img alt='icon' src={icon} />
+                        )}
+
                         {!collapsed && <span>{title}</span>}
                     </Button>
                 ))}

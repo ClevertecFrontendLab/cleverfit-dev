@@ -78,7 +78,7 @@ export const trainingApiSlice = apiSlice
                 providesTags: [Tags.USER_TRAINING],
             }),
 
-            createTraining: builder.mutation<void, UserTraining>({
+            createTraining: builder.mutation<UserTraining, UserTraining>({
                 query: (body) => ({
                     url: ApiEndpoints.TRAINING,
                     method: 'POST',
@@ -110,6 +110,7 @@ export const trainingApiSlice = apiSlice
                         date: body.date,
                         isImplementation: body.isImplementation,
                         exercises: body.exercises,
+                        parameters: body.parameters,
                     },
                 }),
                 async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -117,6 +118,7 @@ export const trainingApiSlice = apiSlice
                         dispatch(setAppLoader(true));
                         await queryFulfilled;
                         dispatch(setStateCardModal(CardModalBody.TRAINING));
+                        dispatch(setAppLoader(false));
                     } catch {
                         dispatch(resetStateCreating());
                         dispatch(setAppLoader(false));
@@ -129,6 +131,7 @@ export const trainingApiSlice = apiSlice
     });
 export const {
     useLazyGetTrainingListQuery,
+    useGetTrainingListQuery,
     useLazyGetUserTrainingQuery,
     useGetUserTrainingQuery,
     useCreateTrainingMutation,

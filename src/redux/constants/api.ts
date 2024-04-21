@@ -13,4 +13,7 @@ export enum ApiEndpoints {
     IMAGE = 'upload-image',
     TARIFS = 'catalogs/tariff-list',
     NEW_TARIF = 'tariff',
+    USER_JOINT_TRAINING_LIST = 'catalogs/user-joint-training-list',
+    TRAINING_PALS_LIST = 'catalogs/training-pals',
+    INVITE = 'invite',
 }

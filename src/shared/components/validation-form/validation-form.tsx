@@ -37,7 +37,7 @@ export const ValidationForm = ({
 
     const [isTouched, setIsTouched] = useState(false);
 
-    const onFieldsChange = (values: FieldData[]) => {
+    const onFieldsChange = (values: any) => {
         const errors = form.getFieldsError([AuthFieldNames.email, AuthFieldNames.password]);
 
         const isErrorEmail = errors[0].errors.length > 0;

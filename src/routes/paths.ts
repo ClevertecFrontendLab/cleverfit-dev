@@ -2,6 +2,7 @@ export enum RoutNamePage {
     MAIN = 'main',
     CALENDAR = 'calendar',
     TRAINING = 'training',
+    ACHIEVEMENTS = 'achievements',
 }
 
 export enum SidebarPath {
@@ -26,7 +27,6 @@ export const Paths = {
     ERROR_CHECK_EMAIL: 'error-check-email',
     PROFILE: 'profile',
     SETTINGS: 'settings',
-    ACHIEVEMENTS: 'achievements',
     ...RoutNamePage,
     ...SidebarPath,
 } as const;
