@@ -5,7 +5,7 @@ export const sortTrainingsByDayOfWeek = (trainings: Training[]) => {
     const sundayIndex = trainings.findIndex((item) => item.date === weekDaysLocaleMap.Sunday);
     const copyTrainings = [...trainings];
 
-    if (sundayIndex !== -1 ?? sundayIndex < 6) {
+    if (sundayIndex !== -1 || sundayIndex < 6) {
         const elementsToMove = copyTrainings.splice(sundayIndex + 1);
 
         return [...elementsToMove, ...copyTrainings];

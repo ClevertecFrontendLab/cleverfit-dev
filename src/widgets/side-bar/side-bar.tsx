@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalNoReview } from '@components/modal-no-reviews';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { clearStateOnLogout } from '@redux/modules/app';
+import { clearStateOnLogout, setIsLoadingAccessToken } from '@redux/modules/app';
 import { inviteListSelector } from '@redux/modules/invite';
 import { apiSlice } from '@redux/serviсes';
 import { useLazyGetUserTrainingQuery } from '@redux/serviсes/training.ts';
@@ -39,6 +39,7 @@ export const SideBar: FC<SideBarProps> = ({ collapsed, toggleMenu }) => {
         localStorage.removeItem(ACCESS_TOKEN_NAME);
         dispatch(clearStateOnLogout());
         dispatch(apiSlice.util.resetApiState());
+        dispatch(setIsLoadingAccessToken());
     }, [dispatch]);
 
     const onNavigate = async (route: string) => {

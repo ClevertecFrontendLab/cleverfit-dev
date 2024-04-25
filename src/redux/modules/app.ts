@@ -6,6 +6,7 @@ import { AlertProps } from 'antd';
 export type AppState = {
     isError: boolean;
     isLoading: boolean;
+    isLoadingToken: boolean;
     accessToken: string;
     credential: CredentialsType;
     openLeftMenu: boolean;
@@ -16,6 +17,7 @@ export type AppState = {
 export const initialState = {
     isError: false,
     isLoading: false,
+    isLoadingToken: true,
     accessToken: '',
     credential: {
         email: '',
@@ -56,6 +58,9 @@ export const appSlice = createSlice({
         setAccessToken(state, { payload: token }: PayloadAction<string>) {
             state.accessToken = token;
         },
+        setIsLoadingAccessToken(state) {
+            state.isLoadingToken = false;
+        },
         clearStateOnLogout: () => initialState,
         setStateLeftMenu: (state) => {
             state.openLeftMenu = !state.openLeftMenu;
@@ -67,6 +72,7 @@ export const appSelector = (state: ApplicationState) => state.app;
 export const credentialSelector = (state: ApplicationState) => state.app.credential;
 export const credentialFeedbackSelector = (state: ApplicationState) => state.app.credentialFeedback;
 export const accessTokenSelector = (state: ApplicationState) => state.app.accessToken;
+export const isLoadingAccessTokenSelector = (state: ApplicationState) => state.app.isLoadingToken;
 export const errorSelector = (state: ApplicationState) => state.app.isError;
 export const alertSelector = (state: ApplicationState) => state.app.alert;
 
@@ -77,6 +83,7 @@ export const {
     clearStateOnLogout,
     setAppCredential,
     setAccessToken,
+    setIsLoadingAccessToken,
     setAppCredentialFeedback,
     setStateLeftMenu,
     setAppAlert,
