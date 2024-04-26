@@ -3,6 +3,8 @@ export enum RoutNamePage {
     CALENDAR = 'calendar',
     TRAINING = 'training',
     ACHIEVEMENTS = 'achievements',
+    PROFILE = 'profile',
+    SETTINGS = 'settings',
 }
 
 export enum SidebarPath {
@@ -25,8 +27,15 @@ export const Paths = {
     SUCCESS_CHANGE_PASSWORD: 'success-change-password',
     ERROR_CHECK_EMAIL_NO_EXIST: 'error-check-email-no-exist',
     ERROR_CHECK_EMAIL: 'error-check-email',
-    PROFILE: 'profile',
-    SETTINGS: 'settings',
     ...RoutNamePage,
     ...SidebarPath,
 } as const;
+
+export const BreadcrumbItemText = {
+    [Paths.REVIEWS]: 'Отзывы пользователей',
+    [`/${RoutNamePage.TRAINING}`]: 'Тренировки',
+    [`/${RoutNamePage.CALENDAR}`]: 'Календарь',
+    [`/${RoutNamePage.PROFILE}`]: 'Профиль',
+    [`/${RoutNamePage.ACHIEVEMENTS}`]: 'Достижения',
+    [`/${RoutNamePage.SETTINGS}`]: 'Настройки',
+};
