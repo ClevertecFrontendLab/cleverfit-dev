@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { ACCESS_TOKEN_NAME } from '@constants/general';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
@@ -10,7 +10,7 @@ export const Layout = () => {
     const dispatch = useAppDispatch();
     const accessToken = new URLSearchParams(location.search).get('accessToken');
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (accessToken) {
             localStorage.setItem(ACCESS_TOKEN_NAME, accessToken);
             dispatch(setAccessToken(accessToken));

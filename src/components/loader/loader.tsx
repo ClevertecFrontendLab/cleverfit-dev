@@ -9,14 +9,14 @@ import { CustomLoader } from './custom-loader';
 import styles from './loader.module.css';
 
 export const Loader = () => {
-    const { isLoading } = useAppSelector(appSelector);
+    const { isLoading, isLoadingToken } = useAppSelector(appSelector);
 
     useEffect(() => {
         window.scroll(0, 0);
-        document.body.style.overflow = isLoading ? 'hidden' : '';
-    }, [isLoading]);
+        document.body.style.overflow = isLoading || isLoadingToken ? 'hidden' : '';
+    }, [isLoading, isLoadingToken]);
 
-    if (!isLoading) {
+    if (!isLoading && !isLoadingToken) {
         return null;
     }
 
