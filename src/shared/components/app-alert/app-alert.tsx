@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react';
 import { Portal } from '@components/portal';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { alertSelector, setAppAlert } from '@redux/modules/app';
@@ -8,18 +9,27 @@ import styles from './app-alert.module.css';
 export const AppAlert = () => {
     const dispatch = useAppDispatch();
     const alert = useAppSelector(alertSelector);
-
-    if (!alert.type) return null;
-
+    let timerId: any;
     const { message, type } = alert;
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         dispatch(
             setAppAlert({
                 message: '',
+                type: undefined,
             }),
         );
-    };
+    }, [dispatch]);
+
+    if (alert.type) {
+        timerId = setTimeout(() => {
+            handleClose();
+        }, 2000);
+    }
+
+    useEffect(() => () => clearTimeout(timerId), [timerId, alert]);
+
+    if (!alert.type) return null;
 
     return (
         <Portal>
@@ -32,6 +42,7 @@ export const AppAlert = () => {
                     showIcon={true}
                     closable={true}
                     onClose={handleClose}
+                    afterClose={handleClose}
                 />
             </div>
         </Portal>

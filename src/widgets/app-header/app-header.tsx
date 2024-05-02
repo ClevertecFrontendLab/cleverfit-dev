@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Paths } from '@routes/paths';
+import { BreadcrumbItemText, Paths } from '@routes/paths';
 import settingsIcon from '@shared/assets/icons/buttons/icon-settings.svg';
 import { Breadcrumb, Button, Layout, Typography } from 'antd';
 import classNames from 'classnames';
@@ -15,51 +15,29 @@ export const AppHeader = () => {
     const { pathname } = useLocation();
 
     const isMainPage = pathname === Paths.MAIN;
-    const isReviewPage = pathname === Paths.REVIEWS;
-    const isTrainingPage = pathname === `/${Paths.TRAINING}`;
-    const isProfilePage = pathname === `/${Paths.PROFILE}`;
     const isSettingsPage = pathname === `/${Paths.SETTINGS}`;
-    const isAchievementsPage = pathname === `/${Paths.ACHIEVEMENTS}`;
-
-    const showBreadcrumbs = !isProfilePage && !isSettingsPage && !isAchievementsPage;
 
     return (
         <Header className={classNames(styles.appHeader, { [styles.menuNoMain]: !isMainPage })}>
-            {showBreadcrumbs && (
-                <AppHeader.Breadcrumb>
-                    <React.Fragment>
-                        {isReviewPage && (
+            {!isMainPage && (
+                <div className={styles.profile}>
+                    <AppHeader.Breadcrumb>
+                        <React.Fragment>
                             <Breadcrumb.Item>
-                                <Link to={Paths.REVIEWS}>Отзывы пользователей</Link>
+                                <Link to={pathname}>{BreadcrumbItemText[pathname]}</Link>
                             </Breadcrumb.Item>
-                        )}
-                        {isTrainingPage && (
-                            <Breadcrumb.Item>
-                                <Link to={Paths.REVIEWS}>Тренировки</Link>
-                            </Breadcrumb.Item>
-                        )}
-                    </React.Fragment>
-                </AppHeader.Breadcrumb>
+                        </React.Fragment>
+                    </AppHeader.Breadcrumb>
+                    {!isSettingsPage && <AppHeader.Settings />}
+                </div>
             )}
             {isMainPage && (
                 <div className={styles.menu}>
-                    <Typography.Title className={styles.greetings} level={1}>
+                    <Typography.Title level={1}>
                         Приветствуем тебя в CleverFit — приложении,
                         <br />
                         которое поможет тебе добиться своей мечты!
                     </Typography.Title>
-                    <AppHeader.Settings />
-                </div>
-            )}
-            {isProfilePage && (
-                <div className={styles.profile}>
-                    <Typography.Title level={4}>Профиль</Typography.Title>
-                    <AppHeader.Settings />
-                </div>
-            )}
-            {isAchievementsPage && (
-                <div className={styles.profile}>
-                    <Typography.Title level={4}>Достижения</Typography.Title>
                     <AppHeader.Settings />
                 </div>
             )}
