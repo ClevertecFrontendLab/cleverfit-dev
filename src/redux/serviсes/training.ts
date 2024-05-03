@@ -96,6 +96,11 @@ export const trainingApiSlice = apiSlice
                         dispatch(setAppLoader(false));
                     }
                 },
+                transformResponse: (response: Omit<UserTraining, 'id'> & { _id: string }) => ({
+                    // eslint-disable-next-line no-underscore-dangle
+                    id: response._id,
+                    ...response,
+                }),
 
                 invalidatesTags: (_, error) => (error ? [] : [Tags.USER_TRAINING]),
             }),
